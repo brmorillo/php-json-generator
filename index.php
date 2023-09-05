@@ -11,25 +11,29 @@ $data = json_decode(file_get_contents("php://input"));
 
 // Simulação de um processamento de dados recebidos
 if (!empty($data)) {
-    $data = substr(json_encode($data), 1, -1);
-    file_put_contents("log.json", $data . ",\n", FILE_APPEND);
+    file_put_contents("log.json", json_encode($data) . ",\n", FILE_APPEND);
 
-    //Executa todas as bustituições
-    replaceAll();
+    //Executa todas as sustituições
+    $return = replaceAll($data);
 
     // Neste exemplo, vou simplesmente devolver os dados como um JSON.
     http_response_code(200); // OK
-    echo json_encode(["message" => "Dados recebidos com sucesso.", "data" => $data]);
+    echo json_encode(["message" => "Dados recebidos com sucesso.", "return" => $return]);
 } else {
     http_response_code(400); // Requisição inválida
     echo json_encode(["message" => "Nenhum dado recebido."]);
 }
 
-function replaceAll() {
-    replaceRepeat();
+function replaceAll($data) {
+    $returnReplaceRepeatData = replaceRepeat($data);
+    return $returnReplaceRepeatData;
 }
 
-function replaceRepeat() {
-    echo "repeat";
+function replaceRepeat($data) {
+    if(is_array($data)) {
+        return json_encode($data);
+    } else {
+        return 'false';
+    }
 }
 ?>
