@@ -24,17 +24,29 @@
         "registered": "date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')",
         "latitude": "floating(-90.000001, 90)",
         "longitude": "floating(-180.000001, 180)",
-        "tags": [
-          "repeat(7)",
-          "lorem(1, 'words')"
-        ],
-        "friends": [
-          "repeat(3)",
-          {
-            "id": "index()",
-            "name": "firstName() surname()"
+        "tags": {
+          "repeat()": {
+            "options": {
+              "min": "1",
+              "max": "7"
+            },
+            "data": {
+              "lorem(1, 'words')": ""
+            }
           }
-        ]
+        },
+        "friends": {
+          "repeat()": {
+            "options": {
+              "min": "1",
+              "max": "10"
+            },
+            "data": {
+              "id": "index()",
+              "name": "firstName() surname()"
+            }
+          }
+        }
       }
     }
   }
