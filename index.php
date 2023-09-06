@@ -26,7 +26,6 @@ if (!empty($jsonOriginal)) {
 
 function replaceAll($jsonOriginal)
 {
-    $jsonCompleto = [];
     $parentIndex = 0;
     $depth = 0;
     $replaceRepeatData = replaceRepeat($jsonOriginal, $parentIndex, $depth);
@@ -57,7 +56,7 @@ function replaceRepeat($jsonOriginal, $parentIndex = 0, $depth = 0) {
             } elseif ($value === "guid()") {
                 $jsonCompleto[$key] = generateGuid(); // adiciona suporte para guid
             } elseif ($key === "index()" || $value === "index()") {
-                $jsonCompleto[$key] = $currentIndex + $depth - 1;
+                generateIndex($jsonCompleto, $key, $currentIndex, $depth);
             } elseif ($key === "bool()" || $value === "bool()") {
                 $jsonCompleto[$key] = rand(0, 1) === 1;
             } else {
@@ -69,6 +68,9 @@ function replaceRepeat($jsonOriginal, $parentIndex = 0, $depth = 0) {
     return $jsonCompleto;
 }
 
+function generateIndex(&$jsonCompleto, $key, $currentIndex, $depth) {
+    $jsonCompleto[$key] = $currentIndex + ($depth);
+}
 
 function generateRandomHash()
 {
