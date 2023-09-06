@@ -7,14 +7,14 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // Obtenha o corpo da requisição
-$data = json_decode(file_get_contents("php://input"), true);
+$jsonOriginal = json_decode(file_get_contents("php://input"), true);
 
 // Simulação de um processamento de dados recebidos
-if (!empty($data)) {
+if (!empty($jsonOriginal)) {
     //file_put_contents("log.json", json_encode($data) . ",\n", FILE_APPEND);
 
     //Executa todas as sustituições
-    $return = replaceAll($data);
+    $return = replaceAll($jsonOriginal);
 
     // Neste exemplo, vou simplesmente devolver os dados como um JSON.
     http_response_code(200); // OK
@@ -24,38 +24,30 @@ if (!empty($data)) {
     echo json_encode(["message" => "Nenhum dado recebido."]);
 }
 
-function replaceAll($data)
+function replaceAll($jsonOriginal)
 {
-    $returnReplaceRepeatData = replaceRepeat($data);
+    $jsonCompleto = [];
+    $returnReplaceRepeatData = replaceRepeat($jsonOriginal, $jsonCompleto);
     return $returnReplaceRepeatData;
 }
 
-function replaceRepeat($data)
-{
-    // Encontrar todas as chaves "repeat()"
-    $repeatKeys = [];
+function replaceRepeat($jsonOriginal) {
+    $jsonCompleto = [];
 
-    if (is_array($data)) {
-        findRepeatKeys($data, $repeatKeys);
-        return $repeatKeys;
-    } else {
-        return 'false';
-    }
-}
+    foreach ($jsonOriginal as $key => $value) {
+        if (is_array($value) && isset($value['repeat()'])) {
+            $min = $value['repeat()']['options']['min'];
+            $max = $value['repeat()']['options']['max'];
 
-function findRepeatKeys($array, &$repeatKeys)
-{
-    foreach ($array as $key => $value) {
-        //echo "Key: $key \nValue: " . json_encode($value) . "\n\n\n";
-        $isRepeat = (isset($value['repeat()']) || isset($key['repeat()']));
-        if ($isRepeat) {
-            $repeat['key'] = $key;
-            $repeat['min'] = $value['repeat()']['options']['min'];
-            $repeat['max'] = $value['repeat()']['options']['max'];
-            $repeatKeys[] = $repeat;
-        }
-        if (gettype($value) == 'array' || gettype($value) == 'object') {
-            findRepeatKeys($value, $repeatKeys);
+            $jsonRepetido = [];
+            for($i = $min; $i <= $max; $i++) {
+                $jsonRepetido[] = replaceRepeat($value['repeat()']['data']);  // chama recursivamente
+            }
+            $jsonCompleto[$key] = $jsonRepetido;
+        } else {
+            $jsonCompleto[$key] = $value;
         }
     }
+
+    return $jsonCompleto;
 }
