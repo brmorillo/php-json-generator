@@ -60,34 +60,6 @@ function replaceRepeat($jsonOriginal, $parentIndex = 0, $depth = 0) {
                 $jsonCompleto[$key] = $currentIndex + $depth - 1;
             } elseif ($key === "bool()" || $value === "bool()") {
                 $jsonCompleto[$key] = rand(0, 1) === 1;
-            } elseif ($key === "date()" || $value === "date()") {
-                $jsonCompleto[$key] = date("Y-m-d");
-            } elseif ($key === "datetime()" || $value === "datetime()") {
-                $jsonCompleto[$key] = date("Y-m-d H:i:s");
-            } elseif ($key === "time()" || $value === "time()") {
-                $jsonCompleto[$key] = date("H:i:s");
-            } elseif ($key === "timestamp()" || $value === "timestamp()") {
-                $jsonCompleto[$key] = time();
-            } elseif ($key === "email()" || $value === "email()") {
-                $jsonCompleto[$key] = "email" . $currentIndex . "@gmail.com";
-            } elseif ($key === "name()" || $value === "name()") {
-                $jsonCompleto[$key] = "name" . $currentIndex;
-            } elseif ($key === "surname()" || $value === "surname()") {
-                $jsonCompleto[$key] = "surname" . $currentIndex;
-            } elseif ($key === "fullname()" || $value === "fullname()") {
-                $jsonCompleto[$key] = "fullname" . $currentIndex;
-            } elseif ($key === "age()" || $value === "age()") {
-                $jsonCompleto[$key] = rand(18, 80);
-            } elseif ($key === "cpf()" || $value === "cpf()") {
-                $jsonCompleto[$key] = "cpf" . $currentIndex;
-            } elseif ($key === "cnpj()" || $value === "cnpj()") {
-                $jsonCompleto[$key] = "cnpj" . $currentIndex;
-            } elseif ($key === "phone()" || $value === "phone()") {
-                $jsonCompleto[$key] = "phone" . $currentIndex;
-            } elseif ($key === "cep()" || $value === "cep()") {
-                $jsonCompleto[$key] = "cep" . $currentIndex;
-            } elseif ($key === "address()" || $value === "address()") {
-                $jsonCompleto[$key] = "address" . $currentIndex;
             } else {
                 $jsonCompleto[$key] = $value;
             }
