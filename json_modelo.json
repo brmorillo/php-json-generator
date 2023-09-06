@@ -7,7 +7,7 @@
           },
           "data": {
               "_id": "objectId()",
-              "index()": "a",
+              "index": "index()",
               "guid": "guid()",
               "isActive": "bool()",
               "balance": "floating(1000, 4000, 2, '$0,0.00')",
