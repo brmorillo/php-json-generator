@@ -45,10 +45,7 @@ function replaceRepeat($data)
 
 function findRepeatKeys($array, &$repeatKeys)
 {
-    $path = [];
     foreach ($array as $key => $value) {
-        $path[] = $key;
-        echo json_encode($path);
         //echo "Key: $key \nValue: " . json_encode($value) . "\n\n\n";
         $isRepeat = (isset($value['repeat()']) || isset($key['repeat()']));
         if ($isRepeat) {
