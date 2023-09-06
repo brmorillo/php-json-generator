@@ -27,8 +27,8 @@ if (!empty($jsonOriginal)) {
 function replaceAll($jsonOriginal)
 {
     $jsonCompleto = [];
-    $returnReplaceRepeatData = replaceRepeat($jsonOriginal, $jsonCompleto);
-    return $returnReplaceRepeatData;
+    $replaceRepeatData = replaceRepeat($jsonOriginal, $jsonCompleto);
+    return $replaceRepeatData;
 }
 
 function replaceRepeat($jsonOriginal) {
