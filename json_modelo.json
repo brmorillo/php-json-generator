@@ -3,11 +3,11 @@
       "repeat()": {
           "options": {
               "min": "1",
-              "max": "2"
+              "max": "5"
           },
           "data": {
               "_id": "objectId()",
-              "index": "index()",
+              "index()": "a",
               "guid": "guid()",
               "isActive": "bool()",
               "balance": "floating(1000, 4000, 2, '$0,0.00')",
@@ -31,39 +31,35 @@
                           "max": "4"
                       },
                       "data": {
-                          "lorem(1, 'words')": "",
-                          "repeat()": {
-                              "options": {
-                                  "min": "3",
-                                  "max": "4"
-                              },
-                              "data": {
-                                  "lorem(1, 'words')": "",
-                                  "repeat()": {
-                                      "options": {
-                                          "min": "3",
-                                          "max": "4"
-                                      },
-                                      "data": {
-                                          "lorem(1, 'words')": ""
-                                      }
+                          "lorem(1, 'words')": {
+                              "a": "b",
+                              "repeat()": {
+                                  "options": {
+                                      "min": "1",
+                                      "max": "5"
+                                  },
+                                  "data": {
+                                      "a": "b",
+                                      "_id": "objectId()"
                                   }
-                              }
-                          }
-                      },
-                      "friends": {
-                          "repeat()": {
-                              "options": {
-                                  "min": "5",
-                                  "max": "6"
-                              },
-                              "data": {
-                                  "id": "index()",
-                                  "name": "firstName() surname()"
                               }
                           }
                       }
                   }
+              },
+              "friends": {
+                  "repeat()": {
+                      "options": {
+                          "min": "5",
+                          "max": "6"
+                      },
+                      "data": {
+                          "id": "index()",
+                          "name": "firstName() surname()"
+                      }
+                  }
               }
           }
-      ]
+      }
+  }
+]

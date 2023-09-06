@@ -31,6 +31,7 @@ function replaceAll($jsonOriginal)
     return $replaceRepeatData;
 }
 
+
 function replaceRepeat($jsonOriginal) {
     $jsonCompleto = [];
 
@@ -40,7 +41,7 @@ function replaceRepeat($jsonOriginal) {
             $max = $value['repeat()']['options']['max'];
 
             $jsonRepetido = [];
-            for($i = $min; $i <= $max; $i++) {
+            for($i = 1; $i <= rand($min, $max); $i++) {
                 $jsonRepetido[] = replaceRepeat($value['repeat()']['data']);  // chama recursivamente
             }
             $jsonCompleto[$key] = $jsonRepetido;
