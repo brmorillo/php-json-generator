@@ -9,7 +9,14 @@
                 "_id": "objectId()",
                 "index": "index()",
                 "guid": "guid()",
-                "isActive": "bool()",
+                "isActive": {
+                    "bool()": {
+                        "options": {
+                            "falsePercentage": "80",
+                            "nullPercentage": "10"
+                        }
+                    }
+                },
                 "balance": {
                     "floating": {
                         "min": "100",
@@ -21,7 +28,16 @@
                     }
                 },
                 "picture": "http://placehold.it/32x32",
-                "age": "integer(20, 40)",
+                "age": {
+                    "integer()": {
+                        "options": {
+                            "min": "1",
+                            "max": "2",
+                            "falsePercentage": 10,
+                            "nullPercentage": 10
+                        }
+                    }
+                },
                 "eyeColor": "random('blue', 'brown', 'green')",
                 "name": "firstName() surname()",
                 "gender": "gender()",
@@ -69,6 +85,14 @@
                                 "id": "index()",
                                 "id2": "index()",
                                 "id3": "index()",
+                                "bool": {
+                                    "bool()": {
+                                        "options": {
+                                            "falsePercentage": 10,
+                                            "nullPercentage": 10
+                                        }
+                                    }
+                                },
                                 "id4": {
                                     "teste": {
                                         "id": "index()",
