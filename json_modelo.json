@@ -1,65 +1,88 @@
 [
-  {
-      "repeat()": {
-          "options": {
-              "min": "1",
-              "max": "5"
-          },
-          "data": {
-              "_id": "objectId()",
-              "index": "index()",
-              "guid": "guid()",
-              "isActive": "bool()",
-              "balance": "floating(1000, 4000, 2, '$0,0.00')",
-              "picture": "http://placehold.it/32x32",
-              "age": "integer(20, 40)",
-              "eyeColor": "random('blue', 'brown', 'green')",
-              "name": "firstName() surname()",
-              "gender": "gender()",
-              "company": "company().toUpperCase()",
-              "email": "email()",
-              "phone": "+1 phone()",
-              "address": "integer(100, 999) street(), city(), state(), integer(100, 10000)",
-              "about": "lorem(1, 'paragraphs')",
-              "registered": "date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')",
-              "latitude": "floating(-90.000001, 90)",
-              "longitude": "floating(-180.000001, 180)",
-              "tags": {
-                  "repeat()": {
-                      "options": {
-                          "min": "3",
-                          "max": "4"
-                      },
-                      "data": {
-                          "lorem(1, 'words')": {
-                              "a": "b",
-                              "repeat()": {
-                                  "options": {
-                                      "min": "1",
-                                      "max": "5"
-                                  },
-                                  "data": {
-                                      "a": "b",
-                                      "_id": "objectId()"
-                                  }
-                              }
-                          }
-                      }
-                  }
-              },
-              "friends": {
-                  "repeat()": {
-                      "options": {
-                          "min": "5",
-                          "max": "6"
-                      },
-                      "data": {
-                          "id": "index()",
-                          "name": "firstName() surname()"
-                      }
-                  }
-              }
-          }
-      }
-  }
+    {
+        "repeat()": {
+            "options": {
+                "min": "1",
+                "max": "2"
+            },
+            "data": {
+                "_id": "objectId()",
+                "index": "index()",
+                "guid": "guid()",
+                "isActive": "bool()",
+                "balance": {
+                    "floating": {
+                        "min": "100",
+                        "max": "4000",
+                        "decimals": "2",
+                        "thousand": ".",
+                        "separator": ",",
+                        "prefix": "R$"
+                    }
+                },
+                "picture": "http://placehold.it/32x32",
+                "age": "integer(20, 40)",
+                "eyeColor": "random('blue', 'brown', 'green')",
+                "name": "firstName() surname()",
+                "gender": "gender()",
+                "company": "company().toUpperCase()",
+                "email": "email()",
+                "phone": "+1 phone()",
+                "address": "integer(100, 999) street(), city(), state(), integer(100, 10000)",
+                "about": "lorem(1, 'paragraphs')",
+                "registered": "date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')",
+                "latitude": "floating(-90.000001, 90)",
+                "longitude": "floating(-180.000001, 180)",
+                "tags": {
+                    "repeat()": {
+                        "options": {
+                            "min": "3",
+                            "max": "4"
+                        },
+                        "data": {
+                            "lorem(1, 'words')": {
+                                "a": "b",
+                                "repeat()": {
+                                    "options": {
+                                        "min": "1",
+                                        "max": "5"
+                                    },
+                                    "data": {
+                                        "a": "b",
+                                        "_id": "objectId()"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "friends": {
+                    "repeat()": {
+                        "options": {
+                            "min": "5",
+                            "max": "6"
+                        },
+                        "data": {
+                            "id": "index()",
+                            "name": "firstName() surname()",
+                            "teste_id": {
+                                "id": "index()",
+                                "id2": "index()",
+                                "id3": "index()",
+                                "id4": {
+                                    "teste": {
+                                        "id": "index()",
+                                        "id2": "index()",
+                                        "id3": {
+                                            "id": "index()"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 ]
