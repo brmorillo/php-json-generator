@@ -253,7 +253,8 @@ function emailDomain()
     return $emailDomain[rand(0, count($emailDomain) - 1)];
 }
 
-function emailName() {
+function emailName()
+{
     return strtolower(str_replace(" ", ".", fullName()));
 }
 
