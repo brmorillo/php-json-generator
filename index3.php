@@ -45,27 +45,19 @@ function replaceRepeat($jsonAtual)
 
 function replaceOthers($jsonAtual)
 {
-    //echo json_encode($jsonAtual);
     //Verifica se o JSON é um array, para rodar o foreach dentro dele.
     if (gettype($jsonAtual) == 'array') {
         foreach ($jsonAtual as $key => $value) {
             //Verifica se o item atual é um array, para poder chamar de forma recursiva a função.
             if (is_array($value)) {
+
                 //Caso seja um objectId().
                 if (isset($value['objectId()'])) {
-                    if (is_array($value['objectId()']['options']['qtd'])) {
-                        //Caso a qtd seja um array (Ou seja, outra função gerando ela), chama de forma recursiva a função para gerar o valor.
-                        $value['objectId()']['options']['qtd'] = array_values(replaceOthers($value['objectId()']['options']))[0];
-                    }
-                    if ($value['objectId()']['options']['qtd'] == 0)
-                        $value['objectId()']['options']['qtd'] = 1;
-
-                    $value = generateRandomHash($value['objectId()']['options']['qtd']);
+                    $value = generateObjectId($value['objectId()']);
                 }
 
                 //Caso seja um integer().
                 if (isset($value['integer()'])) {
-                    //echo json_encode($value);
                     $value = generateInteger($value['integer()']);
                 }
 
@@ -73,6 +65,7 @@ function replaceOthers($jsonAtual)
                 if (isset($value['random()'])) {
                     $value = $value['random()']['options'][rand(0, count($value['random()']['options']) - 1)];
                 }
+
                 $jsonAtual[$key] = replaceOthers($value);
             }
         }
@@ -136,4 +129,18 @@ function generateGuid()
             mt_rand(0, 0xffff)
         );
     }
+}
+
+function generateObjectId($value)
+{
+    if (is_array($value['options']['qtd'])) {
+        //Caso a qtd seja um array (Ou seja, outra função gerando ela), chama de forma recursiva a função para gerar o valor.
+        $value['options']['qtd'] = array_values(replaceOthers($value['options']))[0];
+    }
+
+    //Caso o valor seja 0 não é possível gerar um hash, então ele é definido como 1.
+    if ($value['options']['qtd'] == 0)
+        $value['options']['qtd'] = 3;
+
+    return generateRandomHash($value['options']['qtd']);
 }
