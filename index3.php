@@ -18,14 +18,15 @@ if (!empty($jsonOriginal)) {
 
 function replaceAll($jsonOriginal)
 {
-    return replaceRepeat($jsonOriginal);
+    $jsonRepeatReplaced = replaceRepeat($jsonOriginal);
+    return replaceOthers($jsonRepeatReplaced);
 }
 
-function replaceRepeat($jsonOriginal)
+function replaceRepeat($jsonAtual)
 {
     $result = [];
 
-    foreach ($jsonOriginal as $key => $value) {
+    foreach ($jsonAtual as $key => $value) {
         if ($key === "repeat()") {
             $qtd = $value['options']['qtd'];
             $data = $value['data'];
@@ -40,11 +41,29 @@ function replaceRepeat($jsonOriginal)
     return $result;
 }
 
-function repeatJsonData($json, $qtd)
+function repeatJsonData($data, $qtd)
 {
     $result = [];
     for ($i = 1; $i <= $qtd; $i++) {
-        $result[] = replaceRepeat($json);
+        $result[] = replaceRepeat($data);
     }
     return $result;
+}
+
+function replaceOthers($jsonAtual)
+{
+    foreach ($jsonAtual as $key => $value) {
+        if (is_array($value)) {
+            $jsonAtual[$key] = replaceOthers($value);
+        } else {
+            $jsonAtual[$key] = replaceString($value);
+        }
+    }
+
+    return $jsonAtual;
+}
+
+function replaceString($jsonAtual)
+{
+    return $jsonAtual;
 }
