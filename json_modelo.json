@@ -12,17 +12,17 @@
                                 "integer()": {
                                     "options": {
                                         "min": "0",
-                                        "max": "50"
+                                        "max": "4"
                                     }
                                 }
                             }
                         }
                     }
                 },
-                "index": "index()",
+                "index1": "index()",
                 "guid": "guid()",
-                "isActive": {
-                    "bool()": {
+                "boolean": {
+                    "boolean()": {
                         "options": {
                             "falsePercentage": 80,
                             "nullPercentage": 10
@@ -106,15 +106,15 @@
                             "qtd": 5
                         },
                         "data": {
-                            "id": "index()",
+                            "index1": "index()",
                             "firstName": "firstName()",
                             "surname": "surName()",
                             "teste_id": {
-                                "id": "index()",
-                                "id2": "index()",
-                                "id3": "index()",
-                                "bool": {
-                                    "bool()": {
+                                "index1": "index()",
+                                "index2": "index()",
+                                "index3": "index()",
+                                "boolean": {
+                                    "boolean()": {
                                         "options": {
                                             "falsePercentage": 10,
                                             "nullPercentage": 10
@@ -123,10 +123,10 @@
                                 },
                                 "id4": {
                                     "teste": {
-                                        "id": "index()",
-                                        "id2": "index()",
-                                        "id3": {
-                                            "id": "index()"
+                                        "index1": "index()",
+                                        "index2": "index()",
+                                        "filho": {
+                                            "index1": "index()"
                                         }
                                     }
                                 }

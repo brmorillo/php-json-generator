@@ -63,14 +63,23 @@ function replaceOthers($jsonAtual)
 
                 //Caso seja um random().
                 if (isset($value['random()'])) {
-                    $value = $value['random()']['options'][rand(0, count($value['random()']['options']) - 1)];
+                    $opt = rand(1, count($value['random()']['options']));
+                    $value = $value['random()']['options'][$opt];
+                }
+
+                //Caso seja um boolean().
+                if (isset($value['boolean()'])) {
+                    $value = generateBoolean($value['boolean()']);
                 }
 
                 $jsonAtual[$key] = replaceOthers($value);
             } else {
                 //echo $value . "\n";
-                if ($value === 'guid()') {
+                if ($value === 'guid()' || $key === 'guid()') {
                     $jsonAtual[$key] = generateGuid();
+                }
+                if ($value === 'index()' || $key === 'index()') {
+                    $jsonAtual[$key] = 1;
                 }
             }
         }
@@ -90,27 +99,22 @@ function repeatJsonData($data, $qtd)
 
 function generateInteger($value)
 {
-    $min = (isset($value['options']['min'])) ? $value['options']['min'] : 1;
-    $max = (isset($value['options']['max'])) ? $value['options']['max'] : 9;
-    $falsePercentage = (isset($value['options']['falsePercentage'])) ? $value['options']['falsePercentage'] : 0;
-    $nullPercentage = (isset($value['options']['nullPercentage'])) ? $value['options']['nullPercentage'] : 0;
+    $min = ($value['options']['min']) ?? 1;
+    $max = ($value['options']['max']) ?? 9;
+    $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
 
-    $falseNull = false;
+    $value = rand($min, $max);
     if (rand(1, 100) <= $falsePercentage) {
-        $falseNull = true;
         $value = false;
     }
     if (rand(1, 100) <= $nullPercentage) {
-        $falseNull = true;
         $value = null;
-    }
-    if (!$falseNull) {
-        $value = rand($min, $max);
     }
     return $value;
 }
 
-function generateRandomHash($qtd)
+function generateRandomHash($qtd = 1)
 {
     //return md5(uniqid(rand(), true));
     return bin2hex(random_bytes($qtd));
@@ -123,20 +127,24 @@ function generateGuid()
     } else {
         return sprintf(
             '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0x0fff) | 0x4000,
-            mt_rand(0, 0x3fff) | 0x8000,
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff)
+            rand(0, 0xffff),
+            rand(0, 0xffff),
+            rand(0, 0xffff),
+            rand(0, 0x0fff) | 0x4000,
+            rand(0, 0x3fff) | 0x8000,
+            rand(0, 0xffff),
+            rand(0, 0xffff),
+            rand(0, 0xffff)
         );
     }
 }
 
 function generateObjectId($value)
 {
+    if (!isset($value['options'])) {
+        //Cria os valores padrões caso não tenha sido enviado.
+        $value['options']['qtd'] = 1;
+    }
     if (is_array($value['options']['qtd'])) {
         //Caso a qtd seja um array (Ou seja, outra função gerando ela), chama de forma recursiva a função para gerar o valor.
         $value['options']['qtd'] = array_values(replaceOthers($value['options']))[0];
@@ -147,4 +155,22 @@ function generateObjectId($value)
         $value['options']['qtd'] = 1;
 
     return generateRandomHash($value['options']['qtd']);
+}
+
+function generateBoolean($value)
+{
+    $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $value = rand(0, 1) === 1;
+    if ($falsePercentage) {
+        if (rand(1, 100) <= $falsePercentage) {
+            $value = false;
+        }
+    }
+    if ($nullPercentage) {
+        if (rand(1, 100) <= $nullPercentage) {
+            $value = null;
+        }
+    }
+    return $value;
 }
