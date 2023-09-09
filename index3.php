@@ -67,9 +67,13 @@ function replaceOthers($jsonAtual)
                 }
 
                 $jsonAtual[$key] = replaceOthers($value);
+            } else {
+                //echo $value . "\n";
+                if ($value === 'guid()') {
+                    $jsonAtual[$key] = generateGuid();
+                }
             }
         }
-    } else {
     }
 
     return $jsonAtual;
