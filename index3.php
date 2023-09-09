@@ -138,13 +138,13 @@ function generateInteger($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-    $min = ($value['options']['min']) ?? 1;
-    $max = ($value['options']['max']) ?? 9;
-
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
+
+    $min = ($value['options']['min']) ?? 1;
+    $max = ($value['options']['max']) ?? 9;
     return rand($min, $max);
 }
 
@@ -193,11 +193,11 @@ function generateBoolean($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
+
     return rand(0, 1) === 1;
 }
 
@@ -205,15 +205,18 @@ function generateFloating($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-    $min = ($value['options']['min']) ?? 1;
-    $max = ($value['options']['max']) ?? 9;
-    $decimals = ($value['options']['decimals']) ?? 2;
-    $round = ($value['options']['round']) ?? false;
-
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
+
+    $min = ($value['options']['min']) ?? 1;
+    $max = ($value['options']['max']) ?? 9;
+    $decimals = ($value['options']['decimals']) ?? 2;
+    if ($decimals > 15) {
+        $decimals = 15;
+    }
+    $round = ($value['options']['round']) ?? false;
 
     $scale = 10 ** $decimals;
     $randomFloat = $min + (rand() / getrandmax()) * ($max - $min);
@@ -228,18 +231,17 @@ function generateMoney($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-    $min = ($value['options']['min']) ?? 1;
-    $max = ($value['options']['max']) ?? 9;
-    $decimals = ($value['options']['decimals']) ?? 2;
-    $prefix = ($value['options']['prefix']) ?? '';
-    $separator = ($value['options']['separator']) ?? ',';
-    $thousand = ($value['options']['thousand']) ?? '.';
-
-
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
+
+    $min = ($value['options']['min']) ?? 1;
+    $max = ($value['options']['max']) ?? 9;
+    $decimals = ($value['options']['decimals']) ?? 2;
+    $prefix = ($value['options']['prefix']) ?? '';
+    $separator = ($value['options']['separator']) ?? '';
+    $thousand = ($value['options']['thousand']) ?? '';
 
     $scale = 10 ** $decimals;
     $randomFloat = $min + (rand() / getrandmax()) * ($max - $min);
@@ -257,6 +259,13 @@ function selectCustom($value)
 
 function selectGender($value)
 {
+    $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
+    if (!$falseOrNull) {
+        return $falseOrNull;
+    }
+
     if (!isset($value['data'])) {
         $value['data'] = [
             '1' => 'Male',
