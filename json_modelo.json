@@ -2,37 +2,50 @@
     {
         "repeat()": {
             "options": {
-                "qtd": "1"
+                "qtd": 1
             },
             "data": {
-                "objectId": "objectId()",
+                "objectId": {
+                    "objectId()": {
+                        "options": {
+                            "qtd": {
+                                "integer()": {
+                                    "options": {
+                                        "min": "0",
+                                        "max": "50"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "index": "index()",
                 "guid": "guid()",
                 "isActive": {
                     "bool()": {
                         "options": {
-                            "falsePercentage": "80",
-                            "nullPercentage": "10"
+                            "falsePercentage": 80,
+                            "nullPercentage": 10
                         }
                     }
                 },
                 "balance": {
                     "floating": {
-                        "min": "100",
-                        "max": "4000",
-                        "decimals": "2",
+                        "min": 100,
+                        "max": 4000,
+                        "decimals": 2,
                         "thousand": ".",
                         "separator": ",",
                         "prefix": "R$"
                     }
                 },
                 "picture": "http://placehold.it/32x32",
-                "age": {
+                "integer": {
                     "integer()": {
                         "options": {
-                            "min": "1",
-                            "max": "2",
-                            "falsePercentage": 10,
+                            "min": 5,
+                            "max": 200,
+                            "falsePercentage": 20,
                             "nullPercentage": 10
                         }
                     }
@@ -69,14 +82,14 @@
                 "tags": {
                     "repeat()": {
                         "options": {
-                            "qtd": "3"
+                            "qtd": 3
                         },
                         "data": {
                             "lorem(1, 'words')": {
                                 "a": "b",
                                 "repeat()": {
                                     "options": {
-                                        "qtd": "1"
+                                        "qtd": 1
                                     },
                                     "data": {
                                         "a": "b",
@@ -90,7 +103,7 @@
                 "friends": {
                     "repeat()": {
                         "options": {
-                            "qtd": "5"
+                            "qtd": 5
                         },
                         "data": {
                             "id": "index()",
