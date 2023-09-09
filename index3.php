@@ -140,7 +140,7 @@ function generateObjectId($value)
 
     //Caso o valor seja 0 não é possível gerar um hash, então ele é definido como 1.
     if ($value['options']['qtd'] == 0)
-        $value['options']['qtd'] = 3;
+        $value['options']['qtd'] = 1;
 
     return generateRandomHash($value['options']['qtd']);
 }
