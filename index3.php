@@ -111,6 +111,12 @@ function replaceOthers($jsonAtual)
                     $value = selectCustom($value['custom()']);
                 }
 
+                //Caso seja um custom().
+                if (isset($value['gender()'])) {
+                    $value = selectGender($value['gender()']);
+                }
+
+
                 $jsonAtual[$key] = replaceOthers($value);
             } else {
                 //echo $value . "\n";
@@ -246,5 +252,17 @@ function generateMoney($value)
 
 function selectCustom($value)
 {
-    return $value[rand(1, count($value))];
+    return $value['data'][rand(1, count($value['data']))];
+}
+
+function selectGender($value)
+{
+    if (!isset($value['data'])) {
+        $value['data'] = [
+            '1' => 'Male',
+            '2' => 'Femeale',
+            '3' => 'Others'
+        ];
+    }
+    return selectCustom($value);
 }
