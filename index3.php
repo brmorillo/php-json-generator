@@ -43,8 +43,38 @@ function replaceRepeat($jsonAtual)
     return $result;
 }
 
+function repeatJsonData($data, $qtd)
+{
+    $result = [];
+    for ($i = 1; $i <= $qtd; $i++) {
+        $result[] = replaceRepeat($data);
+    }
+    return $result;
+}
+
+
+function falseOrNull($falsePercentage, $nullPercentage)
+{
+    $value = true;
+    if ($falsePercentage != 0 || $nullPercentage != 0) {
+        if ($falsePercentage) {
+            if (rand(1, 100) <= $falsePercentage) {
+                $value = false;
+            }
+        }
+        if ($nullPercentage) {
+            if (rand(1, 100) <= $nullPercentage) {
+                $value = null;
+            }
+        }
+    }
+    return $value;
+}
+
+
 function replaceOthers($jsonAtual)
 {
+    $index = 1;
     //Verifica se o JSON é um array, para rodar o foreach dentro dele.
     if (gettype($jsonAtual) == 'array') {
         foreach ($jsonAtual as $key => $value) {
@@ -61,15 +91,24 @@ function replaceOthers($jsonAtual)
                     $value = generateInteger($value['integer()']);
                 }
 
-                //Caso seja um random().
-                if (isset($value['random()'])) {
-                    $opt = rand(1, count($value['random()']['options']));
-                    $value = $value['random()']['options'][$opt];
-                }
-
                 //Caso seja um boolean().
                 if (isset($value['boolean()'])) {
                     $value = generateBoolean($value['boolean()']);
+                }
+
+                //Caso seja um floating().
+                if (isset($value['floating()'])) {
+                    $value = generateFloating($value['floating()']);
+                }
+
+                //Caso seja um money().
+                if (isset($value['money()'])) {
+                    $value = generateMoney($value['money()']);
+                }
+
+                //Caso seja um custom().
+                if (isset($value['custom()'])) {
+                    $value = selectCustom($value['custom()']);
                 }
 
                 $jsonAtual[$key] = replaceOthers($value);
@@ -79,7 +118,8 @@ function replaceOthers($jsonAtual)
                     $jsonAtual[$key] = generateGuid();
                 }
                 if ($value === 'index()' || $key === 'index()') {
-                    $jsonAtual[$key] = 1;
+                    $jsonAtual[$key] = $index;
+                    $index++;
                 }
             }
         }
@@ -88,30 +128,18 @@ function replaceOthers($jsonAtual)
     return $jsonAtual;
 }
 
-function repeatJsonData($data, $qtd)
-{
-    $result = [];
-    for ($i = 1; $i <= $qtd; $i++) {
-        $result[] = replaceRepeat($data);
-    }
-    return $result;
-}
-
 function generateInteger($value)
 {
-    $min = ($value['options']['min']) ?? 1;
-    $max = ($value['options']['max']) ?? 9;
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $min = ($value['options']['min']) ?? 1;
+    $max = ($value['options']['max']) ?? 9;
 
-    $value = rand($min, $max);
-    if (rand(1, 100) <= $falsePercentage) {
-        $value = false;
+    $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
+    if (!$falseOrNull) {
+        return $falseOrNull;
     }
-    if (rand(1, 100) <= $nullPercentage) {
-        $value = null;
-    }
-    return $value;
+    return rand($min, $max);
 }
 
 function generateRandomHash($qtd = 1)
@@ -141,10 +169,8 @@ function generateGuid()
 
 function generateObjectId($value)
 {
-    if (!isset($value['options'])) {
-        //Cria os valores padrões caso não tenha sido enviado.
-        $value['options']['qtd'] = 1;
-    }
+    $value['options']['qtd'] = ($value['options']['qtd']) ?? 1;
+
     if (is_array($value['options']['qtd'])) {
         //Caso a qtd seja um array (Ou seja, outra função gerando ela), chama de forma recursiva a função para gerar o valor.
         $value['options']['qtd'] = array_values(replaceOthers($value['options']))[0];
@@ -161,16 +187,64 @@ function generateBoolean($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-    $value = rand(0, 1) === 1;
-    if ($falsePercentage) {
-        if (rand(1, 100) <= $falsePercentage) {
-            $value = false;
-        }
+
+    $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
+    if (!$falseOrNull) {
+        return $falseOrNull;
     }
-    if ($nullPercentage) {
-        if (rand(1, 100) <= $nullPercentage) {
-            $value = null;
-        }
+    return rand(0, 1) === 1;
+}
+
+function generateFloating($value)
+{
+    $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $min = ($value['options']['min']) ?? 1;
+    $max = ($value['options']['max']) ?? 9;
+    $decimals = ($value['options']['decimals']) ?? 2;
+    $round = ($value['options']['round']) ?? false;
+
+    $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
+    if (!$falseOrNull) {
+        return $falseOrNull;
+    }
+
+    $scale = 10 ** $decimals;
+    $randomFloat = $min + (rand() / getrandmax()) * ($max - $min);
+    $value = round($randomFloat * $scale) / $scale;
+    if ($round) {
+        $value = round($value);
     }
     return $value;
+}
+
+function generateMoney($value)
+{
+    $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $min = ($value['options']['min']) ?? 1;
+    $max = ($value['options']['max']) ?? 9;
+    $decimals = ($value['options']['decimals']) ?? 2;
+    $prefix = ($value['options']['prefix']) ?? '';
+    $separator = ($value['options']['separator']) ?? ',';
+    $thousand = ($value['options']['thousand']) ?? '.';
+
+
+    $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
+    if (!$falseOrNull) {
+        return $falseOrNull;
+    }
+
+    $scale = 10 ** $decimals;
+    $randomFloat = $min + (rand() / getrandmax()) * ($max - $min);
+    $randomFloat = round($randomFloat * $scale) / $scale;
+
+    $formattedFloat = number_format($randomFloat, $decimals, $separator, $thousand);
+
+    return $prefix . $formattedFloat;
+}
+
+function selectCustom($value)
+{
+    return $value[rand(1, count($value))];
 }
