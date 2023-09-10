@@ -22,6 +22,7 @@ Passo a passo para finalizar o projeto
     - [Dados com opções](#dados-com-opções)
       - [StateSelected](#stateselected)
       - [JSON Exemplo:](#json-exemplo-1)
+  - [Avançado - Geração aninhada.](#avançado---geração-aninhada)
   - [Contribuição](#contribuição)
 
 ## Requisitos
@@ -206,6 +207,20 @@ Será gerado 2 arrays com guid aleatório.
 ]
 ```
 
+## Avançado - Geração aninhada.
+```JSON
+[
+    {
+        "stateSelected": {
+            "stateSelected()": {
+                "options": {
+                    "country": 1
+                }
+            }
+        }
+    }
+]
+```
 
 ## Contribuição
 Se você tem interesse em contribuir para o projeto, veja as orientações sobre como fazer isso.
