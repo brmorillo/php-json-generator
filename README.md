@@ -51,14 +51,48 @@ Para usar o PHP Json Generator, você pode enviar um JSON com configurações pa
 ```PHP
 use PhpJsonGenerator\PhpJsonGenerator;
 
-$jsonConfig = '[{"repeat()": {"options": {"qtd": 1}, "data": {"objectId": {"objectId()": {"options": {"qtd": {"integer()": {"options": {"min": "0", "max": "4"}}}}}}}, "index1": "index()", "guid": "guid()", /* ... outros campos ... */}}]';
+$jsonConfig = '[{"repeat()": {"options": {"qtd": 1}, "data": {"objectId": {"objectId()": {"options": {"qtd": {"integer()": {"options": {"min": "0", "max": "4"}}}}}}}, "index1": "index()", "guid": "guid()"}}]';
 
 $generator = new PhpJsonGenerator($jsonConfig);
 $result = $generator->generate();
 ```
 
 ## Documentação Completa
-Para obter mais detalhes e exemplos, consulte a documentação completa do projeto.
+[Índice](#indice)
+Introdução
+Requisitos
+Instalação
+Configuração
+Uso Básico
+Funções de Geração de Dados
+objectId()
+index()
+guid()
+boolean()
+money()
+floating()
+integer()
+custom()
+fullName()
+firstName()
+surName()
+gender()
+company()
+email()
+phone()
+address()
+street()
+number()
+bairro()
+state()
+country()
+lorem()
+date()
+latitude()
+longitude()
+repeat()
+Contribuição
+Licença
 
 ## Contribuição
 Se você tem interesse em contribuir para o projeto, veja as orientações sobre como fazer isso.
