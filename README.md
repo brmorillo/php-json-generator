@@ -95,7 +95,14 @@ Repete X vezes os valores que estiverem dentro de data.
 Será gerado 2 arrays com guid aleatório.
 
 ###  Dados sem opções
-Gera um índice por nível do array, como uma lista ordenada da seguinte forma:
+- index() - Gera um índice por nível do array, como uma lista ordenada.
+- fullName() - Gera um nome completo, com nome e sobrenome.
+- firstName() - Gera um nome aleatório.
+- surName() - Gera um sobrenome aleatório.
+- guid() - Gera um guid, um hash aleatório com o dobro do tamanho informado.
+- email() - Gera um e-mail completo = firstName().surName()@emailDomain().
+- emailDomain() - Gera um domínio de email. Ex: @outlook.com.
+- logradouro() - Gera um logradouro aleatório. Ex: Rua/Avenida/Praça/Travessa.
 
 #### JSON Exemplo:
 ```JSON

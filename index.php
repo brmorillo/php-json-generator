@@ -497,7 +497,8 @@ function generateStreet()
 
 function generateNumber()
 {
-    return generateInteger(['options' => ['min' => 1, 'max' => 9999]]);
+    //TODO: Adicionar A, B, C etc.
+    return generateInteger(['options' => ['min' => 1, 'max' => 999999]]);
 }
 
 function generateBairro()
