@@ -41,14 +41,7 @@ Para usar o PHP Json Generator, você pode enviar um JSON com configurações pa
                 "objectId": {
                     "objectId()": {
                         "options": {
-                            "qtd": {
-                                "integer()": {
-                                    "options": {
-                                        "min": "0",
-                                        "max": "4"
-                                    }
-                                }
-                            }
+                            "qtd": 4
                         }
                     }
                 },
