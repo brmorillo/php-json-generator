@@ -16,40 +16,45 @@ composer require php-json-generator
 Ou você pode incluir manualmente o arquivo em seu projeto.
 
 ## Uso Básico
-### Gerar um Número Inteiro Aleatório
+Para usar o PHP Json Generator, você pode enviar um JSON com configurações para o backend. Abaixo está um exemplo de como o JSON deve ser formatado para gerar diferentes tipos de dados aleatórios:
+```JSON
+[
+    {
+        "repeat()": {
+            "options": {
+                "qtd": 2
+            },
+            "data": {
+                "objectId": {
+                    "objectId()": {
+                        "options": {
+                            "qtd": {
+                                "integer()": {
+                                    "options": {
+                                        "min": "0",
+                                        "max": "4"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "index": "index()",
+                "guid": "guid()",
+                /* ... outros campos ... */
+            }
+        }
+    }
+]
 ```
-echo generateInteger(['options' => ['min' => 1, 'max' => 100]]);
-```
+## Exemplo de Uso
+```PHP
+use PhpJsonGenerator\PhpJsonGenerator;
 
-### Gerar um Número de Ponto Flutuante Aleatório
-```
-echo generateFloating(['options' => ['min' => 0, 'max' => 1]]);
-```
+$jsonConfig = '[{"repeat()": {"options": {"qtd": 1}, "data": {"objectId": {"objectId()": {"options": {"qtd": {"integer()": {"options": {"min": "0", "max": "4"}}}}}}}, "index1": "index()", "guid": "guid()", /* ... outros campos ... */}}]';
 
-### Gerar um Nome Aleatório
-```
-echo generateName();
-```
-
-### Gerar um Endereço Aleatório
-```
-echo generateAddress();
-```
-
-### Gerar Texto "Lorem Ipsum"
-```
-echo generateLorem(['options' => ['type' => 'words', 'length' => 5]]);
-```
-
-### Gerar Coordenadas Geográficas Aleatórias
-```
-echo generateLatitude(['options' => ['min' => -90, 'max' => 90]]);
-echo generateLongitude(['options' => ['min' => -180, 'max' => 180]]);
-```
-
-### Gerar uma Data Aleatória
-```
-echo generateDate(['options' => ['min' => '01/01/1970', 'max' => 'agora']]);
+$generator = new PhpJsonGenerator($jsonConfig);
+$result = $generator->generate();
 ```
 
 ## Documentação Completa
