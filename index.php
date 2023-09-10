@@ -164,10 +164,10 @@ function generateInteger($value)
     return rand($min, $max);
 }
 
-function generateRandomHash($qtd = 1)
+function generateRandomHash($length = 1)
 {
     //return md5(uniqid(rand(), true));
-    return bin2hex(random_bytes($qtd));
+    return bin2hex(random_bytes($length));
 }
 
 function generateGuid()
@@ -191,19 +191,19 @@ function generateGuid()
 
 function generateObjectId($value)
 {
-    $value['options']['qtd'] = ($value['options']['qtd']) ?? 1;
+    $value['options']['length'] = ($value['options']['length']) ?? 1;
 
     //TODO: Adicionar validações como esta dentro de todos os tipos de arrays para garantir recursividade até mesmo dentro das funções.'
-    if (is_array($value['options']['qtd'])) {
+    if (is_array($value['options']['length'])) {
         //Caso a qtd seja um array (Ou seja, outra função gerando ela), chama de forma recursiva a função para gerar o valor.
-        $value['options']['qtd'] = array_values(replaceOthers($value['options']))[0];
+        $value['options']['length'] = array_values(replaceOthers($value['options']))[0];
     }
 
     //Caso o valor seja 0 não é possível gerar um hash, então ele é definido como 1.
-    if ($value['options']['qtd'] == 0)
-        $value['options']['qtd'] = 1;
+    if ($value['options']['length'] == 0)
+        $value['options']['length'] = 1;
 
-    return generateRandomHash($value['options']['qtd']);
+    return generateRandomHash($value['options']['length']);
 }
 
 function generateBoolean($value)
