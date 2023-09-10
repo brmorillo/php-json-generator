@@ -52,7 +52,7 @@ composer require php-json-generator
 ```
 Ou você pode incluir manualmente o arquivo em seu projeto.
 
-## Uso Básico (#Uso_Basico)
+## Uso_Basico (#Uso_Basico)
 Para usar o PHP Json Generator, você pode enviar um JSON com configurações para o backend. Abaixo está um exemplo de como o JSON deve ser formatado para gerar diferentes tipos de dados aleatórios:
 ```JSON
 [
