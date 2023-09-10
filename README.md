@@ -169,7 +169,7 @@ Será gerado 2 arrays com guid aleatório.
 ###  Dados com opções
 
 #### StateSelected
-Gera um estado aleatório de acordo com o país enviado. stateSelected().
+Gera um estado aleatório de acordo com o país enviado. ***stateSelected()***.
 #### Integer
 Gera um número inteiro aleatório, entre os valores passados, podendo ser nulo ou falso o retorno. ***integer()***.
 #### JSON Exemplo:
