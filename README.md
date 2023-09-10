@@ -183,8 +183,78 @@ Gera um número inteiro aleatório, entre os valores passados, podendo ser nulo 
                 }
             }
         },
-        "": {
-
+        "integer": {
+            "options": {
+                "min": 1,
+                "max": 10,
+                "falsePercentage": 0,
+                "nullPercentage": 0
+            }
+        },
+        "objectId": {
+            "options": {
+                "": ""
+            }
+        },
+        "boolean": {
+            "options": {
+                "": ""
+            }
+        },
+        "floating": {
+            "options": {
+                "": ""
+            }
+        },
+        "money": {
+            "options": {
+                "": ""
+            }
+        },
+        "custom": {
+            "options": {
+                "": ""
+            }
+        },
+        "gender": {
+            "options": {
+                "": ""
+            }
+        },
+        "company": {
+            "options": {
+                "": ""
+            }
+        },
+        "phone": {
+            "options": {
+                "": ""
+            }
+        },
+        "stateSelected": {
+            "options": {
+                "": ""
+            }
+        },
+        "lorem": {
+            "options": {
+                "": ""
+            }
+        },
+        "latitude": {
+            "options": {
+                "": ""
+            }
+        },
+        "longitude": {
+            "options": {
+                "": ""
+            }
+        },
+        "date": {
+            "options": {
+                "": ""
+            }
         }
     }
 ]
