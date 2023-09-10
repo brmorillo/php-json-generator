@@ -21,7 +21,7 @@ Passo a passo para finalizar o projeto
       - [JSON Formatado:](#json-formatado)
     - [Dados com opções](#dados-com-opções)
         - [State](#state)
-      - [JSON Exemplo:](#json-exemplo-1)
+        - [JSON Exemplo:](#json-exemplo-1)
   - [Contribuição](#contribuição)
 
 ## Requisitos
@@ -167,7 +167,31 @@ Será gerado 2 arrays com guid aleatório.
 ###  Dados com opções
 
 ##### State
-#### JSON Exemplo:
+##### JSON Exemplo:
+```JSON
+[
+    {
+        "indice": "index()",
+        "dadosCliente": {
+            "indice": "index()",
+            "nomeCompleto": "fullName()",
+            "id": "index()"
+        },
+        "guid": "guid()",
+        "fullName": "fullName()",
+        "firstName": "firstName()",
+        "surName": "surName()",
+        "email": "email()",
+        "logradouro": "logradouro()",
+        "street": "street()",
+        "number": "number()",
+        "bairro": "bairro()",
+        "country": "country()",
+        "state": "state()",
+        "address": "address()"
+    }
+]
+```
 
 
 ## Contribuição
