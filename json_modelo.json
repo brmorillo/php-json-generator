@@ -126,7 +126,7 @@
                 "state": "state()",
                 "country": "country()",
                 "stateSelected": {
-                    "state()": {
+                    "stateSelected()": {
                         "options": {
                             "country": 3
                         }

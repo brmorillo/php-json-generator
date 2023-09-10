@@ -20,8 +20,8 @@ Passo a passo para finalizar o projeto
       - [JSON Exemplo:](#json-exemplo)
       - [JSON Formatado:](#json-formatado)
     - [Dados com opções](#dados-com-opções)
-        - [State](#state)
-        - [JSON Exemplo:](#json-exemplo-1)
+      - [StateSelected](#stateselected)
+      - [JSON Exemplo:](#json-exemplo-1)
   - [Contribuição](#contribuição)
 
 ## Requisitos
@@ -110,7 +110,7 @@ Será gerado 2 arrays com guid aleatório.
 - number() - Gera um número aleatório entre 1 e 999.999.
 - bairro() - Gera o nome de um bairro aleatório.
 - country() - Gera o nome de um país aleatório.
-- state() - Gera o nome de um estado aleatório [Pode ser utilizado definindo-se o país também](#State).
+- state() - Gera o nome de um estado aleatório [Pode ser utilizado definindo-se o país também](#StateSelected).
 
 #### JSON Exemplo:
 ```JSON
@@ -166,8 +166,19 @@ Será gerado 2 arrays com guid aleatório.
 
 ###  Dados com opções
 
-##### State
-##### JSON Exemplo:
+#### StateSelected
+```JSON
+[
+    {
+        "stateSelected": {
+            "stateSelected()": {
+
+            }
+        }
+    }
+]
+```
+#### JSON Exemplo:
 ```JSON
 [
     {

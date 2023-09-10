@@ -98,8 +98,8 @@ function replaceOthers($jsonAtual)
                     $value = generateCompany($value['company()']);
                 } elseif (isset($value['phone()'])) {
                     $value = generatePhone($value['phone()']);
-                } elseif (isset($value['state()'])) {
-                    $value = generateState($value['state()']['options']['country']);
+                } elseif (isset($value['stateSelected()'])) {
+                    $value = generateState($value['stateSelected()']['options']['country']);
                 } elseif (isset($value['lorem()'])) {
                     $value = generateLorem($value['lorem()']);
                 } elseif (isset($value['latitude()'])) {
@@ -583,6 +583,7 @@ function generateState($country = 1)
 
 function generateAddress()
 {
+    //TODO: Gerar estados apenas de seus países.
     $address = '';
     $address .= generateLogradouro();
     $address .= '. ' . generateStreet();
