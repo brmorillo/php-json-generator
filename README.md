@@ -89,12 +89,12 @@ Será gerado 2 arrays com guid aleatório.
 
 ###  index()
 Gera um índice por nível do array, como uma lista ordenada da seguinte forma:
-1. A
-   1. A
-   2. B
-2. B
-   1. A
-   2. B
+- A
+  - A
+  - B
+- B
+  - A
+  - B
 ```JSON
 [
     {
