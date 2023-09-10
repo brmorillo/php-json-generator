@@ -172,7 +172,9 @@ Será gerado 2 arrays com guid aleatório.
     {
         "stateSelected": {
             "stateSelected()": {
-
+                "options": {
+                    "country": 1
+                }
             }
         }
     }
