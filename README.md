@@ -16,7 +16,9 @@ Passo a passo para finalizar o projeto
   - [Funções de Geração de Dados](#funções-de-geração-de-dados)
     - [repeat()](#repeat)
       - [Exemplo](#exemplo)
-    - [index()](#index)
+    - [Dados sem opções](#dados-sem-opções)
+      - [JSON Exemplo:](#json-exemplo)
+      - [JSON Formatado:](#json-formatado)
   - [Contribuição](#contribuição)
 
 ## Requisitos
@@ -66,6 +68,11 @@ $result = $generator->generate();
 ```
 
 ## Funções de Geração de Dados
+Existem 3 tipos gerais de dados a serem gerados.
+- repeat().
+- Dados sem opções.
+- Dados com opções.
+
 ### repeat()
 Repete X vezes os valores que estiverem dentro de data.
 #### Exemplo
@@ -87,22 +94,57 @@ Repete X vezes os valores que estiverem dentro de data.
 ```
 Será gerado 2 arrays com guid aleatório.
 
-###  index()
+###  Dados sem opções
 Gera um índice por nível do array, como uma lista ordenada da seguinte forma:
-- A
-  - A
-  - B
-- B
-  - A
-  - B
+
+#### JSON Exemplo:
 ```JSON
 [
     {
         "indice": "index()",
         "dadosCliente": {
-            "id": "index()",
-            "nomeCompleto": "fullName()"
-        }
+            "indice": "index()",
+            "nomeCompleto": "fullName()",
+            "id": "index()"
+        },
+        "guid": "guid()",
+        "fullName": "fullName()",
+        "firstName": "firstName()",
+        "surName": "surName()",
+        "email": "email()",
+        "logradouro": "logradouro()",
+        "street": "street()",
+        "number": "number()",
+        "bairro": "bairro()",
+        "country": "country()",
+        "state": "state()",
+        "address": "address()"
+    }
+]
+```
+
+#### JSON Formatado:
+```JSON
+[
+    {
+        "indice": "1",
+        "dadosCliente": {
+            "id": "1",
+            "nomeCompleto": "Bruno Morillo",
+            "indice": "2",
+        },
+        "guid": "4f959f9f-41e4-4868-a786-85e8856a66a0",
+        "fullName": "Bruno Morillo",
+        "firstName": "Liliana",
+        "surName": "Oliveira",
+        "email": "iva.cisneros@hotmail.com",
+        "logradouro": "Corredor",
+        "street": "Cedro",
+        "number": "4909",
+        "bairro": "Campo Grande",
+        "country": "Brasil",
+        "state": "Acre",
+        "address": "Rua. Esmeralda, 1487 - Vila Madalena, Mato Grosso, Estados Unidos"
     }
 ]
 ```
