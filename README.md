@@ -65,7 +65,7 @@ $result = $generator->generate();
 4. Instalação
 
 5. Configuração
-5. Uso Básico
+5.1. Uso Básico
 5. Funções de Geração de Dados
 objectId()
 index()
