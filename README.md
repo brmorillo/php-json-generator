@@ -111,7 +111,7 @@ Será gerado 2 arrays com guid aleatório.
 - number() - Gera um número aleatório entre 1 e 999.999.
 - bairro() - Gera o nome de um bairro aleatório.
 - country() - Gera o nome de um país aleatório.
-- state() - Gera o nome de um estado aleatório [Pode ser utilizado definindo-se o país também](#StateSelected).
+- state() - Gera o nome de um estado aleatório [Pode ser utilizado definindo-se o país também](#stateselected).
 
 #### JSON Exemplo:
 ```JSON
