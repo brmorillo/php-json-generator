@@ -20,9 +20,9 @@ Passo a passo para finalizar o projeto
       - [JSON Exemplo:](#json-exemplo)
       - [JSON Formatado:](#json-formatado)
     - [Dados com opções](#dados-com-opções)
-      - [StateSelected](#stateselected)
-      - [Integer](#integer)
-      - [JSON Exemplo:](#json-exemplo-1)
+      - [**StateSelected**](#stateselected)
+      - [**Integer**](#integer)
+      - [**JSON Exemplo**:](#json-exemplo-1)
   - [Avançado - Geração aninhada.](#avançado---geração-aninhada)
   - [Contribuição](#contribuição)
 
@@ -168,11 +168,11 @@ Será gerado 2 arrays com guid aleatório.
 
 ###  Dados com opções
 
-#### StateSelected
+#### **StateSelected**
 Gera um estado aleatório de acordo com o país enviado. ***stateSelected()***.
-#### Integer
+#### **Integer**
 Gera um número inteiro aleatório, entre os valores passados, podendo ser nulo ou falso o retorno. ***integer()***.
-#### JSON Exemplo:
+#### **JSON Exemplo**:
 ```JSON
 [
     {
