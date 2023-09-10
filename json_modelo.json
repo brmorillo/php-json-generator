@@ -136,7 +136,7 @@
                     "lorem()": {
                         "options": {
                             "length": 1,
-                            "type": "words"
+                            "type": "paragraphs"
                         }
                     }
                 },
@@ -149,7 +149,13 @@
                             "qtd": 3
                         },
                         "data": {
-                            "lorem(1, 'words')": {
+                            "lorem": {
+                                "lorem()": {
+                                    "options": {
+                                        "length": 1,
+                                        "type": "paragraphs"
+                                    }
+                                },
                                 "a": "b",
                                 "repeat()": {
                                     "options": {
