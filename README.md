@@ -10,7 +10,7 @@ Passo a passo para finalizar o projeto
 2. [Introdução](#Introdução)
 3. [Requisitos](#Requisitos)
 
-4. [Instalação](Instalação)
+4. [Instalação](#Instalação)
 
 5. Configuração
    1. Uso Básico
