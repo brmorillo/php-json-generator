@@ -74,6 +74,8 @@
                     }
                 },
                 "fullName": "fullName()",
+                "firstName": "firstName()",
+                "surName": "surName()",
                 "gender": {
                     "gender()": {
                         "data": {
@@ -95,7 +97,27 @@
                     }
                 },
                 "email": "email()",
-                "phone": "+1 phone()",
+                "phone": {
+                    "phone()": {
+                        "options": {
+                            "ddiLength": 0,
+                            "dddLength": 0,
+                            "phoneLength": 9,
+                            "plus": false,
+                            "spaceAfterPlus": true,
+                            "parentheses": true,
+                            "spaceAfterParentheses": false,
+                            "dash": true,
+                            "dashBefore": 4,
+                            "spaceAroundDash": false
+                        },
+                        "data": {
+                            "ddi": "",
+                            "ddd": "",
+                            "phoneNumber": ""
+                        }
+                    }
+                },
                 "address": "integer(100, 999) street(), city(), state(), integer(100, 10000)",
                 "about": "lorem(1, 'paragraphs')",
                 "registered": "date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')",
