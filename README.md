@@ -5,6 +5,43 @@ Um gerador de JSON feito em PHP.
 O PHP Json Generator é uma biblioteca desenvolvida para gerar dados aleatórios em diversos formatos, tais como números inteiros e de ponto flutuante, nomes, endereços, textos "Lorem Ipsum", coordenadas geográficas e datas. Ideal para cenários de testes, mock-ups de dados, entre outros.
 Passo a passo para finalizar o projeto
 
+## Índice
+1. [Índice](#Índice)
+2. [Introdução](#Introdução)
+3. [Requisitos](#Requisitos)
+
+4. [Instalação](Instalação)
+
+5. Configuração
+   1. Uso Básico
+6. Funções de Geração de Dados
+   1. objectId()
+   2. index()
+   3. guid()
+   4. boolean()
+   5. money()
+   6. floating()
+   7. integer()
+   8. custom()
+   9. fullName()
+   10. firstName()
+   11. surName()
+   12. gender()
+   13. company()
+   14. email()
+   15. phone()
+   16. address()
+   17. street()
+   18. number()
+   19. bairro()
+   20. state()
+   21. country()
+   22. lorem()
+   23. date()
+   24. latitude()
+   25. longitude()
+   26. repeat()
+
 ## Requisitos
 PHP 8.x ou superior
 
@@ -47,6 +84,7 @@ Para usar o PHP Json Generator, você pode enviar um JSON com configurações pa
     }
 ]
 ```
+
 ## Exemplo de Uso
 ```PHP
 use PhpJsonGenerator\PhpJsonGenerator;
@@ -56,45 +94,6 @@ $jsonConfig = '[{"repeat()": {"options": {"qtd": 1}, "data": {"objectId": {"obje
 $generator = new PhpJsonGenerator($jsonConfig);
 $result = $generator->generate();
 ```
-
-## Documentação Completa
-1. [Índice](#indice)
-2. Introdução
-3. Requisitos
-
-4. Instalação
-
-5. Configuração
-5.1. Uso Básico
-5. Funções de Geração de Dados
-objectId()
-index()
-guid()
-boolean()
-money()
-floating()
-integer()
-custom()
-fullName()
-firstName()
-surName()
-gender()
-company()
-email()
-phone()
-address()
-street()
-number()
-bairro()
-state()
-country()
-lorem()
-date()
-latitude()
-longitude()
-repeat()
-Contribuição
-Licença
 
 ## Contribuição
 Se você tem interesse em contribuir para o projeto, veja as orientações sobre como fazer isso.
