@@ -98,7 +98,11 @@ Gera um índice por nível do array, como uma lista ordenada da seguinte forma:
 ```JSON
 [
     {
-        "indice": "index()"
+        "indice": "index()",
+        "dadosCliente": {
+            "id": "index()",
+            "nomeCompleto": "fullName()"
+        }
     }
 ]
 ```
