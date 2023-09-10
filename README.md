@@ -58,13 +58,13 @@ $result = $generator->generate();
 ```
 
 ## Documentação Completa
-.[Índice](#indice)
-.Introdução
-.Requisitos
+. [Índice](#indice)
+. Introdução
+. Requisitos
 
-.Instalação
+. Instalação
 
-.Configuração
+. Configuração
 Uso Básico
 Funções de Geração de Dados
 objectId()
