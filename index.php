@@ -199,12 +199,16 @@ function generateObjectId($value)
     }
 
     $value['options']['length'] = ($value['options']['length']) ?? 1;
+    if ($value['options']['length'] > 50) {
+        $value['options']['length'] = 50;
+    }
 
     //Caso o valor seja 0 não é possível gerar um hash, então ele é definido como 1.
-    if ($value['options']['length'] == 0)
+    if ($value['options']['length'] < 1) {
         $value['options']['length'] = 1;
+    }
 
-    return generateRandomHash($value['options']['length']);
+    return generateRandomHash(round($value['options']['length']));
 }
 
 function generateBoolean($value)

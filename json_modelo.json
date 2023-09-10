@@ -11,8 +11,8 @@
                             "length": {
                                 "integer()": {
                                     "options": {
-                                        "min": "0",
-                                        "max": "4"
+                                        "min": 0,
+                                        "max": 4
                                     }
                                 }
                             }
