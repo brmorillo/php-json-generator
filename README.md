@@ -15,6 +15,7 @@ Passo a passo para finalizar o projeto
   - [Exemplo de Uso](#exemplo-de-uso)
   - [Funções de Geração de Dados](#funções-de-geração-de-dados)
     - [repeat()](#repeat)
+      - [Exemplo](#exemplo)
   - [Contribuição](#contribuição)
 
 ## Requisitos
@@ -72,20 +73,23 @@ $result = $generator->generate();
 
 ## Funções de Geração de Dados
 ### repeat()
-Exemplo
+Repete X vezes os valores que estiverem dentro de data.
+#### Exemplo
 ```JSON
 [
     {
         "repeat()": {
             "options": {
-                "qtd": 1
+                "qtd": 2
             },
             "data": {
+                "guid": "guid()"
             }
         }
     }
 ]
 ```
+Será gerado 2 arrays com guid aleatório.
 
 ## Contribuição
 Se você tem interesse em contribuir para o projeto, veja as orientações sobre como fazer isso.
