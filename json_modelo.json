@@ -132,7 +132,14 @@
                         }
                     }
                 },
-                "about": "lorem(1, 'paragraphs')",
+                "lorem": {
+                    "lorem": {
+                        "options": {
+                            "length": 1,
+                            "words": "words"
+                        }
+                    }
+                },
                 "registered": "date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')",
                 "latitude": "floating(-90.000001, 90)",
                 "longitude": "floating(-180.000001, 180)",
