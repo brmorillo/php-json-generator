@@ -58,7 +58,7 @@ Para usar o PHP Json Generator, você pode enviar um JSON com configurações pa
 ```PHP
 use PhpJsonGenerator\PhpJsonGenerator;
 
-$jsonConfig = '[{"repeat()": {"options": {"qtd": 1}, "data": {"objectId": {"objectId()": {"options": {"qtd": {"integer()": {"options": {"min": "0", "max": "4"}}}}}}}, "index1": "index()", "guid": "guid()"}}]';
+$jsonConfig = '[{"repeat()": {"options": {"qtd": 1}, "data": {"objectId": {"objectId()": {"options": {"length": {"integer()": {"options": {"min": "0", "max": "4"}}}}}}}, "index1": "index()", "guid": "guid()"}}]';
 
 $generator = new PhpJsonGenerator($jsonConfig);
 $result = $generator->generate();
