@@ -19,6 +19,9 @@ Passo a passo para finalizar o projeto
     - [Dados sem opções](#dados-sem-opções)
       - [JSON Exemplo:](#json-exemplo)
       - [JSON Formatado:](#json-formatado)
+    - [Dados com opções](#dados-com-opções)
+        - [state()](#state)
+      - [JSON Exemplo:](#json-exemplo-1)
   - [Contribuição](#contribuição)
 
 ## Requisitos
@@ -103,6 +106,11 @@ Será gerado 2 arrays com guid aleatório.
 - email() - Gera um e-mail completo = firstName().surName()@emailDomain().
 - emailDomain() - Gera um domínio de email. Ex: @outlook.com.
 - logradouro() - Gera um logradouro aleatório. Ex: Rua/Avenida/Praça/Travessa.
+- street() - Gera o nome de uma rua aleatória. Ex: João.
+- number() - Gera um número aleatório entre 1 e 999.999.
+- bairro() - Gera o nome de um bairro aleatório.
+- country() - Gera o nome de um país aleatório.
+- state() - Gera o nome de um estado aleatório [Pode ser utilizado definindo-se o país também](#state()).
 
 #### JSON Exemplo:
 ```JSON
@@ -155,6 +163,12 @@ Será gerado 2 arrays com guid aleatório.
     }
 ]
 ```
+
+###  Dados com opções
+
+##### state()
+#### JSON Exemplo:
+
 
 ## Contribuição
 Se você tem interesse em contribuir para o projeto, veja as orientações sobre como fazer isso.
