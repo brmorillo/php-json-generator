@@ -118,7 +118,20 @@
                         }
                     }
                 },
-                "address": "integer(100, 999) street(), city(), state(), integer(100, 10000)",
+                "address": "address()",
+                "logradouro": "logradouro()",
+                "street": "street()",
+                "number": "number()",
+                "bairro": "bairro()",
+                "state": "state()",
+                "country": "country()",
+                "stateSelected": {
+                    "state()": {
+                        "options": {
+                            "country": 3
+                        }
+                    }
+                },
                 "about": "lorem(1, 'paragraphs')",
                 "registered": "date(new Date(2014, 0, 1), new Date(), 'YYYY-MM-ddThh:mm:ss Z')",
                 "latitude": "floating(-90.000001, 90)",

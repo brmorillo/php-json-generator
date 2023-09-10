@@ -81,33 +81,29 @@ function replaceOthers($jsonAtual)
             //Verifica se o item atual é um array, para poder chamar de forma recursiva a função.
             if (is_array($value)) {
                 if (isset($value['objectId()'])) {
-                    //Caso seja um objectId().
                     $value = generateObjectId($value['objectId()']);
                 } elseif (isset($value['integer()'])) {
-                    //Caso seja um integer().
                     $value = generateInteger($value['integer()']);
                 } elseif (isset($value['boolean()'])) {
-                    //Caso seja um boolean().
                     $value = generateBoolean($value['boolean()']);
                 } elseif (isset($value['floating()'])) {
-                    //Caso seja um floating().
                     $value = generateFloating($value['floating()']);
                 } elseif (isset($value['money()'])) {
-                    //Caso seja um money().
                     $value = generateMoney($value['money()']);
                 } elseif (isset($value['custom()'])) {
-                    //Caso seja um custom().
                     $value = selectCustom($value['custom()']);
                 } elseif (isset($value['gender()'])) {
-                    //Caso seja um custom().
                     $value = selectGender($value['gender()']);
                 } elseif (isset($value['company()'])) {
-                    //Caso seja um custom().
                     $value = generateCompany($value['company()']);
                 } elseif (isset($value['phone()'])) {
-                    //Caso seja um custom().
                     $value = generatePhone($value['phone()']);
+                } elseif (isset($value['state()'])) {
+                    $value = generateState($value['state()']['options']['country']);
+                } elseif (isset($value['lorem()'])) {
+                    $value = generateLorem($value['lorem()']);
                 }
+                //Caso seja um array chama o foreach de forma recursiva para explorar o valor.
                 $jsonAtual[$key] = replaceOthers($value);
             } else {
                 if ($value === 'guid()' || $key === 'guid()') {
@@ -123,6 +119,20 @@ function replaceOthers($jsonAtual)
                     $jsonAtual[$key] = generateSurName();
                 } elseif ($value === 'email()' || $key === 'email()') {
                     $jsonAtual[$key] = generateEmail();
+                } elseif ($value === 'logradouro()' || $key === 'logradouro()') {
+                    $jsonAtual[$key] = generateLogradouro();
+                } elseif ($value === 'street()' || $key === 'street()') {
+                    $jsonAtual[$key] = generateStreet();
+                } elseif ($value === 'number()' || $key === 'number()') {
+                    $jsonAtual[$key] = generateNumber();
+                } elseif ($value === 'bairro()' || $key === 'bairro()') {
+                    $jsonAtual[$key] = generateBairro();
+                } elseif ($value === 'country()' || $key === 'country()') {
+                    $jsonAtual[$key] = generateCountry();
+                } elseif ($value === 'state()' || $key === 'state()') {
+                    $jsonAtual[$key] = generateState();
+                } elseif ($value === 'address()' || $key === 'address()') {
+                    $jsonAtual[$key] = generateAddress();
                 }
             }
         }
@@ -177,6 +187,7 @@ function generateObjectId($value)
 {
     $value['options']['qtd'] = ($value['options']['qtd']) ?? 1;
 
+    //TODO: Adicionar validações como esta dentro de todos os tipos de arrays para garantir recursividade até mesmo dentro das funções.'
     if (is_array($value['options']['qtd'])) {
         //Caso a qtd seja um array (Ou seja, outra função gerando ela), chama de forma recursiva a função para gerar o valor.
         $value['options']['qtd'] = array_values(replaceOthers($value['options']))[0];
@@ -352,6 +363,7 @@ function generatePhone($value)
     return $phoneNumber;
 }
 
+
 function selectCustom($value)
 {
     return $value['data'][rand(1, count($value['data']))];
@@ -461,4 +473,135 @@ function generateEmailName()
 function generateEmail()
 {
     return generateEmailName() . "@" . generateEmailDomain();
+}
+
+function generateLogradouro()
+{
+    $logradouro = [
+        "Rua", "Avenida", "Travessa", "Beco", "Viela", "Alameda", "Praça", "Calçadão", "Largo", "Boulevard", "Rodovia", "Estrada", "Caminho", "Servidão", "Passagem", "Corredor", "Parque", "Jardim", "Via Expressa", "Viaduto", "Túnel", "Ponte", "Cais", "Porto", "Aeroporto",
+        // Logradouros Rurais
+        "Estrada de Terra", "Caminho de Servidão", "Trilha", "Sítio", "Fazenda", "Vale", "Morro", "Montanha", "Planalto", "Planície", "Cânion"
+    ];
+    return $logradouro[rand(0, count($logradouro) - 1)];
+}
+
+function generateStreet()
+{
+    $street = [
+        "Amoroso", "Safira", "Esperança", "Girassol", "Margarida", "Asteca", "Zênite", "Marte", "Vênus", "Orquídea", "Castanheira", "Cedro", "Eucalipto", "Araucária", "Junqueira", "Marfim", "Topázio", "Esmeralda", "Turquesa", "Rubí", "Zirconia", "Coral", "Sardônia", "Obsidiana", "Pedra-Sabão", "Flamingo", "Coruja", "Pardal", "Falcão", "Cisne", "Pelican", "Papagaio", "Beija-Flor", "Sabiá", "Andorinha", "Águia", "Corvo", "Condor", "Canela", "Gengibre", "Hortelã", "Manjericão", "Tomilho", "Alecrim", "Louro", "Orégano", "Sálvia", "Cometa", "Meteorito", "Galáxia", "Planeta", "Estrela", "Saturno", "Júpiter", "Mercúrio", "Netuno", "Urano", "Plutão", "Sol", "Lua", "Terra", "Ícaro", "Artemis", "Apolo", "Hércules", "Achiles", "Pandora", "Zeus", "Afrodite", "Athena", "Hermes", "Poseidon", "Deméter", "Cronos", "Dionísio", "Perseu", "Teseu", "Eros", "Nêmesis", "Anúbis", "Osíris", "Ísis", "Horus", "Thot", "Sekhmet", "Bastet", "Rá", "Maat", "Geb", "Nut", "Nephtys", "Seth", "Hator", "Mênfis", "Thebas", "Luxor", "Gizé", "Amon-Rá", "Sphinx", "Himalaia", "Everest", "Kilimanjaro", "Aconcágua", "Denali", "Elbrus", "Monte Rosa", "Vesúvio", "Fugi", "Ararat", "K2", "Monte Branco", "Atlas", "Andes", "Alpes", "Cáucaso", "Urais", "Karpatos", "Apalaches", "Sierra Nevada", "Tetons", "Ozarks", "Cordilheira", "Rocosa", "Taiga", "Tundra", "Savana", "Manguezal", "Pantanal", "Cerrado", "Mojave", "Sahara", "Kalahari", "Gobi", "Thar", "Amazônia", "Danúbio", "Nilo", "Mississipi", "Amazonas", "Yangtzé", "Ganges", "Reno", "Senegal", "Tâmisa", "Volga", "Mekong", "Loire", "Tigre", "Eufrates", "Paraná", "Colorado", "Fraser", "Rio Grande", "Pecos", "Sabine", "Yukon", "Churchill", "Orinoco", "Zambeze", "Níger", "Congo", "Tiete", "Paranapanema", "Doce", "São Francisco", "Madeira", "Purus", "Tapajós", "Xingu", "Juruá", "Guaporé", "Araguaia", "Tocantins", "Iguaçu", "Paraguai", "Uruguai", "Murray", "Darling", "Ebro", "Douro", "Guadalquivir", "Lena", "Obi", "Yenisei", "Indo", "Brahmaputra", "Amur", "Fraser", "Columbia", "Mackenzie", "Ródano", "Po", "Elba", "Oder", "Vístula", "Dniester", "Dnieper", "Don", "Pechora", "Onega", "Svir", "Volturno", "Arno", "Tejo", "Guadiana", "Duero", "Guadalquivir", "Ebro", "Douro", "Vouga", "Mondego", "Sado", "Mira", "Guadiana", "Tejo", "Dão", "Paiva", "Vouga", "Ave", "Cávado", "Lima", "Minho", "Neiva", "Âncora", "Coura", "Vez", "Lima", "Homem", "Cávado", "Ave", "Douro", "Tâmega", "Paiva", "Vouga", "Dão", "Mondego", "Ceira", "Zêzere", "Nabão", "Sertã", "Ocreza", "Ponsul", "Erges", "Sever", "Geiru", "Caia", "Xévora", "Degebe", "Sorraia", "Almansor", "Maior", "Trancão", "Içá", "Mira", "Sado", "Galé", "Coina", "Samouco", "Tejo", "Safarujo", "Jamor", "Lizandro", "Colares", "Falcão", "Magoito"
+    ];
+    return $street[rand(0, count($street) - 1)];
+}
+
+function generateNumber()
+{
+    return generateInteger(['options' => ['min' => 1, 'max' => 9999]]);
+}
+
+function generateBairro()
+{
+    $bairros = [
+        "Centro", "Jardim das Flores", "Vila Nova", "Bairro Alto", "São Francisco", "Morumbi", "Bela Vista", "Campos Elíseos", "Santa Tereza", "Copacabana", "Lapa", "Moema", "Liberdade", "Itaim Bibi", "Pinheiros", "Barra da Tijuca", "Vila Mariana", "Ipanema", "Santo Amaro", "Vila Madalena", "Botafogo", "Santana", "Tijuca", "Campo Belo", "Campo Grande", "São João", "Alto da Lapa", "Vila Olímpia", "Vila Leopoldina", "Cidade Jardim"
+    ];
+    return $bairros[rand(0, count($bairros) - 1)];
+}
+
+function generateCountry()
+{
+    $paises = [
+        "Rússia", "Canadá", "Estados Unidos", "China", "Brasil", "Austrália", "Índia", "Argentina"
+    ];
+    return $paises[rand(0, count($paises) - 1)];
+}
+
+function generateState($country = 1)
+{
+    if ($country == 1) {
+        $estadosBrasil = [
+            "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"
+        ];
+        $estado = $estadosBrasil;
+    }
+
+    if ($country == 2) {
+        $estadosEUA = [
+            "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+        ];
+        $estado = $estadosEUA;
+    }
+
+    if ($country == 3) {
+        $provinciasTerritoriosCanada = [
+            "Alberta", "Colúmbia Britânica", "Ilha do Príncipe Eduardo", "Manitoba", "Nova Brunswick", "Nova Escócia", "Nunavut", "Ontário", "Quebec", "Saskatchewan", "Terra Nova e Labrador", "Territórios do Noroeste", "Yukon"
+        ];
+        $estado = $provinciasTerritoriosCanada;
+    }
+
+    if ($country == 4) {
+        $distritosFederaisRussia = [
+            "Distrito Federal Central", "Distrito Federal do Extremo Oriente", "Distrito Federal do Norte do Cáucaso", "Distrito Federal do Noroeste", "Distrito Federal do Volga", "Distrito Federal dos Urais", "Distrito Federal da Sibéria", "Distrito Federal do Sul"
+        ];
+        $estado = $distritosFederaisRussia;
+    }
+
+    if ($country == 5) {
+        $divisoesChina = [
+            "Anhui", "Pequim (Beijing)", "Chongqing", "Fujian", "Gansu", "Cantão (Guangdong)", "Guangxi", "Guizhou", "Hainan", "Hebei", "Heilongjiang", "Henan", "Hong Kong", "Hubei", "Hunan", "Jiangsu", "Jiangxi", "Jilin", "Liaoning", "Macau", "Xinjiang", "Ningxia", "Qinghai", "Shandong", "Xangai (Shanghai)", "Shanxi", "Sichuan", "Taiwan",  // Nota: Taiwan é considerada uma província da China pela RPC, mas é autogovernada e considera-se separada por muitos.
+            "Tibete", "Yunnan", "Zhejiang"
+        ];
+        $estado = $divisoesChina;
+    }
+
+    if ($country == 6) {
+        $estadosTerritoriosAustralia = [
+            "Nova Gales do Sul", "Queensland", "Austrália Meridional", "Tasmânia", "Victoria", "Austrália Ocidental", "Território do Norte", "Território da Capital Australiana"
+        ];
+        $estado = $estadosTerritoriosAustralia;
+    }
+
+    if ($country == 7) {
+        $estadosTerritoriosUniaoIndia = [
+            "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "Bengala Ocidental",
+            // Territórios da União
+            "Andaman e Nicobar", "Chandigarh", "Dadra e Nagar Haveli e Daman e Diu", "Lakshadweep", "Delhi", "Puducherry", "Ladakh", "Jammu e Caxemira"
+        ];
+        $estado = $estadosTerritoriosUniaoIndia;
+    }
+
+    if ($country == 8) {
+        $provinciasArgentina = [
+            "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Cidade Autônoma de Buenos Aires", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"
+        ];
+        $estado = $provinciasArgentina;
+    }
+
+    return $estado[rand(0, count($estado) - 1)];
+}
+
+function generateAddress()
+{
+    $address = '';
+    $address .= generateLogradouro();
+    $address .= '. ' . generateStreet();
+    $address .= ', ' . generateNumber();
+    $address .= ' - ' . generateBairro();
+    $address .= ', ' . generateState();
+    $address .= ', ' . generateCountry();
+    return $address;
+
+    //String final: "{$logradouro}. {$street}, {$number} - {$bairro}, {$state}, {$country}";
+}
+
+function generateLorem($value)
+{
+    $lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id fermentum ligula. Proin feugiat, nulla eget fermentum scelerisque, quam dui auctor sapien, quis luctus mi metus id sapien. Aenean consectetur libero a bibendum aliquet. Vivamus in libero a lorem facilisis tincidunt. Donec mattis eu libero sit amet blandit. Praesent varius rhoncus urna, eu iaculis nulla fermentum nec. Fusce tincidunt scelerisque ante id fermentum. Etiam finibus nec ipsum quis mattis. Sed interdum justo non augue cursus, non tincidunt libero facilisis. Sed eget semper sapien.
+    Nulla facilisi. Sed vehicula facilisis malesuada. Phasellus dictum tincidunt dui, eu convallis ligula venenatis nec. Nullam ac nulla hendrerit, fermentum erat nec, egestas augue. Nulla facilisi. Vivamus iaculis non nunc in mattis. Sed luctus, ante quis fermentum viverra, erat erat tincidunt ex, quis fermentum nulla ligula ut mi. Integer ac nunc elit. Etiam fringilla quis nulla nec tempor.
+    Curabitur bibendum, orci et sollicitudin tincidunt, nulla ligula elementum odio, id sodales purus libero id turpis. Sed sed metus vitae elit iaculis vehicula ut ac eros. Vestibulum vestibulum bibendum est, ut mattis sem viverra id. Vivamus porttitor blandit odio. Nullam nec felis non eros bibendum pharetra. Donec dictum, lectus in bibendum auctor, sapien erat dignissim ipsum, a sodales justo orci non nulla. Nullam feugiat elit sit amet nunc ullamcorper facilisis.
+    Cras vel lacus odio. Nam gravida felis a odio sollicitudin tempus. In hac habitasse platea dictumst. Pellentesque facilisis odio ac sapien sodales feugiat. Pellentesque vestibulum turpis quis urna aliquam, vel vehicula elit pulvinar. Praesent bibendum, quam id dapibus feugiat, nisl urna mattis libero, eu tempus urna neque at sem.
+    Morbi ullamcorper varius libero id vestibulum. Nunc suscipit mattis lorem, at suscipit lectus condimentum et. Fusce sit amet turpis ex. Ut at laoreet quam. Nullam ut purus massa. Maecenas quis nulla vel nulla fringilla sagittis eu a erat. Donec vitae diam luctus, gravida quam a, iaculis nulla. Aliquam erat volutpat. Integer quis nulla eget sem pharetra tincidunt. Fusce vel auctor odio, a tristique dolor.
+    Etiam ultrices at dolor ut volutpat. Suspendisse euismod, enim in vestibulum pharetra, mi ante aliquet est, at scelerisque nisl velit quis odio. Nullam viverra tincidunt ex, vel vulputate turpis tincidunt nec. Nullam lacinia mi non purus tristique, id sagittis nulla sollicitudin. Quisque quis malesuada elit, nec facilisis purus. Nunc quis turpis eget enim lacinia bibendum. Aliquam eu sollicitudin metus, eget semper nulla.
+    Praesent lacinia, tellus quis posuere euismod, elit sem porttitor lectus, ut viverra libero mi ut lorem. Nulla facilisi. Donec dignissim libero nec justo rhoncus, sit amet vestibulum nulla condimentum. Duis a velit mi. Nam a leo sem. Nullam ac nisi sed arcu fringilla facilisis nec a enim. Vivamus ullamcorper bibendum nunc.
+    Integer semper, eros ut sollicitudin blandit, lorem ipsum varius turpis, a tristique nunc ante at arcu. Nam vehicula, enim a tincidunt egestas, nulla lectus aliquam sapien, sit amet dictum mauris turpis eu erat. Vestibulum eget iaculis urna, a vulputate odio. Proin dapibus nisl quis volutpat semper. Quisque malesuada eros a libero fringilla, id malesuada arcu blandit. Vivamus fermentum erat sit amet ligula aliquet, quis volutpat velit eleifend.
+    Ut sodales massa ac urna tincidunt, quis tristique lorem varius. Sed blandit, neque id sodales dictum, odio mauris rhoncus dolor, nec rhoncus neque erat ut leo. Aliquam erat volutpat. Etiam a urna velit. Integer vestibulum ullamcorper nunc, non blandit quam condimentum ac. Suspendisse potenti. Vivamus consectetur a eros a vehicula. Aenean et libero ac enim tempus posuere id sit amet lectus. Fusce sollicitudin ipsum nec justo facilisis, vel interdum turpis cursus.
+    Morbi sagittis libero ac elit efficitur pellentesque. Praesent eget vehicula turpis. Donec aliquet, mi non fermentum ultrices, metus metus accumsan leo, nec vulputate est turpis eu diam. Aenean vel lorem et erat vestibulum vulputate. Vestibulum eleifend hendrerit purus a cursus. Proin id auctor eros. Integer eget velit nec libero vestibulum venenatis. Cras id augue nec libero convallis venenatis. Integer a justo elit.";
 }
