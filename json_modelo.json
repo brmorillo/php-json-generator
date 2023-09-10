@@ -133,10 +133,10 @@
                     }
                 },
                 "lorem": {
-                    "lorem": {
+                    "lorem()": {
                         "options": {
                             "length": 1,
-                            "words": "words"
+                            "type": "words"
                         }
                     }
                 },
