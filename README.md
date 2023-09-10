@@ -16,6 +16,7 @@ Passo a passo para finalizar o projeto
   - [Funções de Geração de Dados](#funções-de-geração-de-dados)
     - [repeat()](#repeat)
       - [Exemplo](#exemplo)
+    - [index()](#index)
   - [Contribuição](#contribuição)
 
 ## Requisitos
@@ -76,13 +77,31 @@ Repete X vezes os valores que estiverem dentro de data.
                 "qtd": 2
             },
             "data": {
-                "guid": "guid()"
+                "guid": "guid()",
+                "indice": "index()",
+                //ETC.
             }
         }
     }
 ]
 ```
 Será gerado 2 arrays com guid aleatório.
+
+###  index()
+Gera um índice por nível do array, como uma lista ordenada da seguinte forma:
+1. A
+   1. A
+   2. B
+2. B
+   1. A
+   2. B
+```JSON
+[
+    {
+        "indice": "index()"
+    }
+]
+```
 
 ## Contribuição
 Se você tem interesse em contribuir para o projeto, veja as orientações sobre como fazer isso.
