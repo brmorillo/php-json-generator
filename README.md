@@ -13,7 +13,7 @@ Passo a passo para finalizar o projeto
 4. [Instalação](#Instalação)
 
 5. [Configuração](#Configuração)
-   1. [Uso Básico](#Uso Básico)
+   1. [Uso Básico](#Uso_Básico)
 6. Funções de Geração de Dados
    1. objectId()
    2. index()
