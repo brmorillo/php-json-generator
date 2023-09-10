@@ -102,6 +102,12 @@ function replaceOthers($jsonAtual)
                     $value = generateState($value['state()']['options']['country']);
                 } elseif (isset($value['lorem()'])) {
                     $value = generateLorem($value['lorem()']);
+                } elseif (isset($value['latitude()'])) {
+                    $value = generateLatitude($value['latitude()']);
+                } elseif (isset($value['longitude()'])) {
+                    $value = generateLongitude($value['longitude()']);
+                } elseif (isset($value['date()'])) {
+                    $value = generateDate($value['date()']);
                 }
                 //Caso seja um array chama o foreach de forma recursiva para explorar o valor.
                 $jsonAtual[$key] = replaceOthers($value);
@@ -628,5 +634,40 @@ function generateLoremParagraph($lorem, $length = 1)
             $primeirosParagrafos = array_merge(array_slice($paragrafos, generateInteger(['options' => ['min' => 1, 'max' => count($paragrafos)]]), $length), $primeirosParagrafos);
         }
     }
-    return implode('.', $primeirosParagrafos) . '.';
+    return implode('.', $primeirosParagrafos);
+}
+
+function generateLatitude($value)
+{
+    $min = ($value['options']['min']) ? $value['options']['min'] : -90.000001;
+    $max = ($value['options']['max']) ? $value['options']['max'] : 90;
+    return generateFloating(['options' => ['min' => $min, 'max' => $max]]);
+}
+
+function generateLongitude($value)
+{
+    $min = ($value['options']['min']) ? $value['options']['min'] : -180.000001;
+    $max = ($value['options']['max']) ? $value['options']['max'] : 180;
+    return generateFloating(['options' => ['min' => $min, 'max' => $max]]);
+}
+
+function generateDate($value)
+{
+    $utc = new DateTimeZone('UTC');
+    $nowDateTime = new DateTime('now', $utc);
+
+    $min = ($value['options']['min']) ? $value['options']['min'] : '01/01/1970';
+    $max = ($value['options']['max']) ? $value['options']['max'] : $nowDateTime;
+    $format = ($value['options']['format']) ? $value['options']['format'] : 'Y-m-d H:i:s';
+
+    return generateDateBetween($min, $max, $format);
+}
+
+function generateDateBetween($min, $max, $format)
+{
+    $min = strtotime($min);
+    $max = strtotime($max);
+
+    $val = rand($min, $max);
+    return date($format, $val);
 }
