@@ -168,19 +168,7 @@ Será gerado 2 arrays com guid aleatório.
 ###  Dados com opções
 
 #### StateSelected
-```JSON
-[
-    {
-        "stateSelected": {
-            "stateSelected()": {
-                "options": {
-                    "country": 1
-                }
-            }
-        }
-    }
-]
-```
+Gera um estado aleatório de acordo com o país enviado. stateSelected().
 #### JSON Exemplo:
 ```JSON
 [
@@ -206,6 +194,8 @@ Será gerado 2 arrays com guid aleatório.
     }
 ]
 ```
+
+
 
 ## Avançado - Geração aninhada.
 ```JSON
