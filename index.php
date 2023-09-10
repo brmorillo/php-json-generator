@@ -151,13 +151,14 @@ function generateInteger($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $min = ($value['options']['min']) ?? 1;
+    $max = ($value['options']['max']) ?? 9;
+
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
 
-    $min = ($value['options']['min']) ?? 1;
-    $max = ($value['options']['max']) ?? 9;
     if ($min > $max) {
         $min = $max;
     }
@@ -191,13 +192,13 @@ function generateGuid()
 
 function generateObjectId($value)
 {
-    $value['options']['length'] = ($value['options']['length']) ?? 1;
-
-    //TODO: Adicionar validações como esta dentro de todos os tipos de arrays para garantir recursividade até mesmo dentro das funções.'
+    //TODO: Adicionar validações como esta dentro de todos os tipos de arrays para garantir recursividade até mesmo dentro das funções. Vale a pena para todos?
     if (is_array($value['options']['length'])) {
         //Caso a qtd seja um array (Ou seja, outra função gerando ela), chama de forma recursiva a função para gerar o valor.
         $value['options']['length'] = array_values(replaceOthers($value['options']))[0];
     }
+
+    $value['options']['length'] = ($value['options']['length']) ?? 1;
 
     //Caso o valor seja 0 não é possível gerar um hash, então ele é definido como 1.
     if ($value['options']['length'] == 0)
