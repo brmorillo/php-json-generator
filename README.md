@@ -9,12 +9,9 @@ Passo a passo para finalizar o projeto
 1. [Índice](#Índice)
 2. [Introdução](#Introdução)
 3. [Requisitos](#Requisitos)
-
 4. [Instalação](#Instalação)
-
-5. [Configuração](#Configuração)
-6. [Uso Basico](#Uso_Basico)
-7. Funções de Geração de Dados
+5. [Uso Basico](#Uso_Basico)
+6. Funções de Geração de Dados
    1. objectId()
    2. index()
    3. guid()
