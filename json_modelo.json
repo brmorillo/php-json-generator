@@ -8,7 +8,7 @@
                 "objectId": {
                     "objectId()": {
                         "options": {
-                            "qtd": {
+                            "length": {
                                 "integer()": {
                                     "options": {
                                         "min": "0",
