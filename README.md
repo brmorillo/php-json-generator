@@ -9,7 +9,7 @@ Passo a passo para finalizar o projeto
 1. [Índice](#Índice)
 2. [Requisitos](#Requisitos)
 3. [Instalação](#Instalação)
-4. [Uso Basico](#Uso_Basico)
+4. [Uso Basico](#Uso-Basico)
 5. [Exemplo_de_Uso](#exemplo-de-uso)
 6. Funções de Geração de Dados
    1. objectId()
@@ -49,7 +49,7 @@ composer require php-json-generator
 ```
 Ou você pode incluir manualmente o arquivo em seu projeto.
 
-## Uso_Basico
+## Uso Basico
 Para usar o PHP Json Generator, você pode enviar um JSON com configurações para o backend. Abaixo está um exemplo de como o JSON deve ser formatado para gerar diferentes tipos de dados aleatórios:
 ```JSON
 [
