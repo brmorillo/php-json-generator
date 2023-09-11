@@ -10,7 +10,7 @@ Passo a passo para finalizar o projeto
   - [**Descrição**](#descrição)
   - [**Índice**](#índice)
   - [**Requisitos**](#requisitos)
-  - [**Instalação**](#instalação)
+  - [**Instalação** (Ainda não funcional)](#instalação-ainda-não-funcional)
   - [**Uso Basico**](#uso-basico)
   - [**Exemplo de Uso**](#exemplo-de-uso)
   - [**Funções de Geração de Dados**](#funções-de-geração-de-dados)
@@ -42,7 +42,7 @@ Passo a passo para finalizar o projeto
 ## **Requisitos**
 PHP 8.x ou superior
 
-## **Instalação**
+## **Instalação** (Ainda não funcional)
 Para instalar a biblioteca, você pode utilizar o Composer:
 ```
 composer require php-json-generator
