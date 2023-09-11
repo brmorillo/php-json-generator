@@ -192,13 +192,13 @@ Gera um resultado boolean, pode também retornar nulo, aumentar a probabilidade 
 #### **floating**
 Gera um resultado aleatório com ponto flutuante. Podendo ser nulo ou falso. ***floating()***
 #### **money**
-Gera um float formatado no padrão da moeda que for especificado. ******
+Gera um float formatado no padrão da moeda que for especificado. ***money()***
 #### **custom**
-Retorna um dos itens do array fornecido de forma aleatória. ******
+Retorna um dos itens do array fornecido de forma aleatória. ***custom()***
 #### **gender**
-Retorna um dos gêneros fornecidos de forma aleatória, caso nenhum seja fornecido, retorna o padrão. ******
+Retorna um dos gêneros fornecidos de forma aleatória, caso nenhum seja fornecido, retorna o padrão. ***gender()***
 #### **company**
-Retorna o nome de uma empresa fictícia aleatória. Podendo variar a string de retorno entre os tipos: toUpperCase, toLowerCase, capitalize, camelCase, slugify. ******
+Retorna o nome de uma empresa fictícia aleatória. Podendo variar a string de retorno entre os tipos: toUpperCase, toLowerCase, capitalize, camelCase, slugify. ***company()***
 #### **phone**
 Retorna um número de telefone aleatório, podendo ser formatado de acordo com a localidade. ******
 #### **stateSelected**
