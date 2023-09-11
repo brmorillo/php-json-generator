@@ -78,16 +78,43 @@ Para usar o PHP Json Generator, você pode enviar um JSON com configurações pa
 ### **Exemplo de Uso**
 ```PHP
 <?php
+require_once __DIR__ . '/vendor/autoload.php';
 
-require_once __DIR__ . '/../vendor/autoload.php';
+use Rmorillo\JsonGenerator\JsonProcessor;
 
-use Rmorillo\JsonGenerator\JsonProcessor; // Substitua pelo namespace e nome da classe corretos
+//$jsonOriginal = json_decode(file_get_contents("php://input"), true);
+$jsonOriginal = json_decode('
+[
+    {
+        "repeat()": {
+            "options": {
+                "qtd": 1
+            },
+            "data": {
+                "objectId": {
+                    "objectId()": {
+                        "options": {
+                            "length": {
+                                "integer()": {
+                                    "options": {
+                                        "min": 0,
+                                        "max": 4
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "index1": "index()",
+                "guid": "guid()"
+            }
+        }
+    }
+]', true);
 
-// Agora você pode instanciar e usar a classe
-$jsonOriginal = '[{"repeat()": {"options": {"qtd": 1}, "data": {"objectId": {"objectId()": {"options": {"length": {"integer()": {"options": {"min": "0", "max": "4"}}}}}}}, "index1": "index()", "guid": "guid()"}}]';
-$processor = new JsonProcessor($jsonOriginal);
-$processor->process();
-?>
+//Usa o JSONProcessor.
+$jsonProcessor = new JsonProcessor($jsonOriginal);
+$jsonProcessor->process();
 ```
 
 ## **Funções de Geração de Dados**
