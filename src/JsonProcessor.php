@@ -1,6 +1,6 @@
 <?php
 
-namespace Rmorillo\PhpJsonGenerator;
+namespace Rmorillo\JsonGenerator;
 
 use DateTime;
 use DateTimeZone;

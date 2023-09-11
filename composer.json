@@ -1,16 +1,17 @@
 {
-    "name": "rmorillo/php-json-generator",
+    "name": "rmorillo/json-generator",
     "description": "Uma biblioteca PHP que gera JSON quando passado o modelo personalizado.",
     "type": "library",
+    "license": "GPL-3.0-or-later",
     "autoload": {
         "psr-4": {
-            "Rmorillo\\PhpJsonGenerator\\": "src/"
+            "Rmorillo\\JsonGenerator\\": "src/"
         }
     },
     "authors": [
         {
             "name": "Bruno R. Morillo",
-            "email": "111511828+brunormorillo@users.noreply.github.com"
+            "email": "bruno@rmorillo.com"
         }
     ],
     "minimum-stability": "stable",
