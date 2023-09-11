@@ -192,25 +192,25 @@ Gera um resultado boolean, pode também retornar nulo, aumentar a probabilidade 
 #### **floating**
 Gera um resultado aleatório com ponto flutuante. Podendo ser nulo ou falso. ***floating()***
 #### **money**
-A
+Gera um float formatado no padrão da moeda que for especificado. ******
 #### **custom**
-A
+Retorna um dos itens do array fornecido de forma aleatória. ******
 #### **gender**
-A
+Retorna um dos gêneros fornecidos de forma aleatória, caso nenhum seja fornecido, retorna o padrão. ******
 #### **company**
-A
+Retorna o nome de uma empresa fictícia aleatória. Podendo variar a string de retorno entre os tipos: toUpperCase, toLowerCase, capitalize, camelCase, slugify. ******
 #### **phone**
-A
+Retorna um número de telefone aleatório, podendo ser formatado de acordo com a localidade. ******
 #### **stateSelected**
-A
+Retorna um estado selecionado, diferente do state sem opções que vem um estado aleatório, este é possível específicar o país. ******
 #### **lorem**
-A
+Retorna um texto LoremIpsum aleatório, podendo especificar a quantidade e variar entre os tipos: words, sentenses, paragraphs. ******
 #### **latitude**
-A
+Retorna um float entre -90.000001 e 90. ******
 #### **longitude**
-A
+Retorna um float entre -180.000001 e 180. ******
 #### **date**
-A
+Retorna uma data dentro do período específicado no formato específicado. <a href="https://www.php.net/manual/en/function.date">***date()***</a>
 #### **JSON Exemplo**:
 ```JSON
 [
@@ -277,7 +277,7 @@ A
         },
         "company": {
             "options": {
-                "type": "toUpperCase" /* toUpperCase, toLowerCase, capitalize, camelCase, slugify */
+                "type": "toUpperCase"
             }
         },
         "phone": {
@@ -307,7 +307,7 @@ A
         "lorem": {
             "options": {
                 "length": 1,
-                "type": "words" /* words, sentenses, paragraphs */
+                "type": "words"
             }
         },
         "latitude": {
