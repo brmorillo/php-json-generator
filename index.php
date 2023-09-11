@@ -1,5 +1,5 @@
 <?php
-require_once 'JsonProcessor.php'; // Inclua isso no topo do arquivo
+require_once 'src\JsonProcessor.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");

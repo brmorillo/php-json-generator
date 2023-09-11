@@ -80,7 +80,6 @@ class JsonProcessor
         return $value;
     }
 
-
     function replaceOthers($jsonAtual)
     {
         $index = 1;
