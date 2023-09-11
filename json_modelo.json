@@ -150,16 +150,16 @@
                 "latitude": {
                     "latitude()": {
                         "options": {
-                            "min": "-90.000001",
-                            "max": "90"
+                            "min": -90.000001,
+                            "max": 90
                         }
                     }
                 },
                 "longitude": {
                     "longitude()": {
                         "options": {
-                            "min": "-180.000001",
-                            "max": "180"
+                            "min": -180.000001,
+                            "max": 180
                         }
                     }
                 },
@@ -192,8 +192,8 @@
                                         "length": {
                                             "integer()": {
                                                 "options": {
-                                                    "min": "0",
-                                                    "max": "4"
+                                                    "min": 0,
+                                                    "max": 4
                                                 }
                                             }
                                         }
