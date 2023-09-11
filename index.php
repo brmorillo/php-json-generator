@@ -29,7 +29,10 @@ function replaceRepeat($jsonAtual)
     if (gettype($jsonAtual) == 'array') {
         foreach ($jsonAtual as $key => $value) {
             if ($key === "repeat()") {
-                $qtd = $value['options']['qtd'];
+                //Caso o valor não seja um inteiro, define como 1.
+                $qtd = (gettype($value['options']['qtd']) == 'integer') ? $value['options']['qtd'] : 1;
+                //Caso o valor seja menor ou igual a 0, define como 1.
+                $qtd = ($qtd <= 0) ? 1 : $qtd;
                 $data = $value['data'];
                 $result = array_merge($result, repeatJsonData($data, $qtd));
             } elseif (is_array($value)) {
@@ -150,9 +153,16 @@ function replaceOthers($jsonAtual)
 function generateInteger($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
+
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
+
     $min = ($value['options']['min']) ?? 1;
+    $min = (gettype($min) == 'integer') ? $min : 1;
+
     $max = ($value['options']['max']) ?? 9;
+    $max = (gettype($max) == 'integer') ? $max : 9;
 
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
@@ -198,15 +208,16 @@ function generateObjectId($value)
         $value['options']['length'] = array_values(replaceOthers($value['options']))[0];
     }
 
+    //Caso o valor seja 0 ou menor não é possível gerar um hash, então ele é definido como 1.
+    if ($value['options']['length'] < 1 || gettype($value['options']['length']) != 'integer') {
+        $value['options']['length'] = 1;
+    }
+
     $value['options']['length'] = ($value['options']['length']) ?? 1;
     if ($value['options']['length'] > 50) {
         $value['options']['length'] = 50;
     }
 
-    //Caso o valor seja 0 não é possível gerar um hash, então ele é definido como 1.
-    if ($value['options']['length'] < 1) {
-        $value['options']['length'] = 1;
-    }
 
     return generateRandomHash(round($value['options']['length']));
 }
@@ -214,32 +225,52 @@ function generateObjectId($value)
 function generateBoolean($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 1;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 1;
     $deniReturn = ($value['options']['deniReturn']) ?? false;
+
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
+        if ($deniReturn) {
+            $falseOrNull = !$falseOrNull;
+        }
         return $falseOrNull;
     }
 
-    return ($deniReturn) ? !(rand(0, 1) === 1) : (rand(0, 1) === 1);
+    $return = (rand(0, 1) === 1);
+    if ($deniReturn) {
+        $return = !$return;
+    }
+    return $return;
 }
 
 function generateFloating($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
 
     $min = ($value['options']['min']) ?? 1;
+    $min = (gettype($min) == 'integer') ? $min : 1;
+
     $max = ($value['options']['max']) ?? 9;
+    $max = (gettype($max) == 'integer') ? $max : 9;
+
     $decimals = ($value['options']['decimals']) ?? 2;
-    if ($decimals > 15) {
+    $decimals = (gettype($decimals) == 'integer') ? $decimals : 2;
+
+    if ($decimals >= 15) {
         $decimals = 15;
     }
+
     $round = ($value['options']['round']) ?? false;
+    $round = (gettype($round) == 'boolean') ? $round : false;
 
     $scale = 10 ** $decimals;
     $randomFloat = $min + (rand() / getrandmax()) * ($max - $min);
@@ -253,18 +284,32 @@ function generateFloating($value)
 function generateMoney($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 1;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 1;
+
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
 
     $min = ($value['options']['min']) ?? 1;
+    $min = (gettype($min) == 'integer') ? $min : 1;
+
     $max = ($value['options']['max']) ?? 9;
+    $max = (gettype($max) == 'integer') ? $max : 9;
+
     $decimals = ($value['options']['decimals']) ?? 2;
+    $decimals = (gettype($decimals) == 'integer') ? $decimals : 2;
+
     $prefix = ($value['options']['prefix']) ?? '';
-    $separator = ($value['options']['separator']) ?? '';
-    $thousand = ($value['options']['thousand']) ?? '';
+    $prefix = (gettype($prefix) != 'string') ? '' : $prefix;
+
+    $separator = (preg_replace("/[a-zA-Z0-9]/", "", $value['options']['separator'])) ?? '';
+    $separator = (gettype($separator) != 'string') ? '' : $separator;
+
+    $thousand = (preg_replace("/[a-zA-Z0-9]/", "", $value['options']['thousand'])) ?? '';
+    $thousand = (gettype($thousand) != 'string') ? '' : $thousand;
 
     $scale = 10 ** $decimals;
     $randomFloat = $min + (rand() / getrandmax()) * ($max - $min);
@@ -378,13 +423,18 @@ function generatePhone($value)
 
 function selectCustom($value)
 {
-    return $value['data'][rand(1, count($value['data']))];
+    $rand = rand(1, count($value['data']));
+    return (isset($value['data'][$rand]) ? $value['data'][$rand] : '');
 }
 
 function selectGender($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
+
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
+
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;

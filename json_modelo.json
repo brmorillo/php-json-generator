@@ -25,7 +25,8 @@
                     "boolean()": {
                         "options": {
                             "falsePercentage": 80,
-                            "nullPercentage": 10
+                            "nullPercentage": 10,
+                            "deniReturn": false
                         }
                     }
                 },
@@ -45,15 +46,16 @@
                 },
                 "floating": {
                     "floating()": {
-                        "min": 100,
-                        "max": 4000,
-                        "decimals": 2,
-                        "falsePercentage": 0,
-                        "nullPercentage": 0,
-                        "round": false
+                        "options": {
+                            "min": 100,
+                            "max": 4000,
+                            "decimals": 2,
+                            "falsePercentage": 0,
+                            "nullPercentage": 0,
+                            "round": false
+                        }
                     }
                 },
-                "picture": "http://placehold.it/32x32",
                 "integer": {
                     "integer()": {
                         "options": {

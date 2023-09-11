@@ -184,7 +184,7 @@ Será gerado 2 arrays com guid aleatório.
 #### **StateSelected**
 Gera um estado aleatório de acordo com o país enviado. ***stateSelected()***.
 #### **Integer**
-Gera um número inteiro aleatório, podendo ser nulo ou falso. ***integer()***.
+Gera um número inteiro aleatório, podendo ser nulo ou falso. Caso o valor mínimo seja maior que o máximo, o minimo é definido igual ao máximo. ***integer()***.
 #### **objectId**
 Gera um ID aleatório, como um hash que pode identificar um objeto. ***objectId()***
 #### **boolean**
