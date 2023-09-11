@@ -208,7 +208,8 @@
                                     "boolean()": {
                                         "options": {
                                             "falsePercentage": 10,
-                                            "nullPercentage": 10
+                                            "nullPercentage": 10,
+                                            "deniReturn": false
                                         }
                                     }
                                 },

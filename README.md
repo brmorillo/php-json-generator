@@ -22,6 +22,19 @@ Passo a passo para finalizar o projeto
     - [Dados com opções](#dados-com-opções)
       - [**StateSelected**](#stateselected)
       - [**Integer**](#integer)
+      - [**objectId**](#objectid)
+      - [**boolean**](#boolean)
+      - [**floating**](#floating)
+      - [**money**](#money)
+      - [**custom**](#custom)
+      - [**gender**](#gender)
+      - [**company**](#company)
+      - [**phone**](#phone)
+      - [**stateSelected**](#stateselected-1)
+      - [**lorem**](#lorem)
+      - [**latitude**](#latitude)
+      - [**longitude**](#longitude)
+      - [**date**](#date)
       - [**JSON Exemplo**:](#json-exemplo-1)
   - [Avançado - Geração aninhada.](#avançado---geração-aninhada)
   - [Contribuição](#contribuição)
@@ -172,6 +185,32 @@ Será gerado 2 arrays com guid aleatório.
 Gera um estado aleatório de acordo com o país enviado. ***stateSelected()***.
 #### **Integer**
 Gera um número inteiro aleatório, entre os valores passados, podendo ser nulo ou falso o retorno. ***integer()***.
+#### **objectId**
+Gera um ID aleatório, como um hash que pode identificar um objeto.
+#### **boolean**
+Gera um resultado boolean, pode também retornar nulo ou aumentar a probabilidade de false ou negar o false para ser true.
+#### **floating**
+A
+#### **money**
+A
+#### **custom**
+A
+#### **gender**
+A
+#### **company**
+A
+#### **phone**
+A
+#### **stateSelected**
+A
+#### **lorem**
+A
+#### **latitude**
+A
+#### **longitude**
+A
+#### **date**
+A
 #### **JSON Exemplo**:
 ```JSON
 [

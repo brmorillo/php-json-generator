@@ -215,12 +215,13 @@ function generateBoolean($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $deniReturn = ($value['options']['deniReturn']) ?? false;
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
 
-    return rand(0, 1) === 1;
+    return ($deniReturn) ? !(rand(0, 1) === 1) : (rand(0, 1) === 1);
 }
 
 function generateFloating($value)
