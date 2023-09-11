@@ -336,16 +336,24 @@ Retorna uma data dentro do período específicado no formato específicado. <a h
 
 
 ## Avançado - Geração aninhada.
+É também possível utilizar algumas funções dentro de outras, como neste exemplo, utilizando o integer() para gerar um valor aleatório para o objectId().
 ```JSON
 [
     {
-        "stateSelected": {
-            "stateSelected()": {
+        "objectId": {
+            "objectId()": {
                 "options": {
-                    "country": 1
+                    "length": {
+                        "integer()": {
+                            "options": {
+                                "min": 0,
+                                "max": 10
+                            }
+                        }
+                    }
                 }
             }
-        }
+        },
     }
 ]
 ```
