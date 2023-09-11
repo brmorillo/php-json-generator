@@ -210,7 +210,8 @@ Retorna um float entre -90.000001 e 90. ******
 #### **longitude**
 Retorna um float entre -180.000001 e 180. ******
 #### **date**
-Retorna uma data dentro do período específicado no formato específicado. <a href="https://www.php.net/manual/en/function.date">***date()***</a>
+Retorna uma data dentro do período específicado no formato específicado. <a href="https://www.php.net/manual/en/function.date">***date()***</a> <a href="https://rmorillo.notion.site/date-d674b7cf6a38490f912baba3f631f03e?pvs=4">***Veja mais***</a>
+
 #### **JSON Exemplo**:
 ```JSON
 [
@@ -332,8 +333,6 @@ Retorna uma data dentro do período específicado no formato específicado. <a h
     }
 ]
 ```
-
-
 
 ## **Avançado - Geração aninhada.**
 É também possível utilizar algumas funções dentro de outras, como neste exemplo, utilizando o integer() para gerar um valor aleatório para o objectId().
