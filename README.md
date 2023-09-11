@@ -193,67 +193,101 @@ Gera um número inteiro aleatório, entre os valores passados, podendo ser nulo 
         },
         "objectId": {
             "options": {
-                "": ""
+                "length": 5
             }
         },
         "boolean": {
             "options": {
-                "": ""
+                "falsePercentage": 0,
+                "nullPercentage": 0
             }
         },
         "floating": {
-            "options": {
-                "": ""
-            }
+            "min": 100,
+            "max": 4000,
+            "decimals": 2,
+            "falsePercentage": 0,
+            "nullPercentage": 0,
+            "round": false
         },
         "money": {
             "options": {
-                "": ""
+                "falsePercentage": 0,
+                "nullPercentage": 0,
+                "min": 100,
+                "max": 4000,
+                "decimals": 2,
+                "thousand": ".",
+                "separator": ",",
+                "prefix": "R$"
             }
         },
         "custom": {
-            "options": {
-                "": ""
+            "data": {
+                "1": "Red",
+                "2": "Green",
+                "3": "Blue"
             }
         },
         "gender": {
-            "options": {
-                "": ""
+            "data": {
+                "1": "Male",
+                "2": "Femeale",
+                "3": "Others"
             }
         },
         "company": {
             "options": {
-                "": ""
+                "type": "toUpperCase" /* toUpperCase, toLowerCase, capitalize, camelCase, slugify */
             }
         },
         "phone": {
             "options": {
-                "": ""
+                "ddiLength": 2,
+                "dddLength": 2,
+                "phoneLength": 9,
+                "plus": true,
+                "spaceAfterPlus": true,
+                "parentheses": true,
+                "spaceAfterParentheses": true,
+                "dash": true,
+                "dashBefore": 4,
+                "spaceAroundDash": false
+            },
+            "data": {
+                "ddi": null,
+                "ddd": null,
+                "phoneNumber": null
             }
         },
         "stateSelected": {
             "options": {
-                "": ""
+                "country": 3
             }
         },
         "lorem": {
             "options": {
-                "": ""
+                "length": 1,
+                "type": "words" /* words, sentenses, paragraphs */
             }
         },
         "latitude": {
             "options": {
-                "": ""
+                "min": "-90.000001",
+                "max": "90"
             }
         },
         "longitude": {
             "options": {
-                "": ""
+                "min": "-180.000001",
+                "max": "180"
             }
         },
         "date": {
             "options": {
-                "": ""
+                "min": "2023-09-01 00:00:00",
+                "max": "2023-09-10 00:00:00",
+                "format": "'Y-m-d H:i:s"
             }
         }
     }

@@ -88,11 +88,7 @@
                 "company": {
                     "company()": {
                         "options": {
-                            "toUpperCase()": true,
-                            "toLowerCase()": false,
-                            "capitalize()": false,
-                            "camelCase()": false,
-                            "slugify()": false
+                            "type": "toUpperCase"
                         }
                     }
                 },
@@ -143,8 +139,8 @@
                 "data": {
                     "date()": {
                         "options": {
-                            "min": "2023-09-01T00:00:00Z",
-                            "max": "2023-09-10T00:00:00Z",
+                            "min": "2023-09-01 00:00:00",
+                            "max": "2023-09-10 00:00:00",
                             "format": "'Y-m-d H:i:s"
                         }
                     }
