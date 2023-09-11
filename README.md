@@ -184,13 +184,13 @@ Será gerado 2 arrays com guid aleatório.
 #### **StateSelected**
 Gera um estado aleatório de acordo com o país enviado. ***stateSelected()***.
 #### **Integer**
-Gera um número inteiro aleatório, entre os valores passados, podendo ser nulo ou falso o retorno. ***integer()***.
+Gera um número inteiro aleatório, podendo ser nulo ou falso. ***integer()***.
 #### **objectId**
-Gera um ID aleatório, como um hash que pode identificar um objeto.
+Gera um ID aleatório, como um hash que pode identificar um objeto. ***objectId()***
 #### **boolean**
-Gera um resultado boolean, pode também retornar nulo ou aumentar a probabilidade de false ou negar o false para ser true.
+Gera um resultado boolean, pode também retornar nulo, aumentar a probabilidade de false ou negar o false para ser true, utilizando como "truePercentage". ***boolean()***
 #### **floating**
-A
+Gera um resultado aleatório com ponto flutuante. Podendo ser nulo ou falso. ***floating()***
 #### **money**
 A
 #### **custom**
