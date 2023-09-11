@@ -201,7 +201,6 @@ Retorna um dos gêneros fornecidos de forma aleatória, caso nenhum seja forneci
 Retorna o nome de uma empresa fictícia aleatória. Podendo variar a string de retorno entre os tipos: toUpperCase, toLowerCase, capitalize, camelCase, slugify. ***company()***
 #### **phone**
 Retorna um número de telefone aleatório, podendo ser formatado de acordo com a localidade. Podem ser passados parâmetros para personalizar o telefone. ***phone()***
-
 1. options
    - ddiLength: int
    - dddLength: int
