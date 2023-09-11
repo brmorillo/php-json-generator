@@ -1,25 +1,25 @@
-# PHP Json Generator
+# **PHP Json Generator**
 Um gerador de JSON feito em PHP.
 
-## Descrição
+## **Descrição**
 O PHP Json Generator é uma biblioteca desenvolvida para gerar dados aleatórios em diversos formatos, tais como números inteiros e de ponto flutuante, nomes, endereços, textos "Lorem Ipsum", coordenadas geográficas e datas. Ideal para cenários de testes, mock-ups de dados, entre outros.
 Passo a passo para finalizar o projeto
 
-## Índice
-- [PHP Json Generator](#php-json-generator)
-  - [Descrição](#descrição)
-  - [Índice](#índice)
-  - [Requisitos](#requisitos)
-  - [Instalação](#instalação)
-  - [Uso Basico](#uso-basico)
-  - [Exemplo de Uso](#exemplo-de-uso)
-  - [Funções de Geração de Dados](#funções-de-geração-de-dados)
-    - [repeat()](#repeat)
-      - [Exemplo](#exemplo)
-    - [Dados sem opções](#dados-sem-opções)
-      - [JSON Exemplo:](#json-exemplo)
-      - [JSON Formatado:](#json-formatado)
-    - [Dados com opções](#dados-com-opções)
+## **Índice**
+- [**PHP Json Generator**](#php-json-generator)
+  - [**Descrição**](#descrição)
+  - [**Índice**](#índice)
+  - [**Requisitos**](#requisitos)
+  - [**Instalação**](#instalação)
+  - [**Uso Basico**](#uso-basico)
+  - [**Exemplo de Uso**](#exemplo-de-uso)
+  - [**Funções de Geração de Dados**](#funções-de-geração-de-dados)
+    - [**repeat()**](#repeat)
+      - [**Exemplo**](#exemplo)
+    - [**Dados sem opções**](#dados-sem-opções)
+      - [**JSON Exemplo:**](#json-exemplo)
+      - [**JSON Formatado:**](#json-formatado)
+    - [**Dados com opções**](#dados-com-opções)
       - [**StateSelected**](#stateselected)
       - [**Integer**](#integer)
       - [**objectId**](#objectid)
@@ -39,17 +39,17 @@ Passo a passo para finalizar o projeto
   - [Avançado - Geração aninhada.](#avançado---geração-aninhada)
   - [Contribuição](#contribuição)
 
-## Requisitos
+## **Requisitos**
 PHP 8.x ou superior
 
-## Instalação
+## **Instalação**
 Para instalar a biblioteca, você pode utilizar o Composer:
 ```
 composer require php-json-generator
 ```
 Ou você pode incluir manualmente o arquivo em seu projeto.
 
-## Uso Basico
+## **Uso Basico**
 Para usar o PHP Json Generator, você pode enviar um JSON com configurações para o backend. Abaixo está um exemplo de como o JSON deve ser formatado para gerar diferentes tipos de dados aleatórios:
 ```JSON
 [
@@ -75,7 +75,7 @@ Para usar o PHP Json Generator, você pode enviar um JSON com configurações pa
 ]
 ```
 
-## Exemplo de Uso
+## **Exemplo de Uso**
 ```PHP
 use PhpJsonGenerator\PhpJsonGenerator;
 
@@ -85,15 +85,15 @@ $generator = new PhpJsonGenerator($jsonConfig);
 $result = $generator->generate();
 ```
 
-## Funções de Geração de Dados
+## **Funções de Geração de Dados**
 Existem 3 tipos gerais de dados a serem gerados.
 - repeat().
 - Dados sem opções.
 - Dados com opções.
 
-### repeat()
+### **repeat()**
 Repete X vezes os valores que estiverem dentro de data.
-#### Exemplo
+#### **Exemplo**
 ```JSON
 [
     {
@@ -112,7 +112,7 @@ Repete X vezes os valores que estiverem dentro de data.
 ```
 Será gerado 2 arrays com guid aleatório.
 
-###  Dados sem opções
+### **Dados sem opções**
 - index() - Gera um índice por nível do array, como uma lista ordenada.
 - fullName() - Gera um nome completo, com nome e sobrenome.
 - firstName() - Gera um nome aleatório.
@@ -127,7 +127,7 @@ Será gerado 2 arrays com guid aleatório.
 - country() - Gera o nome de um país aleatório.
 - state() - Gera o nome de um estado aleatório [Pode ser utilizado definindo-se o país também](#stateselected).
 
-#### JSON Exemplo:
+#### **JSON Exemplo:**
 ```JSON
 [
     {
@@ -153,7 +153,7 @@ Será gerado 2 arrays com guid aleatório.
 ]
 ```
 
-#### JSON Formatado:
+#### **JSON Formatado:**
 ```JSON
 [
     {
@@ -179,7 +179,7 @@ Será gerado 2 arrays com guid aleatório.
 ]
 ```
 
-###  Dados com opções
+###  **Dados com opções**
 
 #### **StateSelected**
 Gera um estado aleatório de acordo com o país enviado. ***stateSelected()***.
