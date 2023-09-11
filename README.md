@@ -200,7 +200,23 @@ Retorna um dos gêneros fornecidos de forma aleatória, caso nenhum seja forneci
 #### **company**
 Retorna o nome de uma empresa fictícia aleatória. Podendo variar a string de retorno entre os tipos: toUpperCase, toLowerCase, capitalize, camelCase, slugify. ***company()***
 #### **phone**
-Retorna um número de telefone aleatório, podendo ser formatado de acordo com a localidade. ***phone()***
+Retorna um número de telefone aleatório, podendo ser formatado de acordo com a localidade. Podem ser passados parâmetros para personalizar o telefone. ***phone()***
+
+1. options
+   - ddiLength: int
+   - dddLength: int
+   - phoneLength: int
+   - plus: bool
+   - spaceAfterPlus: bool
+   - parentheses: bool
+   - spaceAfterParentheses: bool
+   - dash: bool
+   - dashBefore: int
+   - spaceAroundDash: bool
+1. data
+    - ddi: string
+    - ddd: string
+    - phoneNumber: string
 #### **stateSelected**
 Retorna um estado selecionado, diferente do state sem opções que vem um estado aleatório, este é possível específicar o país. ***stateSelected()***
 1. Brasil
