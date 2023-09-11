@@ -1,6 +1,8 @@
 <?php
 require_once 'src\JsonProcessor.php';
 
+use Rmorillo\PhpJsonGenerator\JsonProcessor;
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");

@@ -1,5 +1,10 @@
 <?php
+
 namespace Rmorillo\PhpJsonGenerator;
+
+use DateTime;
+use DateTimeZone;
+
 
 class JsonProcessor
 {
