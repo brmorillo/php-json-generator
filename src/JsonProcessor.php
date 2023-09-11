@@ -1,4 +1,5 @@
 <?php
+namespace Rmorillo\PhpJsonGenerator;
 
 class JsonProcessor
 {
