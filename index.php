@@ -112,6 +112,26 @@ function replaceOthers($jsonAtual)
                 } elseif (isset($value['date()'])) {
                     $value = generateDate($value['date()']);
                 }
+                //TODO: Adicionar index() e substiuit a chave não o valor. Ex: Ao gerar um lorem dentro de um repeat().
+                /**
+                 * "tags": {
+                    "repeat()": {
+                        "options": {
+                            "qtd": 3
+                        },
+                        "data": {
+                            "index()": {
+                                "lorem()": {
+                                    "options": {
+                                        "length": 1,
+                                        "type": "paragraphs"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                 */
                 //Caso seja um array chama o foreach de forma recursiva para explorar o valor.
                 $jsonAtual[$key] = replaceOthers($value);
             } else {
@@ -249,18 +269,20 @@ function generateFloating($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
     $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
+
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
     $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
+
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
 
     $min = ($value['options']['min']) ?? 1;
-    $min = (gettype($min) == 'integer') ? $min : 1;
+    $min = (gettype($min) == 'integer' || gettype($min) == 'float') ? $min : 1;
 
     $max = ($value['options']['max']) ?? 9;
-    $max = (gettype($max) == 'integer') ? $max : 9;
+    $max = (gettype($max) == 'integer' || gettype($max) == 'float') ? $max : 9;
 
     $decimals = ($value['options']['decimals']) ?? 2;
     $decimals = (gettype($decimals) == 'integer') ? $decimals : 2;
@@ -705,8 +727,9 @@ function generateAddress()
 
 function generateLorem($value)
 {
+    //TODO: Adicionar alterações de texto igual de company() a todas funções que retornam texto.
     $length = ($value['options']['length']) ? $value['options']['length'] : 1;
-    $length = (gettype($length) != 'integer') ? 1 : $length;
+    $length = (gettype($length) != 'integer' || $length < 1) ? 1 : $length;
 
     $type = ($value['options']['type']) ? $value['options']['type'] : 1;
     $type = ($value['options']['type']) ? $value['options']['type'] : 1;
@@ -751,15 +774,31 @@ function generateLoremParagraph($lorem, $length = 1)
 
 function generateLatitude($value)
 {
-    $min = ($value['options']['min']) ? $value['options']['min'] : -90.000001;
-    $max = ($value['options']['max']) ? $value['options']['max'] : 90;
+    //TODO: BUG: Apenas gerando numeros positivos.
+    $minLatitude = -90.000001;
+    $maxLatitude = 90.0;
+    $min = ($value['options']['min']) ? $value['options']['min'] : $minLatitude;
+    $min = (gettype($min) != 'float' || $min < $minLatitude) ? $minLatitude : $value['options']['min'];
+
+    $max = ($value['options']['max']) ? $value['options']['max'] : $maxLatitude;
+    $max = (gettype($max) != 'float' || $max > $maxLatitude) ? $maxLatitude : $max;
+    $min = ($min > $max) ? $max : $min;
+
     return generateFloating(['options' => ['min' => $min, 'max' => $max]]);
 }
 
 function generateLongitude($value)
 {
-    $min = ($value['options']['min']) ? $value['options']['min'] : -180.000001;
-    $max = ($value['options']['max']) ? $value['options']['max'] : 180;
+    //TODO: BUG: Apenas gerando numeros positivos.
+    $minLongitude = -180.000001;
+    $maxLongitude = 180.0;
+    $min = ($value['options']['min']) ? $value['options']['min'] : $minLongitude;
+    $min = (gettype($min) != 'float' || $min < $minLongitude) ? -90.000001 : $value['options']['min'];
+
+    $max = ($value['options']['max']) ? $value['options']['max'] : 90;
+    $max = (gettype($max) != 'float' || $max > $maxLongitude) ? 90 : $max;
+    $min = ($min > $max) ? $max : $min;
+
     return generateFloating(['options' => ['min' => $min, 'max' => $max]]);
 }
 

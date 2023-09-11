@@ -134,7 +134,7 @@
                     "lorem()": {
                         "options": {
                             "length": 1,
-                            "type": "paragraphs"
+                            "type": "words"
                         }
                     }
                 },
@@ -143,7 +143,7 @@
                         "options": {
                             "min": "2023-09-01 00:00:00",
                             "max": "2023-09-10 00:00:00",
-                            "format": "'Y-m-d H:i:s"
+                            "format": "Y-m-d H:i:s"
                         }
                     }
                 },
