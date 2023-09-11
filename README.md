@@ -36,8 +36,8 @@ Passo a passo para finalizar o projeto
       - [**longitude**](#longitude)
       - [**date**](#date)
       - [**JSON Exemplo**:](#json-exemplo-1)
-  - [Avançado - Geração aninhada.](#avançado---geração-aninhada)
-  - [Contribuição](#contribuição)
+  - [**Avançado - Geração aninhada.**](#avançado---geração-aninhada)
+  - [**Contribuição**](#contribuição)
 
 ## **Requisitos**
 PHP 8.x ou superior
@@ -335,7 +335,7 @@ Retorna uma data dentro do período específicado no formato específicado. <a h
 
 
 
-## Avançado - Geração aninhada.
+## **Avançado - Geração aninhada.**
 É também possível utilizar algumas funções dentro de outras, como neste exemplo, utilizando o integer() para gerar um valor aleatório para o objectId().
 ```JSON
 [
@@ -358,5 +358,5 @@ Retorna uma data dentro do período específicado no formato específicado. <a h
 ]
 ```
 
-## Contribuição
+## **Contribuição**
 Se você tem interesse em contribuir para o projeto, veja as orientações sobre como fazer isso.
