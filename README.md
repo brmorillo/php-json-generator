@@ -91,7 +91,7 @@ Repete X vezes os valores que estiverem dentro de data.
             "data": {
                 "guid": "guid()",
                 "indice": "index()",
-                //ETC.
+                /* ... outros campos ... */
             }
         }
     }
