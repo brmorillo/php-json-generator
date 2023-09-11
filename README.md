@@ -10,9 +10,9 @@ Passo a passo para finalizar o projeto
   - [**Descrição**](#descrição)
   - [**Índice**](#índice)
   - [**Requisitos**](#requisitos)
-  - [**Instalação** (Ainda não funcional)](#instalação-ainda-não-funcional)
+  - [**Instalação**](#instalação)
   - [**Uso Basico**](#uso-basico)
-  - [**Exemplo de Uso**](#exemplo-de-uso)
+    - [**Exemplo de Uso**](#exemplo-de-uso)
   - [**Funções de Geração de Dados**](#funções-de-geração-de-dados)
     - [**repeat()**](#repeat)
       - [**Exemplo**](#exemplo)
@@ -42,10 +42,10 @@ Passo a passo para finalizar o projeto
 ## **Requisitos**
 PHP 8.x ou superior
 
-## **Instalação** (Ainda não funcional)
+## **Instalação**
 Para instalar a biblioteca, você pode utilizar o Composer:
 ```
-composer require php-json-generator
+composer require rmorillo/json-generator:dev-main
 ```
 Ou você pode incluir manualmente o arquivo em seu projeto.
 
@@ -75,14 +75,19 @@ Para usar o PHP Json Generator, você pode enviar um JSON com configurações pa
 ]
 ```
 
-## **Exemplo de Uso**
+### **Exemplo de Uso**
 ```PHP
-use PhpJsonGenerator\PhpJsonGenerator;
+<?php
 
-$jsonConfig = '[{"repeat()": {"options": {"qtd": 1}, "data": {"objectId": {"objectId()": {"options": {"length": {"integer()": {"options": {"min": "0", "max": "4"}}}}}}}, "index1": "index()", "guid": "guid()"}}]';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$generator = new PhpJsonGenerator($jsonConfig);
-$result = $generator->generate();
+use Rmorillo\JsonGenerator\JsonProcessor; // Substitua pelo namespace e nome da classe corretos
+
+// Agora você pode instanciar e usar a classe
+$jsonOriginal = '[{"repeat()": {"options": {"qtd": 1}, "data": {"objectId": {"objectId()": {"options": {"length": {"integer()": {"options": {"min": "0", "max": "4"}}}}}}}, "index1": "index()", "guid": "guid()"}}]';
+$processor = new JsonProcessor($jsonOriginal);
+$processor->process();
+?>
 ```
 
 ## **Funções de Geração de Dados**
