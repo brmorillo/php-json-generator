@@ -203,6 +203,14 @@ Retorna o nome de uma empresa fictícia aleatória. Podendo variar a string de r
 Retorna um número de telefone aleatório, podendo ser formatado de acordo com a localidade. ******
 #### **stateSelected**
 Retorna um estado selecionado, diferente do state sem opções que vem um estado aleatório, este é possível específicar o país. ******
+1. Brasil
+2. EUA
+3. Canada
+4. Russia
+5. China
+6. Australia
+7. India
+8. Argentina
 #### **lorem**
 Retorna um texto LoremIpsum aleatório, podendo especificar a quantidade e variar entre os tipos: words, sentenses, paragraphs. ******
 #### **latitude**
