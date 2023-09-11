@@ -323,44 +323,73 @@ function generateMoney($value)
 function generatePhone($value)
 {
     $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
+    $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
+
     $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
+    $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
+
     $falseOrNull = falseOrNull($falsePercentage, $nullPercentage);
     if (!$falseOrNull) {
         return $falseOrNull;
     }
 
     $ddi = ($value['data']['ddi']) ?? false;
+    $ddi = (gettype($ddi) == 'string') ? $ddi : false;
+
     $ddd = ($value['data']['ddd']) ?? false;
+    $ddd = (gettype($ddd) == 'string') ? $ddd : false;
+
     $phoneNumber = ($value['data']['phoneNumber']) ?? false;
+    $phoneNumber = (gettype($phoneNumber) == 'string') ? $phoneNumber : false;
 
     $ddiLength = ($value['options']['ddiLength']) ?? 2;
+    $ddiLength = (gettype($ddiLength) == 'integer') ? $ddiLength : 2;
     //Define o máximo do DDI.
-    $ddiLength = ($ddiLength > 10) ? 9 : $ddiLength;
+    $ddiLength = ($ddiLength >= 10) ? 9 : $ddiLength;
     //Caso o DDI esteja abaixo do mínimo, define como 2.
-    $ddiLength = ($ddiLength != 0) ? $ddiLength : 2;
+    $ddiLength = ($ddiLength <= 0) ? 2 : $ddiLength;
 
     $dddLength = ($value['options']['dddLength']) ?? 2;
+    $dddLength = (gettype($dddLength) == 'integer') ? $dddLength : 2;
     //Define o máximo do DDD.
-    $dddLength = ($dddLength > 10) ? 9 : $dddLength;
+    $dddLength = ($dddLength >= 10) ? 9 : $dddLength;
     //Caso o DDD esteja abaixo do mínimo, define como 2.
-    $dddLength = ($dddLength != 0) ? $dddLength : 2;
+    $dddLength = ($dddLength <= 0) ? 2 : $dddLength;
 
     $plus = ($value['options']['plus']) ?? false;
+    $plus = (gettype($plus) == 'boolean') ? $plus : false;
+
     $spaceAfterPlus = ($value['options']['spaceAfterPlus']) ?? false;
+    $spaceAfterPlus = (gettype($spaceAfterPlus) == 'boolean') ? $spaceAfterPlus : false;
 
     $parentheses = ($value['options']['parentheses']) ?? false;
+    $parentheses = (gettype($parentheses) == 'boolean') ? $parentheses : false;
+
     $spaceAfterParentheses = ($value['options']['spaceAfterParentheses']) ?? false;
+    $spaceAfterParentheses = (gettype($spaceAfterParentheses) == 'boolean') ? $spaceAfterParentheses : false;
 
     $dash = ($value['options']['dash']) ?? false;
-    $dashBefore = ($value['options']['dashBefore']) ?? 4;
-    $dash = ($dashBefore == 0) ? false : $dash;
-    $spaceAroundDash = ($value['options']['spaceAroundDash']) ? ' - ' : '-';
+    $dash = (gettype($dash) == 'boolean') ? $dash : false;
 
-    $phoneLength = ($value['options']['phoneLength']) ?? 9;
-    //Define o máximo do número de telefone.
-    $phoneLength = ($phoneLength > 15) ? 15 : $phoneLength;
-    //Caso o número de telefone esteja abaixo do mínimo, define como 9.
-    $phoneLength = ($phoneLength < 1) ? 9 : $phoneLength;
+    $dashBefore = ($value['options']['dashBefore']) ?? 4;
+    $dashBefore = (gettype($dashBefore) == 'integer') ? $dashBefore : 4;
+
+    $spaceAroundDash = ($value['options']['spaceAroundDash']) ? ' - ' : '-';
+    $spaceAroundDash = (gettype($spaceAroundDash) == 'string') ? $spaceAroundDash : '';
+
+    //Caso não tenha sido definido o número de telefone, gera um número aleatório.
+    if (!$phoneNumber) {
+        $phoneLength = ($value['options']['phoneLength']) ?? 9;
+        $phoneLength = (gettype($phoneLength) == 'integer') ? $phoneLength : 9;
+        //Define o máximo do número de telefone.
+        $phoneLength = ($phoneLength >= 15) ? 15 : $phoneLength;
+        //Caso o número de telefone esteja abaixo do mínimo, define como 9.
+        $phoneLength = ($phoneLength < 1) ? 9 : $phoneLength;
+    } else {
+        $phoneLength = strlen($phoneNumber);
+    }
+
+    $dash = ($dashBefore <= 0 || $dashBefore >= $phoneLength) ? false : $dash;
 
     if (!$phoneNumber) {
         for ($i = 1; $i <= $phoneLength; $i++) {
@@ -375,12 +404,16 @@ function generatePhone($value)
             $phoneNumber = 9;
         }
 
-        $strLenPhoneNumber = strlen($phoneNumber);
         //Apenas adiciona o dash caso o número seja maior que o número de caracteres para se colocar o dash.
-        if ($dash && $strLenPhoneNumber > $dashBefore) {
-            $position = $strLenPhoneNumber - $dashBefore;
+        if ($dash && $phoneLength > $dashBefore) {
+            $position = $phoneLength - $dashBefore;
             $phoneNumber = substr($phoneNumber, 0, $position) . $spaceAroundDash . substr($phoneNumber, $position);
-            //$phoneNumber = substr_replace($phoneNumber, $usarSpaceAroundDash, $position, 0);
+        }
+    } else {
+        //Apenas adiciona o dash caso o número seja maior que o número de caracteres para se colocar o dash.
+        if ($phoneLength >= $dashBefore) {
+            $position = $phoneLength - $dashBefore;
+            $phoneNumber = substr($phoneNumber, 0, $position) . $spaceAroundDash . substr($phoneNumber, $position);
         }
     }
     if (!$ddd) {
@@ -399,6 +432,14 @@ function generatePhone($value)
             }
         }
         $phoneNumber = $ddd . $phoneNumber;
+    } else {
+        if ($parentheses) {
+            $ddd = '(' . $ddd . ')';
+        }
+        if ($spaceAfterParentheses) {
+            $ddd .= ' ';
+        }
+        $phoneNumber = $ddd . $phoneNumber;
     }
     if (!$ddi) {
         for ($i = 1; $i <= $ddiLength; $i++) {
@@ -409,6 +450,14 @@ function generatePhone($value)
                 ]
             ]);
         }
+        if ($plus) {
+            $ddi = '+' . $ddi;
+            if ($spaceAfterPlus) {
+                $ddi .= ' ';
+            }
+        }
+        $phoneNumber = $ddi . $phoneNumber;
+    } else {
         if ($plus) {
             $ddi = '+' . $ddi;
             if ($spaceAfterPlus) {
@@ -575,6 +624,8 @@ function generateCountry()
 
 function generateState($country = 1)
 {
+    $country = ($country <= 0 || gettype($country) != 'integer') ? rand(1, 8) : $country;
+
     if ($country == 1) {
         $estadosBrasil = [
             "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"
@@ -655,6 +706,9 @@ function generateAddress()
 function generateLorem($value)
 {
     $length = ($value['options']['length']) ? $value['options']['length'] : 1;
+    $length = (gettype($length) != 'integer') ? 1 : $length;
+
+    $type = ($value['options']['type']) ? $value['options']['type'] : 1;
     $type = ($value['options']['type']) ? $value['options']['type'] : 1;
 
     $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id fermentum ligula. Proin feugiat, nulla eget fermentum scelerisque, quam dui auctor sapien, quis luctus mi metus id sapien. Aenean consectetur libero a bibendum aliquet. Vivamus in libero a lorem facilisis tincidunt. Donec mattis eu libero sit amet blandit. Praesent varius rhoncus urna, eu iaculis nulla fermentum nec. Fusce tincidunt scelerisque ante id fermentum. Etiam finibus nec ipsum quis mattis. Sed interdum justo non augue cursus, non tincidunt libero facilisis. Sed eget semper sapien. Nulla facilisi. Sed vehicula facilisis malesuada. Phasellus dictum tincidunt dui, eu convallis ligula venenatis nec. Nullam ac nulla hendrerit, fermentum erat nec, egestas augue. Nulla facilisi. Vivamus iaculis non nunc in mattis. Sed luctus, ante quis fermentum viverra, erat erat tincidunt ex, quis fermentum nulla ligula ut mi. Integer ac nunc elit. Etiam fringilla quis nulla nec tempor. Curabitur bibendum, orci et sollicitudin tincidunt, nulla ligula elementum odio, id sodales purus libero id turpis. Sed sed metus vitae elit iaculis vehicula ut ac eros. Vestibulum vestibulum bibendum est, ut mattis sem viverra id. Vivamus porttitor blandit odio. Nullam nec felis non eros bibendum pharetra. Donec dictum, lectus in bibendum auctor, sapien erat dignissim ipsum, a sodales justo orci non nulla. Nullam feugiat elit sit amet nunc ullamcorper facilisis. Cras vel lacus odio. Nam gravida felis a odio sollicitudin tempus. In hac habitasse platea dictumst. Pellentesque facilisis odio ac sapien sodales feugiat. Pellentesque vestibulum turpis quis urna aliquam, vel vehicula elit pulvinar. Praesent bibendum, quam id dapibus feugiat, nisl urna mattis libero, eu tempus urna neque at sem. Morbi ullamcorper varius libero id vestibulum. Nunc suscipit mattis lorem, at suscipit lectus condimentum et. Fusce sit amet turpis ex. Ut at laoreet quam. Nullam ut purus massa. Maecenas quis nulla vel nulla fringilla sagittis eu a erat. Donec vitae diam luctus, gravida quam a, iaculis nulla. Aliquam erat volutpat. Integer quis nulla eget sem pharetra tincidunt. Fusce vel auctor odio, a tristique dolor. Etiam ultrices at dolor ut volutpat. Suspendisse euismod, enim in vestibulum pharetra, mi ante aliquet est, at scelerisque nisl velit quis odio. Nullam viverra tincidunt ex, vel vulputate turpis tincidunt nec. Nullam lacinia mi non purus tristique, id sagittis nulla sollicitudin. Quisque quis malesuada elit, nec facilisis purus. Nunc quis turpis eget enim lacinia bibendum. Aliquam eu sollicitudin metus, eget semper nulla. Praesent lacinia, tellus quis posuere euismod, elit sem porttitor lectus, ut viverra libero mi ut lorem. Nulla facilisi. Donec dignissim libero nec justo rhoncus, sit amet vestibulum nulla condimentum. Duis a velit mi. Nam a leo sem. Nullam ac nisi sed arcu fringilla facilisis nec a enim. Vivamus ullamcorper bibendum nunc. Integer semper, eros ut sollicitudin blandit, lorem ipsum varius turpis, a tristique nunc ante at arcu. Nam vehicula, enim a tincidunt egestas, nulla lectus aliquam sapien, sit amet dictum mauris turpis eu erat. Vestibulum eget iaculis urna, a vulputate odio. Proin dapibus nisl quis volutpat semper. Quisque malesuada eros a libero fringilla, id malesuada arcu blandit. Vivamus fermentum erat sit amet ligula aliquet, quis volutpat velit eleifend. Ut sodales massa ac urna tincidunt, quis tristique lorem varius. Sed blandit, neque id sodales dictum, odio mauris rhoncus dolor, nec rhoncus neque erat ut leo. Aliquam erat volutpat. Etiam a urna velit. Integer vestibulum ullamcorper nunc, non blandit quam condimentum ac. Suspendisse potenti. Vivamus consectetur a eros a vehicula. Aenean et libero ac enim tempus posuere id sit amet lectus. Fusce sollicitudin ipsum nec justo facilisis, vel interdum turpis cursus. Morbi sagittis libero ac elit efficitur pellentesque. Praesent eget vehicula turpis. Donec aliquet, mi non fermentum ultrices, metus metus accumsan leo, nec vulputate est turpis eu diam. Aenean vel lorem et erat vestibulum vulputate. Vestibulum eleifend hendrerit purus a cursus. Proin id auctor eros. Integer eget velit nec libero vestibulum venenatis. Cras id augue nec libero convallis venenatis. Integer a justo elit.';
