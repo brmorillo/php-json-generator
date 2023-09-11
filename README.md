@@ -200,9 +200,9 @@ Retorna um dos gêneros fornecidos de forma aleatória, caso nenhum seja forneci
 #### **company**
 Retorna o nome de uma empresa fictícia aleatória. Podendo variar a string de retorno entre os tipos: toUpperCase, toLowerCase, capitalize, camelCase, slugify. ***company()***
 #### **phone**
-Retorna um número de telefone aleatório, podendo ser formatado de acordo com a localidade. ******
+Retorna um número de telefone aleatório, podendo ser formatado de acordo com a localidade. ***phone()***
 #### **stateSelected**
-Retorna um estado selecionado, diferente do state sem opções que vem um estado aleatório, este é possível específicar o país. ******
+Retorna um estado selecionado, diferente do state sem opções que vem um estado aleatório, este é possível específicar o país. ***stateSelected()***
 1. Brasil
 2. EUA
 3. Canada
@@ -212,11 +212,11 @@ Retorna um estado selecionado, diferente do state sem opções que vem um estado
 7. India
 8. Argentina
 #### **lorem**
-Retorna um texto LoremIpsum aleatório, podendo especificar a quantidade e variar entre os tipos: words, sentenses, paragraphs. ******
+Retorna um texto LoremIpsum aleatório, podendo especificar a quantidade e variar entre os tipos: words, sentenses, paragraphs. ***lorem()***
 #### **latitude**
-Retorna um float entre -90.000001 e 90. ******
+Retorna um float entre -90.000001 e 90. ***latitude()***
 #### **longitude**
-Retorna um float entre -180.000001 e 180. ******
+Retorna um float entre -180.000001 e 180. ***longitude()***
 #### **date**
 Retorna uma data dentro do período específicado no formato específicado. <a href="https://www.php.net/manual/en/function.date">***date()***</a> <a href="https://rmorillo.notion.site/date-d674b7cf6a38490f912baba3f631f03e?pvs=4">***Veja mais***</a>
 
