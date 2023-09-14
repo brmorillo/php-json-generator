@@ -5,9 +5,10 @@ namespace Rmorillo\JsonGenerator;
 class hash
 {
     private string $guid, $objectId;
-    public function __construct()
+    public function __construct($length = 1)
     {
         $this->guid();
+        $this->objectId($length);
     }
 
     private function guid(): void
@@ -39,6 +40,13 @@ class hash
         }
         */
 
+        $this->objectId = $this->generateRandomHash($length);
+    }
+
+    private function generateRandomhash($length)
+    {
+        //Caso length não exista é definido como 1.
+        $length = ($length) ?? 1;
         //Caso o valor seja float, arredonda ele.
         $length = gettype($length) == 'float' ? round($length) : $length;
 
@@ -47,17 +55,10 @@ class hash
             $length = 1;
         }
 
-        $length = ($length) ?? 1;
         if ($length > 50) {
             $length = 50;
         }
 
-
-        $this->objectId = $this->generateRandomHash(round($length));
-    }
-
-    private function generateRandomhash($length)
-    {
         //return md5(uniqid(rand(), true));
         return bin2hex(random_bytes($length));
     }
