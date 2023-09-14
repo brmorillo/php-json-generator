@@ -32,7 +32,6 @@ class JsonProcessor
         return $this->replaceOthers($jsonRepeatReplaced[0]);
     }
 
-
     function replaceRepeat($jsonAtual)
     {
         $result = [];
@@ -64,24 +63,6 @@ class JsonProcessor
             $result[] = $this->replaceRepeat($data);
         }
         return $result;
-    }
-
-    function falseOrNull($falsePercentage, $nullPercentage)
-    {
-        $value = true;
-        if ($falsePercentage != 0 || $nullPercentage != 0) {
-            if ($falsePercentage) {
-                if (rand(1, 100) <= $falsePercentage) {
-                    $value = false;
-                }
-            }
-            if ($nullPercentage) {
-                if (rand(1, 100) <= $nullPercentage) {
-                    $value = null;
-                }
-            }
-        }
-        return $value;
     }
 
     function replaceOthers($jsonAtual)
@@ -181,33 +162,8 @@ class JsonProcessor
 
     function generateInteger($value)
     {
-        $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
-        $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
-
-        $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-        $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
-
-        $min = ($value['options']['min']) ?? 1;
-        $min = (gettype($min) == 'integer') ? $min : 1;
-
-        $max = ($value['options']['max']) ?? 9;
-        $max = (gettype($max) == 'integer') ? $max : 9;
-
-        $falseOrNull = $this->falseOrNull($falsePercentage, $nullPercentage);
-        if (!$falseOrNull) {
-            return $falseOrNull;
-        }
-
-        if ($min > $max) {
-            $min = $max;
-        }
-        return rand($min, $max);
-    }
-
-    function generateRandomHash($length = 1)
-    {
-        //return md5(uniqid(rand(), true));
-        return bin2hex(random_bytes($length));
+        $numbers = new Numbers();
+        return $numbers->getInteger($value['options']['min'], $value['options']['max'], $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
     }
 
     function generateGuid()
@@ -224,13 +180,14 @@ class JsonProcessor
 
     function generateBoolean($value)
     {
+        $util = new Util;
         $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
         $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 1;
         $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
         $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 1;
         $deniReturn = ($value['options']['deniReturn']) ?? false;
 
-        $falseOrNull = $this->falseOrNull($falsePercentage, $nullPercentage);
+        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             if ($deniReturn) {
                 $falseOrNull = !$falseOrNull;
@@ -247,13 +204,14 @@ class JsonProcessor
 
     function generateFloating($value)
     {
+        $util = new Util;
         $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
         $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
 
         $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
         $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
 
-        $falseOrNull = $this->falseOrNull($falsePercentage, $nullPercentage);
+        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             return $falseOrNull;
         }
@@ -285,12 +243,13 @@ class JsonProcessor
 
     function generateMoney($value)
     {
+        $util = new Util;
         $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
         $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 1;
         $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
         $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 1;
 
-        $falseOrNull = $this->falseOrNull($falsePercentage, $nullPercentage);
+        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             return $falseOrNull;
         }
@@ -324,13 +283,14 @@ class JsonProcessor
 
     function generatePhone($value)
     {
+        $util = new Util;
         $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
         $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
 
         $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
         $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
 
-        $falseOrNull = $this->falseOrNull($falsePercentage, $nullPercentage);
+        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             return $falseOrNull;
         }
@@ -480,13 +440,14 @@ class JsonProcessor
 
     function selectGender($value)
     {
+        $util = new Util;
         $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
         $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
 
         $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
         $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
 
-        $falseOrNull = $this->falseOrNull($falsePercentage, $nullPercentage);
+        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             return $falseOrNull;
         }
@@ -562,36 +523,32 @@ class JsonProcessor
 
     function generateLogradouro()
     {
-        $endereco = new Endereco();
+        $endereco = new Address();
         return $endereco->getLogradouro();
     }
 
     function generateStreet()
     {
-        $endereco = new Endereco();
+        $endereco = new Address();
         return $endereco->getStreet();
     }
 
     function generateNumber()
     {
-        //TODO: Adicionar A, B, C etc.
-        return $this->generateInteger(['options' => ['min' => 1, 'max' => 999999]]);
+        $numbers = new Numbers;
+        return $numbers->getInteger(1, 999999);
     }
 
     function generateBairro()
     {
-        $bairros = [
-            "Centro", "Jardim das Flores", "Vila Nova", "Bairro Alto", "São Francisco", "Morumbi", "Bela Vista", "Campos Elíseos", "Santa Tereza", "Copacabana", "Lapa", "Moema", "Liberdade", "Itaim Bibi", "Pinheiros", "Barra da Tijuca", "Vila Mariana", "Ipanema", "Santo Amaro", "Vila Madalena", "Botafogo", "Santana", "Tijuca", "Campo Belo", "Campo Grande", "São João", "Alto da Lapa", "Vila Olímpia", "Vila Leopoldina", "Cidade Jardim"
-        ];
-        return $bairros[rand(0, count($bairros) - 1)];
+        $endereco = new Address;
+        return $endereco->getBairro();
     }
 
     function generateCountry()
     {
-        $paises = [
-            "Rússia", "Canadá", "Estados Unidos", "China", "Brasil", "Austrália", "Índia", "Argentina"
-        ];
-        return $paises[rand(0, count($paises) - 1)];
+        $endereco = new Address;
+        return $endereco->getCountry();
     }
 
     function generateState($country = 1)
@@ -698,25 +655,28 @@ class JsonProcessor
 
     function generateLoremWords($lorem, $length = 1)
     {
+        $numbers = new Numbers;
         $palavras = explode(' ', $lorem);
-        $primeirasPalavras = array_slice($palavras, $this->generateInteger(['options' => ['min' => 1, 'max' => count($palavras)]]), $length);
+        $primeirasPalavras = array_slice($palavras, $numbers->getInteger(1, count($palavras)), $length);
         return ucfirst(strtolower(str_replace(',', '', str_replace('.', '', implode(' ', $primeirasPalavras)))));
     }
 
     function generateLoremSentense($lorem, $length = 1)
     {
+        $numbers = new Numbers;
         $palavras = explode('.', $lorem);
-        $primeirasPalavras = array_slice($palavras, $this->generateInteger(['options' => ['min' => 1, 'max' => count($palavras)]]), $length);
+        $primeirasPalavras = array_slice($palavras, $numbers->getInteger(1, count($palavras)), $length);
         return implode('.', $primeirasPalavras) . '.';
     }
 
     function generateLoremParagraph($lorem, $length = 1)
     {
+        $numbers = new Numbers;
         $primeirosParagrafos = [];
         $paragrafos = explode('.', $lorem);
         for ($i = 1; $i <= $length; $i++) {
             for ($j = 1; $j <= 4; $j++) {
-                $primeirosParagrafos = array_merge(array_slice($paragrafos, $this->generateInteger(['options' => ['min' => 1, 'max' => count($paragrafos)]]), $length), $primeirosParagrafos);
+                $primeirosParagrafos = array_merge(array_slice($paragrafos, $numbers->getInteger(1, count($paragrafos)), $length), $primeirosParagrafos);
             }
         }
         return implode('.', $primeirosParagrafos);

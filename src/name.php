@@ -6,6 +6,10 @@ class Name
 {
     private Util $util;
     private string $fullName, $firstName, $surName, $emailName, $emailDomain, $email;
+
+    /**
+     * @return void
+     */
     public function __construct()
     {
         $this->util = new Util();
@@ -17,6 +21,9 @@ class Name
         $this->email();
     }
 
+    /**
+     * @return void
+     */
     private function firstName(): void
     {
         $firstNameList = [
@@ -25,6 +32,9 @@ class Name
         $this->firstName = $this->util->selectItemOnArray($firstNameList);
     }
 
+    /**
+     * @return void
+     */
     private function surName(): void
     {
         $surNameList = [
@@ -33,16 +43,25 @@ class Name
         $this->surName = $this->util->selectItemOnArray($surNameList);
     }
 
+    /**
+     * @return void
+     */
     private function fullName(): void
     {
         $this->fullName = $this->getFirstName() . ' ' . $this->getSurName();
     }
 
+    /**
+     * @return void
+     */
     private function emailName(): void
     {
         $this->emailName = strtolower(str_replace(" ", ".", $this->getFullName()));
     }
 
+    /**
+     * @return void
+     */
     private function emailDomain(): void
     {
         $emailDomainList = [
@@ -72,37 +91,58 @@ class Name
         $this->emailDomain = $this->util->selectItemOnArray($emailDomainList);
     }
 
+    /**
+     * @return void
+     */
     private function email(): void
     {
         $this->email = $this->getEmailName() . '@' . $this->getEmailDomain();
     }
 
     //Get and Set methods.
+    /**
+     * @return string
+     */
     public function getFullName(): string
     {
         return $this->fullName;
     }
 
+    /**
+     * @return string
+     */
     public function getFirstName(): string
     {
         return $this->firstName;
     }
 
+    /**
+     * @return string
+     */
     public function getSurName(): string
     {
         return $this->surName;
     }
 
+    /**
+     * @return string
+     */
     public function getEmailName(): string
     {
         return $this->emailName;
     }
 
+    /**
+     * @return string
+     */
     public function getEmailDomain(): string
     {
         return $this->emailDomain;
     }
 
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;

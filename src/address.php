@@ -2,18 +2,27 @@
 
 namespace Rmorillo\JsonGenerator;
 
-class endereco
+class Address
 {
     private Util $util;
-    private $endereco, $logradouro, $street;
+    private $address, $logradouro, $street, $bairro, $country;
+
+    /**
+     * @return void
+     */
     public function __construct()
     {
         $this->util = new Util();
         $this->logradouro();
         $this->street();
-        $this->endereco();
+        $this->address();
+        $this->bairro();
+        $this->country();
     }
 
+    /**
+     * @return void
+     */
     private function logradouro(): void
     {
         $logradouroList = [
@@ -24,6 +33,9 @@ class endereco
         $this->logradouro = $this->util->selectItemOnArray($logradouroList);
     }
 
+    /**
+     * @return void
+     */
     private function street(): void
     {
         $street = [
@@ -32,24 +44,66 @@ class endereco
         $this->street = $this->util->selectItemOnArray($street);
     }
 
-    private function endereco(): void
+    /**
+     * @return void
+     */
+    private function address(): void
     {
-        $this->endereco = $this->logradouro . " ";
+        $this->address = $this->logradouro . '.' . ' a';
+    }
+
+    private function bairro(): void
+    {
+        $bairros = [
+            "Centro", "Jardim das Flores", "Vila Nova", "Bairro Alto", "São Francisco", "Morumbi", "Bela Vista", "Campos Elíseos", "Santa Tereza", "Copacabana", "Lapa", "Moema", "Liberdade", "Itaim Bibi", "Pinheiros", "Barra da Tijuca", "Vila Mariana", "Ipanema", "Santo Amaro", "Vila Madalena", "Botafogo", "Santana", "Tijuca", "Campo Belo", "Campo Grande", "São João", "Alto da Lapa", "Vila Olímpia", "Vila Leopoldina", "Cidade Jardim"
+        ];
+        $this->bairro = $this->util->selectItemOnArray($bairros);
+    }
+
+    private function country(): void
+    {
+        $country = [
+            "Rússia", "Canadá", "Estados Unidos", "China", "Brasil", "Austrália", "Índia", "Argentina"
+        ];
+        $this->country = $this->util->selectItemOnArray($country);
     }
 
     //Get and Set methods.
-    public function getStreet(): string
-    {
-        return $this->street;
-    }
-
+    /**
+     * @return string
+     */
     public function getLogradouro(): string
     {
         return $this->logradouro;
     }
 
-    public function getEndereco(): string
+    /**
+     * @return string
+     */
+    public function getStreet(): string
     {
-        return $this->endereco;
+        return $this->street;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress(): string
+    {
+        //TODO: Adicionar A, B, C etc ao número caso seja endereço completo.
+        return $this->address;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBairro(): string
+    {
+        return $this->bairro;
+    }
+
+    public function getCountry(): string
+    {
+        return $this->country;
     }
 }
