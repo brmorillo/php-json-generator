@@ -7,10 +7,22 @@ use DateTimeZone;
 
 class JsonProcessor
 {
-    private $jsonOriginal;
+    private array $jsonOriginal;
+    private Hash $hash;
+    private Util $util;
+    private Name $name;
+    private Numbers $numbers;
+    private Address $address;
+    private Lorem $lorem;
 
-    public function __construct($jsonOriginal)
+    public function __construct(array $jsonOriginal)
     {
+        $this->hash = new Hash();
+        $this->util = new Util();
+        $this->name = new Name();
+        $this->numbers = new Numbers();
+        $this->address = new Address();
+        $this->lorem = new Lorem();
         $this->jsonOriginal = $jsonOriginal;
     }
 
@@ -160,58 +172,35 @@ class JsonProcessor
         return $jsonAtual;
     }
 
-    function generateInteger($value)
+    function generateInteger(array $value)
     {
-        $numbers = new Numbers();
-        return $numbers->getInteger($value['options']['min'], $value['options']['max'], $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
+        return $this->numbers->getInteger($value['options']['min'], $value['options']['max'], $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
     }
 
     function generateGuid()
     {
-        $hash = new Hash();
-        return $hash->getGuid();
+        return $this->hash->getGuid();
     }
 
-    function generateObjectId($value)
+    function generateObjectId(array $length)
     {
-        $hash = new Hash();
-        return $hash->getObjectId($value);
+        return $this->hash->getObjectId($length['options']['length']);
     }
 
-    function generateBoolean($value)
+    function generateBoolean(array $value)
     {
-        $util = new Util;
-        $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
-        $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 1;
-        $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-        $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 1;
-        $deniReturn = ($value['options']['deniReturn']) ?? false;
-
-        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
-        if (!$falseOrNull) {
-            if ($deniReturn) {
-                $falseOrNull = !$falseOrNull;
-            }
-            return $falseOrNull;
-        }
-
-        $return = (rand(0, 1) === 1);
-        if ($deniReturn) {
-            $return = !$return;
-        }
-        return $return;
+        return $this->numbers->getBoolean($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['deniReturn'] ?? true);
     }
 
     function generateFloating($value)
     {
-        $util = new Util;
         $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
         $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
 
         $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
         $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
 
-        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
+        $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             return $falseOrNull;
         }
@@ -243,13 +232,12 @@ class JsonProcessor
 
     function generateMoney($value)
     {
-        $util = new Util;
         $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
         $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 1;
         $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
         $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 1;
 
-        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
+        $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             return $falseOrNull;
         }
@@ -283,14 +271,13 @@ class JsonProcessor
 
     function generatePhone($value)
     {
-        $util = new Util;
         $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
         $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
 
         $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
         $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
 
-        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
+        $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             return $falseOrNull;
         }
@@ -440,14 +427,13 @@ class JsonProcessor
 
     function selectGender($value)
     {
-        $util = new Util;
         $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
         $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
 
         $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
         $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
 
-        $falseOrNull = $util->falseOrNull($falsePercentage, $nullPercentage);
+        $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             return $falseOrNull;
         }
@@ -464,20 +450,17 @@ class JsonProcessor
 
     function generateFirstName()
     {
-        $name = new Name();
-        return $name->getFirstName();
+        return $this->name->getFirstName();
     }
 
     function generateSurName()
     {
-        $name = new Name();
-        return $name->getSurName();
+        return $this->name->getSurName();
     }
 
     function generateFullName()
     {
-        $name = new Name();
-        return $name->getFullName();
+        return $this->name->getFullName();
     }
 
     function generateCompany($value)
@@ -505,131 +488,52 @@ class JsonProcessor
 
     function generateEmailDomain()
     {
-        $name = new Name();
-        return $name->getEmailDomain();
+        return $this->name->getEmailDomain();
     }
 
     function generateEmailName()
     {
-        $name = new Name();
-        return $name->getEmail();
+        return $this->name->getEmail();
     }
 
     function generateEmail()
     {
-        $name = new Name();
-        return $name->getEmail();
+        return $this->name->getEmail();
     }
 
     function generateLogradouro()
     {
-        $endereco = new Address();
-        return $endereco->getLogradouro();
+        return $this->address->getLogradouro();
     }
 
     function generateStreet()
     {
-        $endereco = new Address();
-        return $endereco->getStreet();
+        return $this->address->getStreet();
     }
 
     function generateNumber()
     {
-        $numbers = new Numbers;
-        return $numbers->getInteger(1, 999999);
+        return $this->numbers->getInteger(1, 999999);
     }
 
     function generateBairro()
     {
-        $endereco = new Address;
-        return $endereco->getBairro();
+        return $this->address->getBairro();
     }
 
     function generateCountry()
     {
-        $endereco = new Address;
-        return $endereco->getCountry();
+        return $this->address->getCountry();
     }
 
-    function generateState($country = 1)
+    function generateState(int $country = 1)
     {
-        $country = ($country <= 0 || gettype($country) != 'integer') ? rand(1, 8) : $country;
-
-        if ($country == 1) {
-            $estadosBrasil = [
-                "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"
-            ];
-            $estado = $estadosBrasil;
-        }
-
-        if ($country == 2) {
-            $estadosEUA = [
-                "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
-            ];
-            $estado = $estadosEUA;
-        }
-
-        if ($country == 3) {
-            $provinciasTerritoriosCanada = [
-                "Alberta", "Colúmbia Britânica", "Ilha do Príncipe Eduardo", "Manitoba", "Nova Brunswick", "Nova Escócia", "Nunavut", "Ontário", "Quebec", "Saskatchewan", "Terra Nova e Labrador", "Territórios do Noroeste", "Yukon"
-            ];
-            $estado = $provinciasTerritoriosCanada;
-        }
-
-        if ($country == 4) {
-            $distritosFederaisRussia = [
-                "Distrito Federal Central", "Distrito Federal do Extremo Oriente", "Distrito Federal do Norte do Cáucaso", "Distrito Federal do Noroeste", "Distrito Federal do Volga", "Distrito Federal dos Urais", "Distrito Federal da Sibéria", "Distrito Federal do Sul"
-            ];
-            $estado = $distritosFederaisRussia;
-        }
-
-        if ($country == 5) {
-            $divisoesChina = [
-                "Anhui", "Pequim (Beijing)", "Chongqing", "Fujian", "Gansu", "Cantão (Guangdong)", "Guangxi", "Guizhou", "Hainan", "Hebei", "Heilongjiang", "Henan", "Hong Kong", "Hubei", "Hunan", "Jiangsu", "Jiangxi", "Jilin", "Liaoning", "Macau", "Xinjiang", "Ningxia", "Qinghai", "Shandong", "Xangai (Shanghai)", "Shanxi", "Sichuan", "Taiwan",  // Nota: Taiwan é considerada uma província da China pela RPC, mas é autogovernada e considera-se separada por muitos.
-                "Tibete", "Yunnan", "Zhejiang"
-            ];
-            $estado = $divisoesChina;
-        }
-
-        if ($country == 6) {
-            $estadosTerritoriosAustralia = [
-                "Nova Gales do Sul", "Queensland", "Austrália Meridional", "Tasmânia", "Victoria", "Austrália Ocidental", "Território do Norte", "Território da Capital Australiana"
-            ];
-            $estado = $estadosTerritoriosAustralia;
-        }
-
-        if ($country == 7) {
-            $estadosTerritoriosUniaoIndia = [
-                "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "Bengala Ocidental",
-                // Territórios da União
-                "Andaman e Nicobar", "Chandigarh", "Dadra e Nagar Haveli e Daman e Diu", "Lakshadweep", "Delhi", "Puducherry", "Ladakh", "Jammu e Caxemira"
-            ];
-            $estado = $estadosTerritoriosUniaoIndia;
-        }
-
-        if ($country == 8) {
-            $provinciasArgentina = [
-                "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Cidade Autônoma de Buenos Aires", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"
-            ];
-            $estado = $provinciasArgentina;
-        }
-
-        return $estado[rand(0, count($estado) - 1)];
+        return $this->address->getState($country);
     }
 
     function generateAddress()
     {
-        //TODO: Gerar estados apenas de seus países.
-        $address = '';
-        $address .= $this->generateLogradouro();
-        $address .= '. ' . $this->generateStreet();
-        $address .= ', ' . $this->generateNumber();
-        $address .= ' - ' . $this->generateBairro();
-        $address .= ', ' . $this->generateState();
-        $address .= ', ' . $this->generateCountry();
-        return $address;
-
-        //String final: "{$logradouro}. {$street}, {$number} - {$bairro}, {$state}, {$country}";
+        return $this->address->getAddress();
     }
 
     function generateLorem($value)

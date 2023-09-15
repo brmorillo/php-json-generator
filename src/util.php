@@ -47,15 +47,16 @@ class Util
 
     /**
      * @param mixed $valor
-     * @param mixed $tipoEsperado
+     * @param string $tipoEsperado
      * @param mixed $valorPadrao
      * @return void
      */
-    public function trataValor(&$valor, $tipoEsperado, $valorPadrao)
+    public function trataValor(&$valor, string $tipoEsperado, $valorPadrao): int
     {
         if ($tipoEsperado === 'integer') {
             $valor = $valor ?? $valorPadrao;
             $valor = gettype($valor) === 'float' ? round($valor) : $valor;
         }
+        return $valor;
     }
 }

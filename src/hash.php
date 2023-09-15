@@ -2,27 +2,23 @@
 
 namespace Rmorillo\JsonGenerator;
 
-use Exception;
-
-class hash
+class Hash
 {
-    private string $guid, $objectId;
+    private Util $util;
 
     /**
-     * @param int $length
      * @return void
      */
-    public function __construct(int $length = 1)
+    public function __construct()
     {
-        $this->guid();
-        $this->objectId($length);
+        $this->util = new Util();
     }
 
     /**
      * @param mixed $length
      * @return string
      */
-    private function generateRandomhash($length)
+    private function generateRandomhash($length): string
     {
         //Caso length não exista é definido como 1.
         $length = ($length) ?? 1;
@@ -43,14 +39,14 @@ class hash
     }
 
     /**
-     * @return void
+     * @return string
      */
-    private function guid(): void
+    private function guid(): string
     {
         if (function_exists('com_create_guid')) {
-            $this->guid = trim(com_create_guid(), '{}');
+            return trim(com_create_guid(), '{}');
         } else {
-            $this->guid = sprintf(
+            return sprintf(
                 '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
                 rand(0, 0xffff),
                 rand(0, 0xffff),
@@ -66,10 +62,11 @@ class hash
 
     /**
      * @param mixed $length
-     * @return void
+     * @return string
      */
-    private function objectId($length): void
+    private function objectId(int $length = 1): string
     {
+        $this->util->trataValor($length, 'integer', 1);
         /*
         * TODO: Chamar de forma recursiva deve ser implementado em outra User Story.
         if (is_array($length)) {
@@ -77,23 +74,23 @@ class hash
             $length = array_values($this->replaceOthers($value['options']))[0];
         }
         */
-        $this->objectId = $this->generateRandomHash($length);
+        return $this->generateRandomHash($length);
     }
 
     //Get and Set methods.
     /**
      * @return string
      */
-    public function getGuid()
+    public function getGuid(): string
     {
-        return $this->guid;
+        return $this->guid();
     }
 
     /**
      * @return string
      */
-    public function getObjectId()
+    public function getObjectId(int $length = 1): string
     {
-        return $this->objectId;
+        return $this->objectId($length);
     }
 }
