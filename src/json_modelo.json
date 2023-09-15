@@ -8,14 +8,7 @@
                 "objectId": {
                     "objectId()": {
                         "options": {
-                            "length": {
-                                "integer()": {
-                                    "options": {
-                                        "min": 0,
-                                        "max": 4
-                                    }
-                                }
-                            }
+                            "length": 5
                         }
                     }
                 },
@@ -30,7 +23,7 @@
                         }
                     }
                 },
-                "balance": {
+                "money": {
                     "money()": {
                         "options": {
                             "falsePercentage": 0,
@@ -189,14 +182,7 @@
                             "objectId": {
                                 "objectId()": {
                                     "options": {
-                                        "length": {
-                                            "integer()": {
-                                                "options": {
-                                                    "min": 0,
-                                                    "max": 4
-                                                }
-                                            }
-                                        }
+                                        "length": 5
                                     }
                                 }
                             },

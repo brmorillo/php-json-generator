@@ -174,7 +174,7 @@ class JsonProcessor
 
     function generateInteger(array $value)
     {
-        return $this->numbers->getInteger($value['options']['min'], $value['options']['max'], $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
+        return $this->numbers->getInteger($value['options']['min'] ?? 0, $value['options']['max'] ?? 0, $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
     }
 
     function generateGuid()
@@ -194,228 +194,34 @@ class JsonProcessor
 
     function generateFloating($value)
     {
-        $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
-        $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
-
-        $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-        $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
-
-        $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
-        if (!$falseOrNull) {
-            return $falseOrNull;
-        }
-
-        $min = ($value['options']['min']) ?? 1;
-        $min = (gettype($min) == 'integer' || gettype($min) == 'float') ? $min : 1;
-
-        $max = ($value['options']['max']) ?? 9;
-        $max = (gettype($max) == 'integer' || gettype($max) == 'float') ? $max : 9;
-
-        $decimals = ($value['options']['decimals']) ?? 2;
-        $decimals = (gettype($decimals) == 'integer') ? $decimals : 2;
-
-        if ($decimals >= 15) {
-            $decimals = 15;
-        }
-
-        $round = ($value['options']['round']) ?? false;
-        $round = (gettype($round) == 'boolean') ? $round : false;
-
-        $scale = 10 ** $decimals;
-        $randomFloat = $min + (rand() / getrandmax()) * ($max - $min);
-        $value = round($randomFloat * $scale) / $scale;
-        if ($round) {
-            $value = round($value);
-        }
-        return $value;
+        return $this->numbers->getFloat($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? 1, $value['options']['max'] ?? 9, $value['options']['decimals'] ?? 2, $value['options']['round'] ?? false);
     }
 
     function generateMoney($value)
     {
-        $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
-        $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 1;
-        $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-        $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 1;
-
-        $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
-        if (!$falseOrNull) {
-            return $falseOrNull;
-        }
-
-        $min = ($value['options']['min']) ?? 1;
-        $min = (gettype($min) == 'integer') ? $min : 1;
-
-        $max = ($value['options']['max']) ?? 9;
-        $max = (gettype($max) == 'integer') ? $max : 9;
-
-        $decimals = ($value['options']['decimals']) ?? 2;
-        $decimals = (gettype($decimals) == 'integer') ? $decimals : 2;
-
-        $prefix = ($value['options']['prefix']) ?? '';
-        $prefix = (gettype($prefix) != 'string') ? '' : $prefix;
-
-        $separator = (preg_replace("/[a-zA-Z0-9]/", "", $value['options']['separator'])) ?? '';
-        $separator = (gettype($separator) != 'string') ? '' : $separator;
-
-        $thousand = (preg_replace("/[a-zA-Z0-9]/", "", $value['options']['thousand'])) ?? '';
-        $thousand = (gettype($thousand) != 'string') ? '' : $thousand;
-
-        $scale = 10 ** $decimals;
-        $randomFloat = $min + (rand() / getrandmax()) * ($max - $min);
-        $randomFloat = round($randomFloat * $scale) / $scale;
-
-        $formattedFloat = number_format($randomFloat, $decimals, $separator, $thousand);
-
-        return $prefix . $formattedFloat;
+        //echo $value['options']['nullPercentage'] ?? 0;
+        return $this->numbers->getMoney($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? 1, $value['options']['max'] ?? 9, $value['options']['decimals'] ?? 2, $value['options']['round'] ?? false, $value['options']['prefix'] ?? 'R$ ', $value['options']['separator'] ?? '.', $value['options']['thousand'] ?? ',');
     }
 
     function generatePhone($value)
     {
-        $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
-        $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
-
-        $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-        $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
-
-        $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
-        if (!$falseOrNull) {
-            return $falseOrNull;
-        }
-
-        $ddi = ($value['data']['ddi']) ?? false;
-        $ddi = (gettype($ddi) == 'string') ? $ddi : false;
-
-        $ddd = ($value['data']['ddd']) ?? false;
-        $ddd = (gettype($ddd) == 'string') ? $ddd : false;
-
-        $phoneNumber = ($value['data']['phoneNumber']) ?? false;
-        $phoneNumber = (gettype($phoneNumber) == 'string') ? $phoneNumber : false;
-
-        $ddiLength = ($value['options']['ddiLength']) ?? 2;
-        $ddiLength = (gettype($ddiLength) == 'integer') ? $ddiLength : 2;
-        //Define o máximo do DDI.
-        $ddiLength = ($ddiLength >= 10) ? 9 : $ddiLength;
-        //Caso o DDI esteja abaixo do mínimo, define como 2.
-        $ddiLength = ($ddiLength <= 0) ? 2 : $ddiLength;
-
-        $dddLength = ($value['options']['dddLength']) ?? 2;
-        $dddLength = (gettype($dddLength) == 'integer') ? $dddLength : 2;
-        //Define o máximo do DDD.
-        $dddLength = ($dddLength >= 10) ? 9 : $dddLength;
-        //Caso o DDD esteja abaixo do mínimo, define como 2.
-        $dddLength = ($dddLength <= 0) ? 2 : $dddLength;
-
-        $plus = ($value['options']['plus']) ?? false;
-        $plus = (gettype($plus) == 'boolean') ? $plus : false;
-
-        $spaceAfterPlus = ($value['options']['spaceAfterPlus']) ?? false;
-        $spaceAfterPlus = (gettype($spaceAfterPlus) == 'boolean') ? $spaceAfterPlus : false;
-
-        $parentheses = ($value['options']['parentheses']) ?? false;
-        $parentheses = (gettype($parentheses) == 'boolean') ? $parentheses : false;
-
-        $spaceAfterParentheses = ($value['options']['spaceAfterParentheses']) ?? false;
-        $spaceAfterParentheses = (gettype($spaceAfterParentheses) == 'boolean') ? $spaceAfterParentheses : false;
-
-        $dash = ($value['options']['dash']) ?? false;
-        $dash = (gettype($dash) == 'boolean') ? $dash : false;
-
-        $dashBefore = ($value['options']['dashBefore']) ?? 4;
-        $dashBefore = (gettype($dashBefore) == 'integer') ? $dashBefore : 4;
-
-        $spaceAroundDash = ($value['options']['spaceAroundDash']) ? ' - ' : '-';
-        $spaceAroundDash = (gettype($spaceAroundDash) == 'string') ? $spaceAroundDash : '';
-
-        //Caso não tenha sido definido o número de telefone, gera um número aleatório.
-        if (!$phoneNumber) {
-            $phoneLength = ($value['options']['phoneLength']) ?? 9;
-            $phoneLength = (gettype($phoneLength) == 'integer') ? $phoneLength : 9;
-            //Define o máximo do número de telefone.
-            $phoneLength = ($phoneLength >= 15) ? 15 : $phoneLength;
-            //Caso o número de telefone esteja abaixo do mínimo, define como 9.
-            $phoneLength = ($phoneLength < 1) ? 9 : $phoneLength;
-        } else {
-            $phoneLength = strlen($phoneNumber);
-        }
-
-        $dash = ($dashBefore <= 0 || $dashBefore >= $phoneLength) ? false : $dash;
-
-        if (!$phoneNumber) {
-            for ($i = 1; $i <= $phoneLength; $i++) {
-                $phoneNumber .= $this->generateInteger([
-                    'options' => [
-                        'min' => 0,
-                        'max' => 9
-                    ]
-                ]);
-            }
-            if ($i == 1 && $phoneNumber == 0) {
-                $phoneNumber = 9;
-            }
-
-            //Apenas adiciona o dash caso o número seja maior que o número de caracteres para se colocar o dash.
-            if ($dash && $phoneLength > $dashBefore) {
-                $position = $phoneLength - $dashBefore;
-                $phoneNumber = substr($phoneNumber, 0, $position) . $spaceAroundDash . substr($phoneNumber, $position);
-            }
-        } else {
-            //Apenas adiciona o dash caso o número seja maior que o número de caracteres para se colocar o dash.
-            if ($phoneLength >= $dashBefore) {
-                $position = $phoneLength - $dashBefore;
-                $phoneNumber = substr($phoneNumber, 0, $position) . $spaceAroundDash . substr($phoneNumber, $position);
-            }
-        }
-        if (!$ddd) {
-            for ($i = 1; $i <= $dddLength; $i++) {
-                $ddd .= $this->generateInteger([
-                    'options' => [
-                        'min' => 0,
-                        'max' => 9
-                    ]
-                ]);
-            }
-            if ($parentheses) {
-                $ddd = '(' . $ddd . ')';
-                if ($spaceAfterParentheses) {
-                    $ddd .= ' ';
-                }
-            }
-            $phoneNumber = $ddd . $phoneNumber;
-        } else {
-            if ($parentheses) {
-                $ddd = '(' . $ddd . ')';
-            }
-            if ($spaceAfterParentheses) {
-                $ddd .= ' ';
-            }
-            $phoneNumber = $ddd . $phoneNumber;
-        }
-        if (!$ddi) {
-            for ($i = 1; $i <= $ddiLength; $i++) {
-                $ddi .= $this->generateInteger([
-                    'options' => [
-                        'min' => 0,
-                        'max' => 9
-                    ]
-                ]);
-            }
-            if ($plus) {
-                $ddi = '+' . $ddi;
-                if ($spaceAfterPlus) {
-                    $ddi .= ' ';
-                }
-            }
-            $phoneNumber = $ddi . $phoneNumber;
-        } else {
-            if ($plus) {
-                $ddi = '+' . $ddi;
-                if ($spaceAfterPlus) {
-                    $ddi .= ' ';
-                }
-            }
-            $phoneNumber = $ddi . $phoneNumber;
-        }
-        return $phoneNumber;
+        return $this->numbers->getPhoneNumber(
+            $value['options']['falsePercentage'] ?? 0,
+            $value['options']['nullPercentage'] ?? 0,
+            $value['data']['ddi'] ?? '55',
+            $value['data']['ddd'] ?? '17',
+            $value['data']['phoneNumber'] ?? '987654321',
+            $value['options']['ddiLength'] ?? 2,
+            $value['options']['dddLength'] ?? 2,
+            $value['options']['phoneLength'] ?? 9,
+            $value['options']['plus'] ?? true,
+            $value['options']['spaceAfterPlus'] ?? true,
+            $value['options']['parentheses'] ?? true,
+            $value['options']['spaceAfterParentheses'] ?? true,
+            $value['options']['dash'] ?? true,
+            $value['options']['dashBefore'] ?? 4,
+            $value['options']['spaceAroundDash'] ?? false
+        );
     }
 
 
@@ -598,7 +404,7 @@ class JsonProcessor
         $max = (gettype($max) != 'float' || $max > $maxLatitude) ? $maxLatitude : $max;
         $min = ($min > $max) ? $max : $min;
 
-        return $this->generateFloating(['options' => ['min' => $min, 'max' => $max]]);
+        //return $this->generateFloating(['options' => ['min' => $min, 'max' => $max]]);
     }
 
     function generateLongitude($value)
@@ -613,7 +419,7 @@ class JsonProcessor
         $max = (gettype($max) != 'float' || $max > $maxLongitude) ? 90 : $max;
         $min = ($min > $max) ? $max : $min;
 
-        return $this->generateFloating(['options' => ['min' => $min, 'max' => $max]]);
+        //return $this->generateFloating(['options' => ['min' => $min, 'max' => $max]]);
     }
 
     function generateDate($value)

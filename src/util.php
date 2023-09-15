@@ -24,12 +24,11 @@ class Util
      */
     public function falseOrNull(int $falsePercentage = 0, int $nullPercentage = 0): bool|null
     {
-        if ($falsePercentage === 0 && $nullPercentage === 0) {
-            return true;
-        }
-
         $this->trataValor($nullPercentage, 'integer', 0);
         $this->trataValor($falsePercentage, 'integer', 0);
+        if ($falsePercentage == 0 && $nullPercentage == 0) {
+            return true;
+        }
 
         $value = true;
         if ($falsePercentage > 0) {
@@ -51,7 +50,7 @@ class Util
      * @param mixed $valorPadrao
      * @return void
      */
-    public function trataValor(&$valor, string $tipoEsperado, $valorPadrao): int
+    public function trataValor(&$valor, string $tipoEsperado, $valorPadrao): mixed
     {
         if ($tipoEsperado === 'integer') {
             $valor = $valor ?? $valorPadrao;
