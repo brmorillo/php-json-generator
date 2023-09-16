@@ -11,18 +11,18 @@ class JsonProcessor
     private Hash $hash;
     private Util $util;
     private Name $name;
-    private Numbers $numbers;
+    private Number $number;
     private Address $address;
     private Lorem $lorem;
 
     public function __construct(array $jsonOriginal)
     {
-        $this->hash = new Hash();
-        $this->util = new Util();
-        $this->name = new Name();
-        $this->numbers = new Numbers();
-        $this->address = new Address();
-        $this->lorem = new Lorem();
+        $this->hash = new Hash;
+        $this->util = new Util;
+        $this->name = new Name;
+        $this->number = new Number;
+        $this->address = new Address;
+        $this->lorem = new Lorem;
         $this->jsonOriginal = $jsonOriginal;
     }
 
@@ -174,7 +174,7 @@ class JsonProcessor
 
     function generateInteger(array $value)
     {
-        return $this->numbers->getInteger($value['options']['min'] ?? 0, $value['options']['max'] ?? 0, $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
+        return $this->number->getInteger($value['options']['min'] ?? 0, $value['options']['max'] ?? 0, $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
     }
 
     function generateGuid()
@@ -189,23 +189,23 @@ class JsonProcessor
 
     function generateBoolean(array $value)
     {
-        return $this->numbers->getBoolean($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['deniReturn'] ?? true);
+        return $this->number->getBoolean($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['deniReturn'] ?? true);
     }
 
     function generateFloating($value)
     {
-        return $this->numbers->getFloat($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? 1, $value['options']['max'] ?? 9, $value['options']['decimals'] ?? 2, $value['options']['round'] ?? false);
+        return $this->number->getFloat($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? 1, $value['options']['max'] ?? 9, $value['options']['decimals'] ?? 2, $value['options']['round'] ?? false);
     }
 
     function generateMoney($value)
     {
         //echo $value['options']['nullPercentage'] ?? 0;
-        return $this->numbers->getMoney($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? 1, $value['options']['max'] ?? 9, $value['options']['decimals'] ?? 2, $value['options']['round'] ?? false, $value['options']['prefix'] ?? 'R$ ', $value['options']['separator'] ?? '.', $value['options']['thousand'] ?? ',');
+        return $this->number->getMoney($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? 1, $value['options']['max'] ?? 9, $value['options']['decimals'] ?? 2, $value['options']['round'] ?? false, $value['options']['prefix'] ?? 'R$ ', $value['options']['separator'] ?? '.', $value['options']['thousand'] ?? ',');
     }
 
     function generatePhone($value)
     {
-        return $this->numbers->getPhoneNumber(
+        return $this->number->getPhoneNumber(
             $value['options']['falsePercentage'] ?? 0,
             $value['options']['nullPercentage'] ?? 0,
             $value['data']['ddi'] ?? '55',
@@ -319,7 +319,7 @@ class JsonProcessor
 
     function generateNumber()
     {
-        return $this->numbers->getInteger(1, 999999);
+        return $this->number->getInteger(1, 999999);
     }
 
     function generateBairro()
@@ -344,52 +344,7 @@ class JsonProcessor
 
     function generateLorem($value)
     {
-        //TODO: Adicionar alterações de texto igual de company() a todas funções que retornam texto.
-        $length = ($value['options']['length']) ? $value['options']['length'] : 1;
-        $length = (gettype($length) != 'integer' || $length < 1) ? 1 : $length;
-
-        $type = ($value['options']['type']) ? $value['options']['type'] : 1;
-        $type = ($value['options']['type']) ? $value['options']['type'] : 1;
-
-        $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque id fermentum ligula. Proin feugiat, nulla eget fermentum scelerisque, quam dui auctor sapien, quis luctus mi metus id sapien. Aenean consectetur libero a bibendum aliquet. Vivamus in libero a lorem facilisis tincidunt. Donec mattis eu libero sit amet blandit. Praesent varius rhoncus urna, eu iaculis nulla fermentum nec. Fusce tincidunt scelerisque ante id fermentum. Etiam finibus nec ipsum quis mattis. Sed interdum justo non augue cursus, non tincidunt libero facilisis. Sed eget semper sapien. Nulla facilisi. Sed vehicula facilisis malesuada. Phasellus dictum tincidunt dui, eu convallis ligula venenatis nec. Nullam ac nulla hendrerit, fermentum erat nec, egestas augue. Nulla facilisi. Vivamus iaculis non nunc in mattis. Sed luctus, ante quis fermentum viverra, erat erat tincidunt ex, quis fermentum nulla ligula ut mi. Integer ac nunc elit. Etiam fringilla quis nulla nec tempor. Curabitur bibendum, orci et sollicitudin tincidunt, nulla ligula elementum odio, id sodales purus libero id turpis. Sed sed metus vitae elit iaculis vehicula ut ac eros. Vestibulum vestibulum bibendum est, ut mattis sem viverra id. Vivamus porttitor blandit odio. Nullam nec felis non eros bibendum pharetra. Donec dictum, lectus in bibendum auctor, sapien erat dignissim ipsum, a sodales justo orci non nulla. Nullam feugiat elit sit amet nunc ullamcorper facilisis. Cras vel lacus odio. Nam gravida felis a odio sollicitudin tempus. In hac habitasse platea dictumst. Pellentesque facilisis odio ac sapien sodales feugiat. Pellentesque vestibulum turpis quis urna aliquam, vel vehicula elit pulvinar. Praesent bibendum, quam id dapibus feugiat, nisl urna mattis libero, eu tempus urna neque at sem. Morbi ullamcorper varius libero id vestibulum. Nunc suscipit mattis lorem, at suscipit lectus condimentum et. Fusce sit amet turpis ex. Ut at laoreet quam. Nullam ut purus massa. Maecenas quis nulla vel nulla fringilla sagittis eu a erat. Donec vitae diam luctus, gravida quam a, iaculis nulla. Aliquam erat volutpat. Integer quis nulla eget sem pharetra tincidunt. Fusce vel auctor odio, a tristique dolor. Etiam ultrices at dolor ut volutpat. Suspendisse euismod, enim in vestibulum pharetra, mi ante aliquet est, at scelerisque nisl velit quis odio. Nullam viverra tincidunt ex, vel vulputate turpis tincidunt nec. Nullam lacinia mi non purus tristique, id sagittis nulla sollicitudin. Quisque quis malesuada elit, nec facilisis purus. Nunc quis turpis eget enim lacinia bibendum. Aliquam eu sollicitudin metus, eget semper nulla. Praesent lacinia, tellus quis posuere euismod, elit sem porttitor lectus, ut viverra libero mi ut lorem. Nulla facilisi. Donec dignissim libero nec justo rhoncus, sit amet vestibulum nulla condimentum. Duis a velit mi. Nam a leo sem. Nullam ac nisi sed arcu fringilla facilisis nec a enim. Vivamus ullamcorper bibendum nunc. Integer semper, eros ut sollicitudin blandit, lorem ipsum varius turpis, a tristique nunc ante at arcu. Nam vehicula, enim a tincidunt egestas, nulla lectus aliquam sapien, sit amet dictum mauris turpis eu erat. Vestibulum eget iaculis urna, a vulputate odio. Proin dapibus nisl quis volutpat semper. Quisque malesuada eros a libero fringilla, id malesuada arcu blandit. Vivamus fermentum erat sit amet ligula aliquet, quis volutpat velit eleifend. Ut sodales massa ac urna tincidunt, quis tristique lorem varius. Sed blandit, neque id sodales dictum, odio mauris rhoncus dolor, nec rhoncus neque erat ut leo. Aliquam erat volutpat. Etiam a urna velit. Integer vestibulum ullamcorper nunc, non blandit quam condimentum ac. Suspendisse potenti. Vivamus consectetur a eros a vehicula. Aenean et libero ac enim tempus posuere id sit amet lectus. Fusce sollicitudin ipsum nec justo facilisis, vel interdum turpis cursus. Morbi sagittis libero ac elit efficitur pellentesque. Praesent eget vehicula turpis. Donec aliquet, mi non fermentum ultrices, metus metus accumsan leo, nec vulputate est turpis eu diam. Aenean vel lorem et erat vestibulum vulputate. Vestibulum eleifend hendrerit purus a cursus. Proin id auctor eros. Integer eget velit nec libero vestibulum venenatis. Cras id augue nec libero convallis venenatis. Integer a justo elit.';
-
-        if ($type === 'words') {
-            $lorem = $this->generateLoremWords($lorem, $length);
-        } elseif ($type === 'sentenses') {
-            $lorem = $this->generateLoremSentense($lorem, $length);
-        } elseif ($type === 'paragraphs') {
-            $lorem = $this->generateLoremParagraph($lorem, $length);
-        }
-        return trim($lorem);
-    }
-
-    function generateLoremWords($lorem, $length = 1)
-    {
-        $numbers = new Numbers;
-        $palavras = explode(' ', $lorem);
-        $primeirasPalavras = array_slice($palavras, $numbers->getInteger(1, count($palavras)), $length);
-        return ucfirst(strtolower(str_replace(',', '', str_replace('.', '', implode(' ', $primeirasPalavras)))));
-    }
-
-    function generateLoremSentense($lorem, $length = 1)
-    {
-        $numbers = new Numbers;
-        $palavras = explode('.', $lorem);
-        $primeirasPalavras = array_slice($palavras, $numbers->getInteger(1, count($palavras)), $length);
-        return implode('.', $primeirasPalavras) . '.';
-    }
-
-    function generateLoremParagraph($lorem, $length = 1)
-    {
-        $numbers = new Numbers;
-        $primeirosParagrafos = [];
-        $paragrafos = explode('.', $lorem);
-        for ($i = 1; $i <= $length; $i++) {
-            for ($j = 1; $j <= 4; $j++) {
-                $primeirosParagrafos = array_merge(array_slice($paragrafos, $numbers->getInteger(1, count($paragrafos)), $length), $primeirosParagrafos);
-            }
-        }
-        return implode('.', $primeirosParagrafos);
+        return $this->lorem->getLorem($value);
     }
 
     function generateLatitude($value)

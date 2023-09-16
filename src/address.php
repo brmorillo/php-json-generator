@@ -5,15 +5,15 @@ namespace Rmorillo\JsonGenerator;
 class Address
 {
     private Util $util;
-    private Numbers $numbers;
+    private Number $number;
 
     /**
      * @return void
      */
     public function __construct()
     {
-        $this->util = new Util();
-        $this->numbers = new Numbers();
+        $this->util = new Util;
+        $this->number = new Number;
     }
 
     /**
@@ -45,7 +45,7 @@ class Address
      */
     private function number(): int
     {
-        return $this->numbers->getInteger(1, 9999);
+        return $this->number->getInteger(1, 9999);
     }
 
     /**

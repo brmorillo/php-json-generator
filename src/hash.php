@@ -11,7 +11,7 @@ class Hash
      */
     public function __construct()
     {
-        $this->util = new Util();
+        $this->util = new Util;
     }
 
     /**

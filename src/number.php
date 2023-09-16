@@ -2,7 +2,7 @@
 
 namespace Rmorillo\JsonGenerator;
 
-class Numbers
+class Number
 {
     private Util $util;
 
