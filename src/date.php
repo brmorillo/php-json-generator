@@ -19,7 +19,7 @@ class Date
      * @param string $format
      * @return string
      */
-    public function dateBetween(string $min = '1970-01-01 00:00:00', string $max = '2023-09-16 01:58:00', string $format = 'Y-m-d H:i:s'): string
+    public function dateBetween(string $min = '1970-01-01 00:00:00', string $max = '2023-09-16 01:58:00', string $format = 'Y-m-d H:i:s'): string|bool
     {
         $min = strtotime($min);
         $max = strtotime($max);
@@ -28,12 +28,12 @@ class Date
         return date($format, $val);
     }
 
-    public function getUtc()
+    public function getUtc(): \DateTimeZone
     {
         return $this->timeZone;
     }
 
-    public function getNow(DateTimeZone $timeZone = new \DateTimeZone('UTC'))
+    public function getNow(DateTimeZone $timeZone = new \DateTimeZone('UTC')): mixed
     {
         return new \DateTime('now', $timeZone);
     }

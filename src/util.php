@@ -57,7 +57,7 @@ class Util
         if ($tipoEsperado === 'integer') {
             $valor = $valor ?? $valorPadrao;
             $valor = gettype($valor) === 'float' ? round($valor) : $valor;
+            return;
         }
-        return;
     }
 }

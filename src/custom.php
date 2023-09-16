@@ -10,7 +10,7 @@ class Custom
         $this->util = new Util;
     }
 
-    public function custom(int $falsePercentage = 0, int $nullPercentage = 0, array $array = [], int $start = 0, int $subtract = 1)
+    public function custom(int $falsePercentage = 0, int $nullPercentage = 0, array $array = [], int $start = 0, int $subtract = 1): mixed
     {
         echo json_encode($array);
         $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
@@ -28,7 +28,7 @@ class Custom
      * @param int $subtract
      * @return mixed
      */
-    public function gender(int $falsePercentage = 0, int $nullPercentage = 0, array $array = [], int $start = 0, int $subtract = 1)
+    public function gender(int $falsePercentage = 0, int $nullPercentage = 0, array $array = [], int $start = 0, int $subtract = 1): mixed
     {
         if (empty($array)) {
             $array = [

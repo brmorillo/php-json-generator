@@ -11,7 +11,7 @@ class Name
      */
     public function __construct()
     {
-        $this->util = new Util();
+        $this->util = new Util;
     }
 
     //Get and Set methods.

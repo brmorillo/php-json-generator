@@ -267,12 +267,12 @@ class JsonProcessor
 
     function generateLogradouro()
     {
-        return $this->address->getLogradouro();
+        return $this->address->logradouro();
     }
 
     function generateStreet()
     {
-        return $this->address->getStreet();
+        return $this->address->street();
     }
 
     function generateNumber()
@@ -282,22 +282,22 @@ class JsonProcessor
 
     function generateBairro()
     {
-        return $this->address->getBairro();
+        return $this->address->bairro();
     }
 
     function generateCountry()
     {
-        return $this->address->getCountry();
+        return $this->address->country();
     }
 
     function generateState(int $country = 1)
     {
-        return $this->address->getState($country);
+        return $this->address->state($country);
     }
 
     function generateAddress()
     {
-        return $this->address->getAddress();
+        return $this->address->address();
     }
 
     function generateLorem($value)

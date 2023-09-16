@@ -11,7 +11,7 @@ class Number
      */
     public function __construct()
     {
-        $this->util = new Util();
+        $this->util = new Util;
     }
 
     /**
@@ -129,6 +129,24 @@ class Number
         return $prefix . $formattedFloat;
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param string $ddi
+     * @param string $ddd
+     * @param string $phoneNumber
+     * @param int $ddiLength
+     * @param int $dddLength
+     * @param int $phoneLength
+     * @param bool $plus
+     * @param bool $spaceAfterPlus
+     * @param bool $parentheses
+     * @param bool $spaceAfterParentheses
+     * @param bool $dash
+     * @param int $dashBefore
+     * @param bool $spaceAroundDash
+     * @return string|bool|null
+     */
     public function phoneNumber(
         int $falsePercentage = 0,
         int $nullPercentage = 0,
