@@ -9,8 +9,14 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$jsonOriginal = json_decode(file_get_contents("php://input"), true);
+$jsonOriginalToArray = json_decode(file_get_contents("php://input"), true);
+//Caso não tenha parâmetros, retorna erro.
+if (empty($jsonOriginalToArray)) {
+    echo json_encode(['Message' => 'Erro: Nenhum parâmetro enviado']);
+    exit();
+}
 
 //Usa o JSONProcessor.
-$jsonProcessor = new JsonProcessor($jsonOriginal);
+$jsonProcessor = new JsonProcessor($jsonOriginalToArray);
 $jsonProcessor->process();
+exit();
