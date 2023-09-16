@@ -10,11 +10,13 @@ class Util
 
     /**
      * @param array $array
+     * @param int $start
+     * @param int $subtract
      * @return mixed
      */
-    public function selectItemOnArray(array $array): mixed
+    public function selectItemOnArray(array $array, int $start = 0, int $subtract = 1): mixed
     {
-        return $array[rand(0, count($array) - 1)];
+        return $array[rand($start, count($array) - $subtract)];
     }
 
     /**
@@ -50,12 +52,12 @@ class Util
      * @param mixed $valorPadrao
      * @return void
      */
-    public function trataValor(&$valor, string $tipoEsperado, $valorPadrao): mixed
+    public function trataValor(&$valor, string $tipoEsperado, $valorPadrao): void
     {
         if ($tipoEsperado === 'integer') {
             $valor = $valor ?? $valorPadrao;
             $valor = gettype($valor) === 'float' ? round($valor) : $valor;
         }
-        return $valor;
+        return;
     }
 }

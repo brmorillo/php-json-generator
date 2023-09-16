@@ -3,7 +3,6 @@
 namespace Rmorillo\JsonGenerator;
 
 use DateTime;
-use DateTimeZone;
 
 class JsonProcessor
 {
@@ -14,6 +13,8 @@ class JsonProcessor
     private Number $number;
     private Address $address;
     private Lorem $lorem;
+    private Date $date;
+    private Custom $custom;
 
     public function __construct(array $jsonOriginal)
     {
@@ -23,19 +24,16 @@ class JsonProcessor
         $this->number = new Number;
         $this->address = new Address;
         $this->lorem = new Lorem;
+        $this->date = new Date;
+        $this->custom = new Custom;
         $this->jsonOriginal = $jsonOriginal;
     }
 
     public function process()
     {
-        if (!empty($this->jsonOriginal)) {
-            $return = $this->replaceAll($this->jsonOriginal);
-            http_response_code(200);
-            echo json_encode($return);
-        } else {
-            http_response_code(400);
-            echo json_encode(["message" => "Nenhum dado recebido."]);
-        }
+        $return = $this->replaceAll($this->jsonOriginal);
+        http_response_code(200);
+        echo json_encode($return);
     }
 
     private function replaceAll($jsonOriginal)
@@ -47,7 +45,6 @@ class JsonProcessor
     function replaceRepeat($jsonAtual)
     {
         $result = [];
-
         if (gettype($jsonAtual) == 'array') {
             foreach ($jsonAtual as $key => $value) {
                 if ($key === "repeat()") {
@@ -174,7 +171,7 @@ class JsonProcessor
 
     function generateInteger(array $value)
     {
-        return $this->number->getInteger($value['options']['min'] ?? 0, $value['options']['max'] ?? 0, $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
+        return $this->number->integer($value['options']['min'] ?? 0, $value['options']['max'] ?? 0, $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
     }
 
     function generateGuid()
@@ -182,119 +179,80 @@ class JsonProcessor
         return $this->hash->getGuid();
     }
 
-    function generateObjectId(array $length)
+    function generateObjectId(array $array)
     {
-        return $this->hash->getObjectId($length['options']['length']);
+        return $this->hash->getObjectId($array['options']['length']);
     }
 
-    function generateBoolean(array $value)
+    function generateBoolean(array $array)
     {
-        return $this->number->getBoolean($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['deniReturn'] ?? true);
+        return $this->number->getBoolean($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['options']['deniReturn'] ?? true);
     }
 
-    function generateFloating($value)
+    function generateFloating(array $array)
     {
-        return $this->number->getFloat($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? 1, $value['options']['max'] ?? 9, $value['options']['decimals'] ?? 2, $value['options']['round'] ?? false);
+        return $this->number->float($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['options']['min'] ?? 1, $array['options']['max'] ?? 9, $array['options']['decimals'] ?? 2, $array['options']['round'] ?? false);
     }
 
-    function generateMoney($value)
+    function generateMoney(array $array)
     {
-        //echo $value['options']['nullPercentage'] ?? 0;
-        return $this->number->getMoney($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? 1, $value['options']['max'] ?? 9, $value['options']['decimals'] ?? 2, $value['options']['round'] ?? false, $value['options']['prefix'] ?? 'R$ ', $value['options']['separator'] ?? '.', $value['options']['thousand'] ?? ',');
+        return $this->number->money($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['options']['min'] ?? 1, $array['options']['max'] ?? 9, $array['options']['decimals'] ?? 2, $array['options']['round'] ?? false, $array['options']['prefix'] ?? 'R$ ', $array['options']['separator'] ?? '.', $array['options']['thousand'] ?? ',');
     }
 
-    function generatePhone($value)
+    function generatePhone(array $array)
     {
-        return $this->number->getPhoneNumber(
-            $value['options']['falsePercentage'] ?? 0,
-            $value['options']['nullPercentage'] ?? 0,
-            $value['data']['ddi'] ?? '55',
-            $value['data']['ddd'] ?? '17',
-            $value['data']['phoneNumber'] ?? '987654321',
-            $value['options']['ddiLength'] ?? 2,
-            $value['options']['dddLength'] ?? 2,
-            $value['options']['phoneLength'] ?? 9,
-            $value['options']['plus'] ?? true,
-            $value['options']['spaceAfterPlus'] ?? true,
-            $value['options']['parentheses'] ?? true,
-            $value['options']['spaceAfterParentheses'] ?? true,
-            $value['options']['dash'] ?? true,
-            $value['options']['dashBefore'] ?? 4,
-            $value['options']['spaceAroundDash'] ?? false
+        return $this->number->phoneNumber(
+            $array['options']['falsePercentage'] ?? 0,
+            $array['options']['nullPercentage'] ?? 0,
+            $array['data']['ddi'] ?? '',
+            $array['data']['ddd'] ?? '',
+            $array['data']['phoneNumber'] ?? '',
+            $array['options']['ddiLength'] ?? 2,
+            $array['options']['dddLength'] ?? 2,
+            $array['options']['phoneLength'] ?? 9,
+            $array['options']['plus'] ?? true,
+            $array['options']['spaceAfterPlus'] ?? true,
+            $array['options']['parentheses'] ?? true,
+            $array['options']['spaceAfterParentheses'] ?? true,
+            $array['options']['dash'] ?? true,
+            $array['options']['dashBefore'] ?? 4,
+            $array['options']['spaceAroundDash'] ?? false
         );
     }
 
-
-    function selectCustom($value)
+    function selectCustom(array $array)
     {
-        $rand = rand(1, count($value['data']));
-        return (isset($value['data'][$rand]) ? $value['data'][$rand] : '');
+        return $this->custom->custom($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['data'] ?? [], $array['options']['start'] ?? 0, $array['options']['subtract'] ?? 1);
     }
 
-    function selectGender($value)
+    function selectGender(array $array)
     {
-        $falsePercentage = ($value['options']['falsePercentage']) ?? 0;
-        $falsePercentage = (gettype($falsePercentage) == 'integer') ? $falsePercentage : 0;
-
-        $nullPercentage = ($value['options']['nullPercentage']) ?? 0;
-        $nullPercentage = (gettype($nullPercentage) == 'integer') ? $nullPercentage : 0;
-
-        $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
-        if (!$falseOrNull) {
-            return $falseOrNull;
-        }
-
-        if (!isset($value['data'])) {
-            $value['data'] = [
-                '1' => 'Male',
-                '2' => 'Femeale',
-                '3' => 'Others'
-            ];
-        }
-        return $this->selectCustom($value);
+        return $this->custom->gender($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['data'] ?? [], $array['options']['start'] ?? 0, $array['options']['subtract'] ?? 1);
     }
 
     function generateFirstName()
     {
-        return $this->name->getFirstName();
+        return $this->name->firstName();
     }
 
     function generateSurName()
     {
-        return $this->name->getSurName();
+        return $this->name->surName();
     }
 
     function generateFullName()
     {
-        return $this->name->getFullName();
+        return $this->name->fullName();
     }
 
     function generateCompany($value)
     {
-        $type = ($value['options']['type']) ?? false;
-
-        $companyName = [
-            "Morillos Eirelli Ltda. ME", "Loja de roupas da Debinha", "Tech Solutions Inc.", "Bela Flor Garden Center", "GreenTech Innovations", "Acme Corporation", "Sunset Electronics", "Gourmet Delights Catering", "OceanView Resorts", "Swift Logistics Group", "Global Marketing Solutions", "Express Auto Repair", "SilverLine Technologies", "HealthWise Pharmacy", "Golden Gate Consulting", "Peak Performance Fitness", "EcoFriendly Builders", "FirstClass Travel Agency", "Smart Data Analytics", "Pristine Cleaning Services", "Alpha Omega Investments", "BlueSky Adventures", "Evergreen Landscaping", "Infinite Horizons Software", "Dynamic Designs Studio", "Crystal Clear Water Solutions", "Urban Elegance Boutique", "Trinity Construction Group", "Sunrise Solar Energy", "Luxury Living Real Estate", "Starlight Entertainment", "Pacific Coast Imports", "Serenity Spa & Wellness", "MountainView Winery", "Quantum Technology Labs", "Timeless Treasures Antiques", "Green Thumb Landscapes", "Seaside Vacation Rentals", "Harmony Health Clinic", "Crimson Creative Agency", "Nature's Harmony Organic Foods", "Empire Builders Group", "Elite Event Planning", "Opulent Jewelry Creations", "Fusion Fitness Studio", "Azure Architecture & Design", "Dreamscape Travel Adventures", "Majestic Marketing Agency", "Royal Realty Group", "Silver Lining Financial Services", "Sunrise Bakery & Cafe", "Visionary Video Productions", "Creative Canvas Art Gallery", "Summit Strategies Consulting", "Tropical Paradise Vacation Rentals", "TechWizards IT Solutions", "Golden Harvest Farm", "Horizon Horizon Realty", "EcoTech Solutions", "Nature's Bounty Health Foods", "Skyline Roofing Contractors", "Rising Sun Construction", "Emerald Isle Resorts", "Wildflower Wellness Center", "Quantum Leap Software", "Everest Adventure Tours", "Crystal Clear Home Inspections", "Elite Elegance Bridal Boutique", "Stratosphere Aerospace Engineering", "Coastal Breeze Real Estate", "Pinnacle Performance Coaching", "Radiant Smiles Dentistry", "Harmony Yoga Studio", "Crimson Rose Florist", "Cityscape Architecture Group", "Golden Oak Financial Advisors", "Sapphire Skies Aviation", "Summit Fitness Center", "Horizon Tech Solutions", "Palm Paradise Resorts", "Emerald City Coffee Roasters", "Sunset Harbor Marina", "Nature's Canvas Art Studio", "Eagle Eye Surveillance", "Blue Wave Marketing", "Solaris Solar Panels", "Mountain Peak Hiking Tours", "Harmony Haven Assisted Living", "Silver Creek Winery", "Sunflower Seed Co-op", "Elite Edge Web Design", "Nova Tech Innovations", "AquaLux Pools", "Cityscape Realty", "Quantum Quilts", "Golden Meadows Retirement Community", "Crimson Leaf Legal Services", "Starfish Swim School", "Horizon Horizon Insurance", "Sky High Drone Services", "Sunrise Sushi Bar", "Terra Nova Landscapes", "EcoLuxe Fashion Boutique", "Pinnacle Properties Management", "Radiant Beauty Salon", "Harborview Estates", "Sapphire Star Jewelry", "Summit Financial Planning", "OceanFront Cafe", "Nature's Touch Massage Therapy", "Silver Stream Productions", "Sunset Ridge Golf Club", "Elite Express Couriers", "NovaStar Software Solutions", "AquaVista Aquariums", "CityScape Consulting Group", "Quantum Mechanics Auto Repair", "Golden Sands Beach Resort", "Crimson Ridge Realty", "Starstruck Entertainment", "Horizon Haven Bed and Breakfast", "Skyline View Landscaping", "Sunrise Ski Rentals", "TerraFirma Earth Sciences", "EcoLiving Home Decor", "Pinnacle Printing Services", "Radiant Health Chiropractic", "Harbor Lights Marina", "Sapphire Waters Spa", "Summit Sports Gear", "OceanView Travel Agency", "Nature's Wisdom Books", "Silver Lining Law Firm", "Sunset Serenity Yoga", "Elite Innovations Labs", "NovaTech Consulting", "AquaBlast Pressure Washing", "CityScape Architects", "Quantum Fitness Equipment", "Golden Meadows Pet Care", "Crimson Leaf Accounting", "Starstruck Photography", "Horizon Heights Apartments", "Skyline View Roofing", "Sunrise Snack Bar", "TerraNova Environmental Solutions", "EcoVenture Outdoor Adventures", "Pinnacle Properties Investments", "Radiant Skincare Clinic", "Harbor Haven Retirement Community", "Sapphire Seas Cruises", "Summit Creative Studios", "OceanFront Vacation Rentals", "Nature's Oasis Herbal Remedies", "Silver Screen Productions", "Sunset Shades Window Tinting", "Elite Edge Marketing", "NovaStar Security Solutions", "AquaGardens Landscaping", "CityScape Real Estate", "Quantum Music Academy", "Golden Sands Surf Shop", "Crimson Leaf Consulting", "Starstruck Event Planning", "Horizon Horizons Travel Agency", "Skyline View Plumbing", "Sunrise Bakery", "TerraNova Adventure Tours", "EcoVista Organic Market", "Pinnacle Properties Rentals", "Radiant Realty", "Harborview Apartments", "Sapphire Dreams Jewelry", "Summit Auto Repair", "OceanView Accounting Services", "Nature's Essence Spa", "Silver Surf Internet Cafe", "Sunset Sails Charter", "Elite Innovations Software", "NovaTech Robotics", "AquaWave Pool Services", "CityScape Law Firm", "Quantum Motorsports", "Golden Meadows Equestrian Center", "Crimson Leaf Marketing", "Starstruck Productions", "Horizon Heights Senior Living", "Skyline View Pest Control", "Sunrise Cafe & Bistro", "TerraNova Landscape Design", "EcoWise Eco-Friendly Products", "Pinnacle Plumbing", "Radiant Dental Care", "Harborview Realty Group", "Sapphire Skies Aviation", "Summit Auto Sales", "OceanView Web Design", "Nature's Best Organic Market", "Silver Stream Video Productions", "Sunset Serenity Spa", "Elite Edge Accounting", "NovaStar Web Development", "AquaLife Aquarium Services", "CityScape Marketing", "Quantum Dynamics Engineering", "Golden Sands Water Sports", "Crimson Leaf Events", "Starstruck Music Academy", "Horizon Heights Property Management", "Skyline View Painting", "Sunrise Sweets Bakery", "TerraNova Construction", "EcoTrend Eco-Friendly Fashion", "Pinnacle Pest Control", "Radiant Salon & Spa", "Harborview Property Rentals", "Sapphire Star Realty", "Summit Accounting Services", "OceanView Travel Tours", "Nature's Beauty Boutique", "Silver Surf Computer Repair", "Sunset Serenity Wellness Center", "Elite Innovations Graphic Design", "NovaTech Mobile Apps", "AquaCare Pool Maintenance", "CityScape Event Planning", "Quantum Quest Adventure Tours", "Golden Meadows Wedding Venue", "Crimson Leaf Financial Services", "Starstruck Photography Studios", "Horizon Heights Apartments", "Skyline View Roofing", "Sunrise Snack Bar", "TerraNova Environmental Solutions", "EcoVenture Outdoor Adventures", "Pinnacle Properties Investments", "Radiant Skincare Clinic", "Harbor Haven Retirement Community", "Sapphire Seas Cruises", "Summit Creative Studios", "OceanFront Vacation Rentals", "Nature's Oasis Herbal Remedies", "Silver Screen Productions", "Sunset Shades Window Tinting", "Elite Edge Marketing", "NovaStar Security Solutions", "AquaGardens Landscaping", "CityScape Real Estate", "Quantum Music Academy", "Golden Sands Surf Shop", "Crimson Leaf Consulting", "Starstruck Event Planning", "Horizon Horizons Travel Agency", "Skyline View Plumbing", "Sunrise Bakery", "TerraNova Adventure Tours", "EcoVista Organic Market", "Pinnacle Properties Rentals", "Radiant Realty", "Harborview Apartments", "Sapphire Dreams Jewelry", "Summit Auto Repair", "OceanView Accounting Services", "Nature's Essence Spa", "Silver Surf Internet Cafe", "Sunset Sails Charter", "Elite Innovations Software", "NovaTech Robotics", "AquaWave Pool Services", "CityScape Law Firm", "Quantum Motorsports", "Golden Meadows Equestrian Center", "Crimson Leaf Marketing", "Starstruck Productions", "Horizon Heights Senior Living", "Skyline View Pest Control", "Sunrise Cafe & Bistro", "TerraNova Landscape Design", "EcoWise Eco-Friendly Products", "Pinnacle Plumbing", "Radiant Dental Care", "Harborview Realty Group", "Sapphire Skies Aviation", "Summit Auto Sales", "OceanView Web Design", "Nature's Best Organic Market", "Silver Stream Video Productions", "Sunset Serenity Spa", "Elite Edge Accounting", "NovaStar Web Development", "AquaLife Aquarium Services", "CityScape Marketing", "Quantum Dynamics Engineering", "Golden Sands Water Sports", "Crimson Leaf Events", "Starstruck Music Academy", "Horizon Heights Property Management", "Skyline View Painting", "Sunrise Sweets Bakery", "TerraNova Construction", "EcoTrend Eco-Friendly Fashion", "Pinnacle Pest Control", "Radiant Salon & Spa", "Harborview Property Rentals", "Sapphire Star Realty", "Summit Accounting Services", "OceanView Travel Tours", "Nature's Beauty Boutique", "Silver Surf Computer Repair", "Sunset Serenity Wellness Center", "Elite Innovations Graphic Design", "NovaTech Mobile Apps", "AquaCare Pool Maintenance", "CityScape Event Planning", "Quantum Quest Adventure Tours", "Golden Meadows Wedding Venue", "Crimson Leaf Financial Services", "Starstruck Photography Studios"
-        ];
-        $companySelected = $companyName[rand(0, count($companyName) - 1)];
-        if ($type == 'toUpperCase') {
-            $companySelected = strtoupper($companySelected);
-        } elseif ($type == 'toLowerCase') {
-            $companySelected = strtolower($companySelected);
-        } elseif ($type == 'capitalize') {
-            $companySelected = ucwords($companySelected);
-        } elseif ($type == 'camelCase') {
-            $companySelected = lcfirst(str_replace(" ", "", ucwords(str_replace(".", " ", $companySelected))));
-        } elseif ($type == 'slugify') {
-            //TODO: Slugify pode ter mais opções. https://www.npmjs.com/package/slugify
-            $companySelected = strtolower(str_replace(" ", "-", $companySelected));
-        }
-        return $companySelected;
+        return $this->name->getCompany($value['options']['type'] ?? false);
     }
 
     function generateEmailDomain()
     {
-        return $this->name->getEmailDomain();
+        return $this->name->emailDomain();
     }
 
     function generateEmailName()
@@ -319,7 +277,7 @@ class JsonProcessor
 
     function generateNumber()
     {
-        return $this->number->getInteger(1, 999999);
+        return $this->number->integer(1, 999999);
     }
 
     function generateBairro()
@@ -344,57 +302,26 @@ class JsonProcessor
 
     function generateLorem($value)
     {
-        return $this->lorem->getLorem($value);
+        return $this->lorem->getLorem($value['options']['length'] ?? 1, $value['options']['type'] ?? 'words');
     }
 
     function generateLatitude($value)
     {
-        //TODO: BUG: Apenas gerando numeros positivos.
-        $minLatitude = -90.000001;
-        $maxLatitude = 90.0;
-        $min = ($value['options']['min']) ? $value['options']['min'] : $minLatitude;
-        $min = (gettype($min) != 'float' || $min < $minLatitude) ? $minLatitude : $value['options']['min'];
-
-        $max = ($value['options']['max']) ? $value['options']['max'] : $maxLatitude;
-        $max = (gettype($max) != 'float' || $max > $maxLatitude) ? $maxLatitude : $max;
-        $min = ($min > $max) ? $max : $min;
-
-        //return $this->generateFloating(['options' => ['min' => $min, 'max' => $max]]);
+        return $this->number->latitude($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? -90.000001, $value['options']['max'] ?? 90.0);
     }
 
     function generateLongitude($value)
     {
-        //TODO: BUG: Apenas gerando numeros positivos.
-        $minLongitude = -180.000001;
-        $maxLongitude = 180.0;
-        $min = ($value['options']['min']) ? $value['options']['min'] : $minLongitude;
-        $min = (gettype($min) != 'float' || $min < $minLongitude) ? -90.000001 : $value['options']['min'];
-
-        $max = ($value['options']['max']) ? $value['options']['max'] : 90;
-        $max = (gettype($max) != 'float' || $max > $maxLongitude) ? 90 : $max;
-        $min = ($min > $max) ? $max : $min;
-
-        //return $this->generateFloating(['options' => ['min' => $min, 'max' => $max]]);
+        return $this->number->longitude($value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0, $value['options']['min'] ?? -180.000001, $value['options']['max'] ?? 180.0);
     }
 
     function generateDate($value)
     {
-        $utc = new DateTimeZone('UTC');
-        $nowDateTime = new DateTime('now', $utc);
-
-        $min = ($value['options']['min']) ? $value['options']['min'] : '01/01/1970';
-        $max = ($value['options']['max']) ? $value['options']['max'] : $nowDateTime;
-        $format = ($value['options']['format']) ? $value['options']['format'] : 'Y-m-d H:i:s';
-
-        return $this->generateDateBetween($min, $max, $format);
+        return $this->generateDateBetween($value['options']['min'] ?? '01/01/1970', $value['options']['max'] ?? $this->date->getNow($this->date->getUtc()), $value['options']['format'] ?? 'Y-m-d H:i:s');
     }
 
     function generateDateBetween($min, $max, $format)
     {
-        $min = strtotime($min);
-        $max = strtotime($max);
-
-        $val = rand($min, $max);
-        return date($format, $val);
+        return $this->date->dateBetween($min, $max, $format);
     }
 }

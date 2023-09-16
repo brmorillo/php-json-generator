@@ -14,7 +14,14 @@ class Number
         $this->util = new Util();
     }
 
-    private function integer(int $min = 0, int $max = 0, int $falsePercentage = 0, int $nullPercentage = 0): int|bool|null
+    /**
+     * @param int $min
+     * @param int $max
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @return int|bool|null
+     */
+    public function integer(int $min = 0, int $max = 9, int $falsePercentage = 0, int $nullPercentage = 0): int|bool|null
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);
         $this->util->trataValor($nullPercentage, 'integer', 0);
@@ -28,7 +35,18 @@ class Number
         return rand($min, $max);
     }
 
-    private function boolean($falsePercentage = 0, $nullPercentage = 0, $deniReturn = true): bool|null
+    /**
+     * Retorna um valor boolean ou nulo de acordo com os parâmetros e aleatoriedade.
+     *
+     * Ao definir deniReturn como true, o retorno será o contrário do valor gerado, ou seja, se o valor gerado for null/false o retorno será true.
+     * Assim, é possível escolher, ex: 99% de true, falsePercentagem/nullpercentage = 99 e deniReturn = true.
+     *
+     * @param mixed $falsePercentage
+     * @param mixed $nullPercentage
+     * @param bool $deniReturn
+     * @return bool|null
+     */
+    public function getBoolean(int $falsePercentage = 0, int $nullPercentage = 0, bool $deniReturn = true): bool|null
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);
         $this->util->trataValor($nullPercentage, 'integer', 0);
@@ -47,7 +65,16 @@ class Number
         return $return;
     }
 
-    private function float(int $falsePercentage = 0, int $nullPercentage = 0, int $min = 0, int $max = 9, int $decimals = 2, bool $round = false): float|bool|null
+    /**
+     * @param bool $falsePercentage
+     * @param bool $nullPercentage
+     * @param int $min
+     * @param int $max
+     * @param int $decimals
+     * @param bool $round
+     * @return float|bool|null
+     */
+    public function float(int $falsePercentage = 0, int $nullPercentage = 0, int|float $min = 0, int|float $max = 9, int $decimals = 2, bool $round = false): float|bool|null
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);
         $this->util->trataValor($nullPercentage, 'integer', 0);
@@ -62,23 +89,23 @@ class Number
         $this->util->trataValor($round, 'boolean', false);
 
         if ($decimals > 14) {
-            $decimals = 15;
+            $decimals = 14;
         }
         if ($decimals < 1) {
             $decimals = 1;
         }
 
-        $scale = 10 ** $decimals;
-        $randomFloat = $min + (rand() / getrandmax()) * ($max - $min);
-        $value = round($randomFloat * $scale) / $scale;
+        $scale = pow(10, $decimals);
+        $randomFloat = $min + (mt_rand() / mt_getrandmax()) * ($max - $min);
+        $randomFloat = round($randomFloat * $scale) / $scale;
 
         if ($round) {
-            $value = round($value);
+            $randomFloat = round($randomFloat);
         }
-        return $value;
+        return $randomFloat;
     }
 
-    private function money(int $falsePercentage = 0, int $nullPercentage = 0, int $min = 0, int $max = 0, int $decimals = 2, bool $round = false, string $prefix = 'R$ ', string $separator = '.', $thousand = ',')
+    public function money(int $falsePercentage = 0, int $nullPercentage = 0, int $min = 0, int $max = 9, int $decimals = 2, bool $round = false, string $prefix = 'R$ ', string $separator = '.', string $thousand = ','): string|bool|null
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);
         $this->util->trataValor($nullPercentage, 'integer', 0);
@@ -95,66 +122,19 @@ class Number
         $this->util->trataValor($separator, 'string', '.');
         $this->util->trataValor($thousand, 'string', ',');
 
-        $randomFloat = $this->getFloat(0, 0, $min, $max, $decimals, $round);
+        $randomFloat = $this->float(0, 0, $min, $max, $decimals, $round);
 
         $formattedFloat = number_format($randomFloat, $decimals, $separator, $thousand);
 
         return $prefix . $formattedFloat;
     }
 
-    /**
-     * @param int $min
-     * @param int $max
-     * @param int $falsePercentage
-     * @param int $nullPercentage
-     * @return int|bool|null
-     */
-    public function getInteger(int $min = 0, int $max = 9, int $falsePercentage = 0, int $nullPercentage = 0): int|bool|null
-    {
-        return $this->integer($min, $max, $falsePercentage, $nullPercentage);
-    }
-
-    /**
-     * Retorna um valor boolean ou nulo de acordo com os parâmetros e aleatoriedade.
-     *
-     * Ao definir deniReturn como true, o retorno será o contrário do valor gerado, ou seja, se o valor gerado for null/false o retorno será true.
-     * Assim, é possível escolher, ex: 99% de true, falsePercentagem/nullpercentage = 99 e deniReturn = true.
-     *
-     * @param mixed $falsePercentage
-     * @param mixed $nullPercentage
-     * @param bool $deniReturn
-     * @return bool|null
-     */
-    public function getBoolean(int $falsePercentage = 0, int $nullPercentage = 0, bool $deniReturn = true): bool|null
-    {
-        return $this->boolean($falsePercentage, $nullPercentage, $deniReturn);
-    }
-
-    /**
-     * @param bool $falsePercentage
-     * @param bool $nullPercentage
-     * @param int $min
-     * @param int $max
-     * @param int $decimals
-     * @param bool $round
-     * @return float|bool|null
-     */
-    public function getFloat(int $falsePercentage = 0, int $nullPercentage = 0, int $min = 0, int $max = 9, int $decimals = 2, bool $round = false): float|bool|null
-    {
-        return $this->float($falsePercentage, $nullPercentage, $min, $max, $decimals, $round);
-    }
-
-    public function getMoney(int $falsePercentage = 0, int $nullPercentage = 0, int $min = 0, int $max = 9, int $decimals = 2, bool $round = false, string $prefix = 'R$ ', string $separator = '.', string $thousand = ','): string|bool|null
-    {
-        return $this->money($falsePercentage, $nullPercentage, $min, $max, $decimals, $round, $prefix, $separator, $thousand);
-    }
-
-    public function getPhoneNumber(
+    public function phoneNumber(
         int $falsePercentage = 0,
         int $nullPercentage = 0,
-        string $ddi = '55',
-        string $ddd = '17',
-        string $phoneNumber = '987654321',
+        string $ddi = '',
+        string $ddd = '',
+        string $phoneNumber = '',
         int $ddiLength = 2,
         int $dddLength = 2,
         int $phoneLength = 9,
@@ -174,9 +154,9 @@ class Number
             return $falseOrNull;
         }
 
-        $this->util->trataValor($ddi, 'string', '55');
-        $this->util->trataValor($ddd, 'string', '17');
-        $this->util->trataValor($phoneNumber, 'string', '987654321');
+        $this->util->trataValor($ddi, 'string', '');
+        $this->util->trataValor($ddd, 'string', '');
+        $this->util->trataValor($phoneNumber, 'string', '');
         $this->util->trataValor($ddiLength, 'integer', 2);
         $this->util->trataValor($dddLength, 'integer', 2);
         $this->util->trataValor($plus, 'boolean', true);
@@ -211,7 +191,7 @@ class Number
 
         if (!$phoneNumber) {
             for ($i = 1; $i <= $phoneLength; $i++) {
-                $phoneNumber .= $this->getInteger(0, 9);
+                $phoneNumber .= $this->integer(0, 9);
             }
             if ($i == 1 && $phoneNumber == 0) {
                 $phoneNumber = 9;
@@ -231,7 +211,7 @@ class Number
         }
         if (!$ddd) {
             for ($i = 1; $i <= $dddLength; $i++) {
-                $ddd .= $this->getInteger(0, 9);
+                $ddd .= $this->integer(0, 9);
             }
             if ($parentheses) {
                 $ddd = '(' . $ddd . ')';
@@ -251,7 +231,7 @@ class Number
         }
         if (!$ddi) {
             for ($i = 1; $i <= $ddiLength; $i++) {
-                $ddi .= $this->getInteger(0, 9);
+                $ddi .= $this->integer(0, 9);
                 if ($i == 1 && $ddi == 0) {
                     $ddi = 1;
                 }
@@ -273,5 +253,31 @@ class Number
             $phoneNumber = $ddi . $phoneNumber;
         }
         return $phoneNumber;
+    }
+
+    public function longitude(int $falsePercentage = 0, int $nullPercentage = 0, float $min = -180.000001, float $max = 180.0): float
+    {
+        return $this->latOrLng($falsePercentage, $nullPercentage, $min, $max);
+    }
+
+    public function latitude(int $falsePercentage = 0, int $nullPercentage = 0, float $min = -90.000001, float $max = 90.0): float
+    {
+        return $this->latOrLng($falsePercentage, $nullPercentage, $min, $max);
+    }
+
+    public function latOrLng(int $falsePercentage = 0, int $nullPercentage = 0, float $min = -90.000001, float $max = 90.0): float
+    {
+        $this->util->trataValor($falsePercentage, 'integer', 0);
+        $this->util->trataValor($nullPercentage, 'integer', 0);
+        $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
+        if (!$falseOrNull) {
+            return $falseOrNull;
+        }
+        $this->util->trataValor($min, 'float', $min);
+        $this->util->trataValor($max, 'float', $max);
+        $min = ($min < $min) ? $min : $min;
+        $max = ($max > $max) ? $max : $max;
+        $min = ($min > $max) ? $max : $min;
+        return $this->float($falsePercentage, $nullPercentage, $min, $max, 6, false);
     }
 }
