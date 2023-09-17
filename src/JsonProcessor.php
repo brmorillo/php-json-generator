@@ -95,7 +95,7 @@ class JsonProcessor
         return $result;
     }
 
-    function replaceOthers(array $jsonAtual): array
+    function replaceOthers(mixed $jsonAtual): mixed
     {
         $index = 1;
         //Verifica se o JSON é um array, para rodar o foreach dentro dele.
