@@ -3,6 +3,7 @@
 namespace Rmorillo\JsonGenerator;
 
 use DateTime;
+use Exception;
 
 class JsonProcessor
 {
@@ -16,6 +17,10 @@ class JsonProcessor
     private Date $date;
     private Custom $custom;
 
+    /**
+     * @param array $jsonOriginal
+     * @return void
+     */
     public function __construct(array $jsonOriginal)
     {
         $this->hash = new Hash;
@@ -29,20 +34,31 @@ class JsonProcessor
         $this->jsonOriginal = $jsonOriginal;
     }
 
-    public function process()
+    /**
+     * @return void
+     */
+    public function process(): void
     {
         $return = $this->replaceAll($this->jsonOriginal);
         http_response_code(200);
         echo json_encode($return);
     }
 
-    private function replaceAll($jsonOriginal)
+    /**
+     * @param mixed $jsonOriginal
+     * @return mixed
+     */
+    private function replaceAll(array $jsonOriginal): array
     {
         $jsonRepeatReplaced = $this->replaceRepeat($jsonOriginal);
         return $this->replaceOthers($jsonRepeatReplaced[0]);
     }
 
-    function replaceRepeat($jsonAtual)
+    /**
+     * @param mixed $jsonAtual
+     * @return array
+     */
+    function replaceRepeat($jsonAtual): array
     {
         $result = [];
         if (gettype($jsonAtual) == 'array') {
@@ -65,7 +81,12 @@ class JsonProcessor
         return $result;
     }
 
-    function repeatJsonData($data, $qtd)
+    /**
+     * @param mixed $data
+     * @param mixed $qtd
+     * @return array
+     */
+    function repeatJsonData($data, $qtd): array
     {
         $result = [];
         for ($i = 1; $i <= $qtd; $i++) {
@@ -74,7 +95,7 @@ class JsonProcessor
         return $result;
     }
 
-    function replaceOthers($jsonAtual)
+    function replaceOthers(array $jsonAtual): array
     {
         $index = 1;
         //Verifica se o JSON é um array, para rodar o foreach dentro dele.
@@ -169,37 +190,64 @@ class JsonProcessor
         return $jsonAtual;
     }
 
-    function generateInteger(array $value)
+    /**
+     * @param array $value
+     * @return int|bool|null
+     */
+    function generateInteger(array $value): int|bool|null
     {
         return $this->number->integer($value['options']['min'] ?? 0, $value['options']['max'] ?? 0, $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
     }
 
-    function generateGuid()
+    /**
+     * @return string
+     */
+    function generateGuid(): string
     {
         return $this->hash->getGuid();
     }
 
-    function generateObjectId(array $array)
+    /**
+     * @param array $array
+     * @return string
+     */
+    function generateObjectId(array $array): string
     {
         return $this->hash->getObjectId($array['options']['length']);
     }
 
-    function generateBoolean(array $array)
+    /**
+     * @param array $array
+     * @return bool|null
+     */
+    function generateBoolean(array $array): bool|null
     {
         return $this->number->getBoolean($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['options']['deniReturn'] ?? true);
     }
 
-    function generateFloating(array $array)
+    /**
+     * @param array $array
+     * @return float|bool|null
+     */
+    function generateFloating(array $array): float|bool|null
     {
         return $this->number->float($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['options']['min'] ?? 1, $array['options']['max'] ?? 9, $array['options']['decimals'] ?? 2, $array['options']['round'] ?? false);
     }
 
-    function generateMoney(array $array)
+    /**
+     * @param array $array
+     * @return string|bool|null
+     */
+    function generateMoney(array $array): string|bool|null
     {
         return $this->number->money($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['options']['min'] ?? 1, $array['options']['max'] ?? 9, $array['options']['decimals'] ?? 2, $array['options']['round'] ?? false, $array['options']['prefix'] ?? 'R$ ', $array['options']['separator'] ?? '.', $array['options']['thousand'] ?? ',');
     }
 
-    function generatePhone(array $array)
+    /**
+     * @param array $array
+     * @return string|bool|null
+     */
+    function generatePhone(array $array): string|bool|null
     {
         return $this->number->phoneNumber(
             $array['options']['falsePercentage'] ?? 0,
@@ -220,12 +268,20 @@ class JsonProcessor
         );
     }
 
-    function selectCustom(array $array)
+    /**
+     * @param array $array
+     * @return mixed
+     */
+    function selectCustom(array $array): mixed
     {
         return $this->custom->custom($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['data'] ?? [], $array['options']['start'] ?? 0, $array['options']['subtract'] ?? 1);
     }
 
-    function selectGender(array $array)
+    /**
+     * @param array $array
+     * @return mixed
+     */
+    function selectGender(array $array): mixed
     {
         return $this->custom->gender($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['data'] ?? [], $array['options']['start'] ?? 0, $array['options']['subtract'] ?? 1);
     }

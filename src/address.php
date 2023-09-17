@@ -16,7 +16,6 @@ class Address
         $this->number = new Number;
     }
 
-    //Get and Set methods.
     /**
      * @return string
      */
@@ -60,6 +59,10 @@ class Address
         return $this->util->selectItemOnArray($bairros);
     }
 
+    /**
+     * @param int $country
+     * @return string
+     */
     public function country($country = 0): string
     {
         $countryList = [
@@ -71,6 +74,10 @@ class Address
         return $this->util->selectItemOnArray($countryList);
     }
 
+    /**
+     * @param int $country
+     * @return string
+     */
     public function state(int $country = 1): string
     {
         $country = $this->util->trataValor($country, 'integer', 1);

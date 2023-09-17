@@ -105,6 +105,18 @@ class Number
         return $randomFloat;
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param int $min
+     * @param int $max
+     * @param int $decimals
+     * @param bool $round
+     * @param string $prefix
+     * @param string $separator
+     * @param string $thousand
+     * @return string|bool|null
+     */
     public function money(int $falsePercentage = 0, int $nullPercentage = 0, int $min = 0, int $max = 9, int $decimals = 2, bool $round = false, string $prefix = 'R$ ', string $separator = '.', string $thousand = ','): string|bool|null
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);
@@ -273,16 +285,37 @@ class Number
         return $phoneNumber;
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param float $min
+     * @param float $max
+     * @return float
+     */
     public function longitude(int $falsePercentage = 0, int $nullPercentage = 0, float $min = -180.000001, float $max = 180.0): float
     {
         return $this->latOrLng($falsePercentage, $nullPercentage, $min, $max);
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param float $min
+     * @param float $max
+     * @return float
+     */
     public function latitude(int $falsePercentage = 0, int $nullPercentage = 0, float $min = -90.000001, float $max = 90.0): float
     {
         return $this->latOrLng($falsePercentage, $nullPercentage, $min, $max);
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param float $min
+     * @param float $max
+     * @return float
+     */
     public function latOrLng(int $falsePercentage = 0, int $nullPercentage = 0, float $min = -90.000001, float $max = 90.0): float
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);

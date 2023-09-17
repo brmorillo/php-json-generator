@@ -93,6 +93,10 @@ class Name
         return $this->emailName() . '@' . $this->emailDomain();
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function getCompany(string $type): string
     {
         $this->util->trataValor($type, 'string', false);

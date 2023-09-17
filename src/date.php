@@ -7,6 +7,9 @@ use DateTimeZone;
 class Date
 {
     private $timeZone;
+    /**
+     * @return void
+     */
     public function __construct()
     {
         $this->timeZone = new \DateTimeZone('UTC');
@@ -28,11 +31,18 @@ class Date
         return date($format, $val);
     }
 
+    /**
+     * @return DateTimeZone
+     */
     public function getUtc(): \DateTimeZone
     {
         return $this->timeZone;
     }
 
+    /**
+     * @param DateTimeZone $timeZone
+     * @return mixed
+     */
     public function getNow(DateTimeZone $timeZone = new \DateTimeZone('UTC')): mixed
     {
         return new \DateTime('now', $timeZone);
