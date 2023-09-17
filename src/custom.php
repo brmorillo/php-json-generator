@@ -23,7 +23,6 @@ class Custom
      */
     public function custom(int $falsePercentage = 0, int $nullPercentage = 0, array $array = [], int $start = 0, int $subtract = 1): mixed
     {
-        echo json_encode($array);
         $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
             return $falseOrNull;
