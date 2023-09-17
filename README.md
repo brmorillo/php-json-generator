@@ -389,7 +389,7 @@ Retorna uma data dentro do período específicado no formato específicado. <a h
 ]
 ```
 
-## **Avançado - Geração aninhada.**
+## **Avançado - Geração aninhada.** - Deprecada temporariamente
 É também possível utilizar algumas funções dentro de outras, como neste exemplo, utilizando o integer() para gerar um valor aleatório para o objectId().
 ```JSON
 [
