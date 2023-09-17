@@ -43,7 +43,7 @@ class Hash
     /**
      * @return string
      */
-    public function getGuid(): string
+    public function guid(): string
     {
         if (function_exists('com_create_guid')) {
             return trim(com_create_guid(), '{}');
@@ -66,7 +66,7 @@ class Hash
      * @param int $length
      * @return string
      */
-    public function getObjectId(int $length = 1): string
+    public function objectId(int $length = 1): string
     {
         $this->util->trataValor($length, 'integer', 1);
         /*

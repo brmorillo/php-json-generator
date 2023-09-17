@@ -204,7 +204,7 @@ class JsonProcessor
      */
     function generateGuid(): string
     {
-        return $this->hash->getGuid();
+        return $this->hash->guid();
     }
 
     /**
@@ -213,7 +213,7 @@ class JsonProcessor
      */
     function generateObjectId(array $array): string
     {
-        return $this->hash->getObjectId($array['options']['length']);
+        return $this->hash->objectId($array['options']['length']);
     }
 
     /**
@@ -222,7 +222,7 @@ class JsonProcessor
      */
     function generateBoolean(array $array): bool|null
     {
-        return $this->number->getBoolean($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['options']['deniReturn'] ?? true);
+        return $this->number->boolean($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['options']['deniReturn'] ?? true);
     }
 
     /**
@@ -303,7 +303,7 @@ class JsonProcessor
 
     function generateCompany($value)
     {
-        return $this->name->getCompany($value['options']['type'] ?? false);
+        return $this->name->company($value['options']['type'] ?? false);
     }
 
     function generateEmailDomain()
@@ -313,12 +313,12 @@ class JsonProcessor
 
     function generateEmailName()
     {
-        return $this->name->getEmail();
+        return $this->name->email();
     }
 
     function generateEmail()
     {
-        return $this->name->getEmail();
+        return $this->name->email();
     }
 
     function generateLogradouro()
@@ -358,7 +358,7 @@ class JsonProcessor
 
     function generateLorem($value)
     {
-        return $this->lorem->getLorem($value['options']['length'] ?? 1, $value['options']['type'] ?? 'words');
+        return $this->lorem->lorem($value['options']['length'] ?? 1, $value['options']['type'] ?? 'words');
     }
 
     function generateLatitude($value)
@@ -373,7 +373,7 @@ class JsonProcessor
 
     function generateDate($value)
     {
-        return $this->generateDateBetween($value['options']['min'] ?? '01/01/1970', $value['options']['max'] ?? $this->date->getNow($this->date->getUtc()), $value['options']['format'] ?? 'Y-m-d H:i:s');
+        return $this->generateDateBetween($value['options']['min'] ?? '01/01/1970', $value['options']['max'] ?? $this->date->now($this->date->utc()), $value['options']['format'] ?? 'Y-m-d H:i:s');
     }
 
     function generateDateBetween($min, $max, $format)

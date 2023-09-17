@@ -34,7 +34,7 @@ class Date
     /**
      * @return DateTimeZone
      */
-    public function getUtc(): \DateTimeZone
+    public function utc(): \DateTimeZone
     {
         return $this->timeZone;
     }
@@ -43,7 +43,7 @@ class Date
      * @param DateTimeZone $timeZone
      * @return mixed
      */
-    public function getNow(DateTimeZone $timeZone = new \DateTimeZone('UTC')): mixed
+    public function now(DateTimeZone $timeZone = new \DateTimeZone('UTC')): mixed
     {
         return new \DateTime('now', $timeZone);
     }

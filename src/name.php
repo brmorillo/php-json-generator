@@ -88,7 +88,7 @@ class Name
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function email(): string
     {
         return $this->emailName() . '@' . $this->emailDomain();
     }
@@ -97,7 +97,7 @@ class Name
      * @param string $type
      * @return string
      */
-    public function getCompany(string $type): string
+    public function company(string $type): string
     {
         $this->util->trataValor($type, 'string', false);
 
