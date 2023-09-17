@@ -52,12 +52,12 @@ class Util
      * @param mixed $valorPadrao
      * @return void
      */
-    public function trataValor(&$valor, string $tipoEsperado, $valorPadrao): void
+    public function trataValor(mixed &$valor, string $tipoEsperado, mixed $valorPadrao): void
     {
         if ($tipoEsperado === 'integer') {
             $valor = $valor ?? $valorPadrao;
             $valor = gettype($valor) === 'float' ? round($valor) : $valor;
+            return;
         }
-        return;
     }
 }

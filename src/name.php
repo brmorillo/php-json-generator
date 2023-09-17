@@ -11,7 +11,7 @@ class Name
      */
     public function __construct()
     {
-        $this->util = new Util();
+        $this->util = new Util;
     }
 
     //Get and Set methods.
@@ -93,6 +93,10 @@ class Name
         return $this->emailName() . '@' . $this->emailDomain();
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function getCompany(string $type): string
     {
         $this->util->trataValor($type, 'string', false);

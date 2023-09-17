@@ -11,7 +11,7 @@ class Number
      */
     public function __construct()
     {
-        $this->util = new Util();
+        $this->util = new Util;
     }
 
     /**
@@ -105,6 +105,18 @@ class Number
         return $randomFloat;
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param int $min
+     * @param int $max
+     * @param int $decimals
+     * @param bool $round
+     * @param string $prefix
+     * @param string $separator
+     * @param string $thousand
+     * @return string|bool|null
+     */
     public function money(int $falsePercentage = 0, int $nullPercentage = 0, int $min = 0, int $max = 9, int $decimals = 2, bool $round = false, string $prefix = 'R$ ', string $separator = '.', string $thousand = ','): string|bool|null
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);
@@ -129,6 +141,24 @@ class Number
         return $prefix . $formattedFloat;
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param string $ddi
+     * @param string $ddd
+     * @param string $phoneNumber
+     * @param int $ddiLength
+     * @param int $dddLength
+     * @param int $phoneLength
+     * @param bool $plus
+     * @param bool $spaceAfterPlus
+     * @param bool $parentheses
+     * @param bool $spaceAfterParentheses
+     * @param bool $dash
+     * @param int $dashBefore
+     * @param bool $spaceAroundDash
+     * @return string|bool|null
+     */
     public function phoneNumber(
         int $falsePercentage = 0,
         int $nullPercentage = 0,
@@ -146,7 +176,7 @@ class Number
         int $dashBefore = 4,
         bool $spaceAroundDash = false
     ): string|bool|null {
-        //TODO: Não está adicionando o hash no número.
+        //TODO: Não está adicionando o dash no número.
         $this->util->trataValor($falsePercentage, 'integer', 0);
         $this->util->trataValor($nullPercentage, 'integer', 0);
         $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
@@ -200,7 +230,8 @@ class Number
             //Apenas adiciona o dash caso o número seja maior que o número de caracteres para se colocar o dash.
             if ($dash && $phoneLength > $dashBefore) {
                 $position = $phoneLength - $dashBefore;
-                $phoneNumber = substr($phoneNumber, 0, $position) . $spaceAroundDash . substr($phoneNumber, $position);
+                $dash = $spaceAroundDash ? ' - ' : '-';
+                $phoneNumber = substr($phoneNumber, 0, $position) . $dash . substr($phoneNumber, $position);
             }
         } else {
             //Apenas adiciona o dash caso o número seja maior que o número de caracteres para se colocar o dash.
@@ -255,16 +286,37 @@ class Number
         return $phoneNumber;
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param float $min
+     * @param float $max
+     * @return float
+     */
     public function longitude(int $falsePercentage = 0, int $nullPercentage = 0, float $min = -180.000001, float $max = 180.0): float
     {
         return $this->latOrLng($falsePercentage, $nullPercentage, $min, $max);
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param float $min
+     * @param float $max
+     * @return float
+     */
     public function latitude(int $falsePercentage = 0, int $nullPercentage = 0, float $min = -90.000001, float $max = 90.0): float
     {
         return $this->latOrLng($falsePercentage, $nullPercentage, $min, $max);
     }
 
+    /**
+     * @param int $falsePercentage
+     * @param int $nullPercentage
+     * @param float $min
+     * @param float $max
+     * @return float
+     */
     public function latOrLng(int $falsePercentage = 0, int $nullPercentage = 0, float $min = -90.000001, float $max = 90.0): float
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);

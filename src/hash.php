@@ -2,6 +2,8 @@
 
 namespace Rmorillo\JsonGenerator;
 
+use Exception;
+
 class Hash
 {
     private Util $util;
@@ -41,7 +43,7 @@ class Hash
     /**
      * @return string
      */
-    private function guid(): string
+    public function getGuid(): string
     {
         if (function_exists('com_create_guid')) {
             return trim(com_create_guid(), '{}');
@@ -61,10 +63,10 @@ class Hash
     }
 
     /**
-     * @param mixed $length
+     * @param int $length
      * @return string
      */
-    private function objectId(int $length = 1): string
+    public function getObjectId(int $length = 1): string
     {
         $this->util->trataValor($length, 'integer', 1);
         /*
@@ -75,22 +77,5 @@ class Hash
         }
         */
         return $this->generateRandomHash($length);
-    }
-
-    //Get and Set methods.
-    /**
-     * @return string
-     */
-    public function getGuid(): string
-    {
-        return $this->guid();
-    }
-
-    /**
-     * @return string
-     */
-    public function getObjectId(int $length = 1): string
-    {
-        return $this->objectId($length);
     }
 }
