@@ -176,7 +176,7 @@ class Number
         int $dashBefore = 4,
         bool $spaceAroundDash = false
     ): string|bool|null {
-        //TODO: Não está adicionando o hash no número.
+        //TODO: Não está adicionando o dash no número.
         $this->util->trataValor($falsePercentage, 'integer', 0);
         $this->util->trataValor($nullPercentage, 'integer', 0);
         $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
@@ -230,7 +230,8 @@ class Number
             //Apenas adiciona o dash caso o número seja maior que o número de caracteres para se colocar o dash.
             if ($dash && $phoneLength > $dashBefore) {
                 $position = $phoneLength - $dashBefore;
-                $phoneNumber = substr($phoneNumber, 0, $position) . $spaceAroundDash . substr($phoneNumber, $position);
+                $dash = $spaceAroundDash ? ' - ' : '-';
+                $phoneNumber = substr($phoneNumber, 0, $position) . $dash . substr($phoneNumber, $position);
             }
         } else {
             //Apenas adiciona o dash caso o número seja maior que o número de caracteres para se colocar o dash.
