@@ -59,7 +59,7 @@ class Lorem
      * @param string $type
      * @return string
      */
-    public function getLorem(int $length = 1, string $type = 'words'): string
+    public function lorem(int $length = 1, string $type = 'words'): string
     {
         $lorem = '';
         if ($type === 'sentenses') {

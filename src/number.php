@@ -46,7 +46,7 @@ class Number
      * @param bool $deniReturn
      * @return bool|null
      */
-    public function getBoolean(int $falsePercentage = 0, int $nullPercentage = 0, bool $deniReturn = true): bool|null
+    public function boolean(int $falsePercentage = 0, int $nullPercentage = 0, bool $deniReturn = true): bool|null
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);
         $this->util->trataValor($nullPercentage, 'integer', 0);
