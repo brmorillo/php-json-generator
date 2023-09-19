@@ -135,22 +135,22 @@ class JsonProcessor
                     //TODO: Adicionar index() e substiuit a chave não o valor. Ex: Ao gerar um lorem dentro de um repeat().
                     /**
                      * "tags": {
-                    "repeat()": {
-                        "options": {
-                            "qtd": 3
-                        },
-                        "data": {
-                            "index()": {
-                                "lorem()": {
-                                    "options": {
-                                        "length": 1,
-                                        "type": "paragraphs"
+                            "repeat()": {
+                                "options": {
+                                    "qtd": 3
+                                },
+                                "data": {
+                                    "index()": {
+                                        "lorem()": {
+                                            "options": {
+                                                "length": 1,
+                                                "type": "paragraphs"
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
-                    }
-                },
+                        },
                      */
                     //Caso seja um array chama o foreach de forma recursiva para explorar o valor.
                     $jsonAtual[$key] = $this->replaceOthers($value);
@@ -190,13 +190,24 @@ class JsonProcessor
         return $jsonAtual;
     }
 
+    public function varIsArray(mixed $var): mixed
+    {
+        if (\gettype($var) == 'array') {
+            $var = json_encode($this->replaceOthers([$var]));
+        }
+        return $var;
+    }
+
     /**
      * @param array $value
      * @return int|bool|null
      */
     function generateInteger(array $value): int|bool|null
     {
-        return $this->number->integer($value['options']['min'] ?? 0, $value['options']['max'] ?? 0, $value['options']['falsePercentage'] ?? 0, $value['options']['nullPercentage'] ?? 0);
+        $value['options']['nullPercentage'] = $this->varIsArray($value['options']['nullPercentage']);
+        $value['options']['min'] = $this->varIsArray($value['options']['min'] ?? 0);
+        $value['options']['max'] = $this->varIsArray($value['options']['max'] ?? 9);
+        return $this->number->integer($value['options']['falsePercentage'], $value['options']['nullPercentage'], $value['options']['min'], $value['options']['max']);
     }
 
     /**
@@ -213,6 +224,7 @@ class JsonProcessor
      */
     function generateObjectId(array $array): string
     {
+        $this->varIsArray($array['options']['length']);
         return $this->hash->objectId($array['options']['length']);
     }
 
@@ -274,7 +286,7 @@ class JsonProcessor
      */
     function selectCustom(array $array): mixed
     {
-        return $this->custom->custom($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['data'] ?? [], $array['options']['start'] ?? 0, $array['options']['subtract'] ?? 1);
+        return $this->custom->custom($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['data'] ?? [], $array['options']['start'] ?? 1, $array['options']['subtract'] ?? 0);
     }
 
     /**
@@ -283,7 +295,7 @@ class JsonProcessor
      */
     function selectGender(array $array): mixed
     {
-        return $this->custom->gender($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['data'] ?? [], $array['options']['start'] ?? 0, $array['options']['subtract'] ?? 1);
+        return $this->custom->gender($array['options']['falsePercentage'] ?? 0, $array['options']['nullPercentage'] ?? 0, $array['data'] ?? [], $array['options']['start'] ?? 1, $array['options']['subtract'] ?? 0);
     }
 
     function generateFirstName()
@@ -333,7 +345,7 @@ class JsonProcessor
 
     function generateNumber()
     {
-        return $this->number->integer(1, 999999);
+        return $this->number->integer(0, 0, 1, 999999);
     }
 
     function generateBairro()

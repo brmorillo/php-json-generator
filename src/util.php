@@ -4,6 +4,7 @@ namespace Rmorillo\JsonGenerator;
 
 class Util
 {
+    private JsonProcessor $jsonProcessor;
     public function __construct()
     {
     }
@@ -14,7 +15,7 @@ class Util
      * @param int $subtract
      * @return mixed
      */
-    public function selectItemOnArray(array $array, int $start = 0, int $subtract = 1): mixed
+    public function selectItemOnArray(array $array, int $start = 1, int $subtract = 0): mixed
     {
         return $array[rand($start, count($array) - $subtract)];
     }

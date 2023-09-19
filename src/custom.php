@@ -21,7 +21,7 @@ class Custom
      * @param int $subtract
      * @return mixed
      */
-    public function custom(int $falsePercentage = 0, int $nullPercentage = 0, array $array = [], int $start = 0, int $subtract = 1): mixed
+    public function custom(int $falsePercentage = 0, int $nullPercentage = 0, array $array = [], int $start = 1, int $subtract = 0): mixed
     {
         $falseOrNull = $this->util->falseOrNull($falsePercentage, $nullPercentage);
         if (!$falseOrNull) {
@@ -38,7 +38,7 @@ class Custom
      * @param int $subtract
      * @return mixed
      */
-    public function gender(int $falsePercentage = 0, int $nullPercentage = 0, array $array = [], int $start = 0, int $subtract = 1): mixed
+    public function gender(int $falsePercentage = 0, int $nullPercentage = 0, array $array = [], int $start = 1, int $subtract = 0): mixed
     {
         if (empty($array)) {
             $array = [
@@ -46,6 +46,8 @@ class Custom
                 '2' => 'Femeale',
                 '3' => 'Others'
             ];
+            $start = 1;
+            $subtract = 0;
         }
         return $this->custom($falsePercentage, $nullPercentage, $array, $start, $subtract);
     }

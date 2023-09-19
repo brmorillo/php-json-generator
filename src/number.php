@@ -21,7 +21,7 @@ class Number
      * @param int $nullPercentage
      * @return int|bool|null
      */
-    public function integer(int $min = 0, int $max = 9, int $falsePercentage = 0, int $nullPercentage = 0): int|bool|null
+    public function integer(int $falsePercentage = 0, int $nullPercentage = 0, int $min = 0, int $max = 9): int|bool|null
     {
         $this->util->trataValor($falsePercentage, 'integer', 0);
         $this->util->trataValor($nullPercentage, 'integer', 0);
@@ -221,7 +221,7 @@ class Number
 
         if (!$phoneNumber) {
             for ($i = 1; $i <= $phoneLength; $i++) {
-                $phoneNumber .= $this->integer(0, 9);
+                $phoneNumber .= $this->integer(0, 0, 0, 9);
             }
             if ($i == 1 && $phoneNumber == 0) {
                 $phoneNumber = 9;
@@ -242,7 +242,7 @@ class Number
         }
         if (!$ddd) {
             for ($i = 1; $i <= $dddLength; $i++) {
-                $ddd .= $this->integer(0, 9);
+                $ddd .= $this->integer(0, 0, 0, 9);
             }
             if ($parentheses) {
                 $ddd = '(' . $ddd . ')';
@@ -262,7 +262,7 @@ class Number
         }
         if (!$ddi) {
             for ($i = 1; $i <= $ddiLength; $i++) {
-                $ddi .= $this->integer(0, 9);
+                $ddi .= $this->integer(0, 0, 0, 9);
                 if ($i == 1 && $ddi == 0) {
                     $ddi = 1;
                 }

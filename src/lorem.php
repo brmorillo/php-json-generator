@@ -21,7 +21,7 @@ class Lorem
     public function getLoremWords(string $lorem, int $length = 1): string
     {
         $palavras = explode(' ', $lorem);
-        $primeirasPalavras = array_slice($palavras, $this->number->integer(1, count($palavras)), $length);
+        $primeirasPalavras = array_slice($palavras, $this->number->integer(0, 0, 1, count($palavras)), $length);
         return ucfirst(strtolower(str_replace(',', '', str_replace('.', '', implode(' ', $primeirasPalavras)))));
     }
 
@@ -33,7 +33,7 @@ class Lorem
     public function getLoremSentense(string $lorem, int $length = 1): string
     {
         $palavras = explode('.', $lorem);
-        $primeirasPalavras = array_slice($palavras, $this->number->integer(1, count($palavras)), $length);
+        $primeirasPalavras = array_slice($palavras, $this->number->integer(0, 0, 1, count($palavras)), $length);
         return implode('.', $primeirasPalavras) . '.';
     }
 
@@ -48,7 +48,7 @@ class Lorem
         $paragrafos = explode('.', $lorem);
         for ($i = 1; $i <= $length; $i++) {
             for ($j = 1; $j <= 4; $j++) {
-                $primeirosParagrafos = array_merge(array_slice($paragrafos, $this->number->integer(1, count($paragrafos)), $length), $primeirosParagrafos);
+                $primeirosParagrafos = array_merge(array_slice($paragrafos, $this->number->integer(0, 0, 1, count($paragrafos)), $length), $primeirosParagrafos);
             }
         }
         return implode('.', $primeirosParagrafos);
