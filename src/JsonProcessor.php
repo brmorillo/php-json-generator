@@ -54,6 +54,7 @@ class JsonProcessor
         return $this->replaceOthers($jsonRepeatReplaced[0]);
     }
 
+    //TODO: Levar para util ou um novo modelo.
     /**
      * @param mixed $jsonAtual
      * @return array
@@ -81,6 +82,7 @@ class JsonProcessor
         return $result;
     }
 
+    //TODO: Levar para util ou um novo modelo.
     /**
      * @param mixed $data
      * @param mixed $qtd
@@ -95,6 +97,7 @@ class JsonProcessor
         return $result;
     }
 
+    //TODO: Levar para util ou um novo modelo.
     function replaceOthers(mixed $jsonAtual): mixed
     {
         $index = 1;
@@ -190,6 +193,7 @@ class JsonProcessor
         return $jsonAtual;
     }
 
+    //TODO: Levar para util ou um novo modelo.
     public function varIsArray(mixed $var): mixed
     {
         if (\gettype($var) == 'array') {
