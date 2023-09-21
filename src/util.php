@@ -55,6 +55,7 @@ class Util
      */
     public function trataValor(mixed &$valor, string $tipoEsperado, mixed $valorPadrao): void
     {
+        //TODO: Adicionar os outros tipos.
         if ($tipoEsperado === 'integer') {
             $valor = $valor ?? $valorPadrao;
             $valor = gettype($valor) === 'float' ? round($valor) : $valor;
