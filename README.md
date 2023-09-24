@@ -1,12 +1,12 @@
-# **PHP Json Generator**
+# **Json Generator**
 Um gerador de JSON feito em PHP.
 
 ## **Descrição**
-O PHP Json Generator é uma biblioteca desenvolvida para gerar dados aleatórios em diversos formatos, tais como números inteiros e de ponto flutuante, nomes, endereços, textos "Lorem Ipsum", coordenadas geográficas e datas. Ideal para cenários de testes, mock-ups de dados, entre outros.
+O Json Generator é uma biblioteca desenvolvida para gerar dados aleatórios em diversos formatos, tais como números inteiros e de ponto flutuante, nomes, endereços, textos "Lorem Ipsum", coordenadas geográficas e datas. Ideal para cenários de testes, mock-ups de dados, entre outros.
 Passo a passo para finalizar o projeto
 
 ## **Índice**
-- [**PHP Json Generator**](#php-json-generator)
+- [**Json Generator**](#php-json-generator)
   - [**Descrição**](#descrição)
   - [**Índice**](#índice)
   - [**Requisitos**](#requisitos)
@@ -50,7 +50,7 @@ composer require rmorillo/json-generator:dev-main
 Ou você pode incluir manualmente o arquivo em seu projeto.
 
 ## **Uso Basico**
-Para usar o PHP Json Generator, você pode enviar um JSON com configurações para o backend. Abaixo está um exemplo de como o JSON deve ser formatado para gerar diferentes tipos de dados aleatórios:
+Para usar o Json Generator, você pode enviar um JSON com configurações para o backend. Abaixo está um exemplo de como o JSON deve ser formatado para gerar diferentes tipos de dados aleatórios:
 ```JSON
 [
     {
